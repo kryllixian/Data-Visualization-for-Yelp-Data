@@ -1,15 +1,9 @@
-/* Index */
-#world-map {
-  width: 100%;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-  margin-bottom: 0px;
-  margin-top: 0px;
-  margin-left: auto;
-  margin-right: auto;
+/* Maps */
+div.map {
+  width: 732px;
+  height: 400px;
 }
+
 
 /* General */
 span.title-small {
