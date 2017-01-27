@@ -1,0 +1,348 @@
+/* General */
+span.title-small {
+    font-family: Myriad Pro;
+    color: white;
+    font-size: 29px;
+    margin-bottom: 10px;
+}
+span.title {
+    font-family: Myriad Pro;
+    color: white;
+    font-size: 60px;
+    font-weight: bold;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+span.title-medium {
+    font-family: Myriad Pro;
+    color: white;
+    font-size: 33px;
+    font-weight: bold;
+    margin-top: 0px;
+}
+div.suspension {
+    width: 100%;
+    height: 640px;
+    background-image: url(https://s3.amazonaws.com/hao-wang-portfolio/images/index-background-copy.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+table.index {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+tr.index {
+    height: 200px;
+}
+
+
+/* navbar */
+div.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 75px;
+    background-color: white;
+    z-index: 9999;
+}
+table.navbar {
+    width: 100%;
+    height: 75px;
+    background-color: white;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+tr.navbar {
+    width: 100%;
+}
+td.navbar-icon {
+    width: 15%;
+    text-align: center;
+}
+td.navbar-word {
+    width: 20%;
+    text-align: center;
+}
+img.navbar-logo {
+    width: 50px;
+    height: 50px;
+}
+img.navbar-logo:hover {
+  opacity: 0.7;
+  filter: alpha(opacity=70);
+}
+p.navbar {
+    font-family: Myriad Pro;
+    color: #525558;
+    font-size: 18px;
+}
+p.navbar:hover {
+    color: #2b6ea1;
+}
+p.navbar-current {
+    font-family: Myriad Pro;
+    color: #000000;
+    font-size: 18px;
+}
+div.separator {
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-top: 0px;
+}
+
+
+/* content */
+div.grey-canvas {
+    background-color: #FAFAFA;
+    margin-left: -10px;
+    margin-right: -10px;
+    margin-top: 74px;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+p.body-item-title-school {
+    font-family: Myriad Pro;
+    color: #525558;
+    margin-left: 34px;
+    margin-top: 15px;
+    margin-bottom: 11px;
+    font-size: 17px;
+}
+p.body-item-title-school:hover {
+    color: #2b6ea1;
+}
+p.body-item-title-company {
+    font-family: Myriad Pro;
+    color: #525558;
+    margin-left: 34px;
+    margin-top: 15px;
+    margin-bottom: 11px;
+    vertical-align: center;
+    font-size: 17px;
+}
+p.body-item-title-company:hover {
+    color: #2b6ea1;
+}
+p.body-item-content-first {
+    font-family: Myriad Pro;
+    color: #525558;
+    margin-left: 20px;
+    margin-top: 30px;
+    margin-bottom: 11px;
+    font-size: 15px;
+}
+p.body-item-content {
+    font-family: Myriad Pro;
+    color: #525558;
+    margin-left: 20px;
+    margin-top: 15px;
+    margin-bottom: 11px;
+    font-size: 15px;
+}
+p.body-item-content-last {
+    font-family: Myriad Pro;
+    color: #525558;
+    margin-left: 20px;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    font-size: 15px;
+}
+table.body-item-1 {
+    padding-top: 60px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 740px;
+}
+table.body-item-2 {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    margin-top: -5px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 740px;
+    height: 20px;
+}
+tr.body-item-1 {
+    margin-left: auto;
+    margin-right: auto;
+}
+tr.body-item-2 {
+    margin-left: auto;
+    margin-right: auto;
+}
+td.body-item {
+    margin-left: 30%;
+    margin-right: 30%;
+    border: solid #EDEDED 1px;
+    background-color: white;
+    margin-bottom: 0px;
+}
+
+
+/* a */
+a {
+    text-decoration: none !important;
+}
+a:hover {
+    color: black;
+    text-decoration:none;
+    cursor:pointer;
+}
+a.school-name {
+    color: #525558;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+
+/* bottom */
+div.bottom {
+    width: 60%;
+    text-align: center;
+    margin: auto;
+}
+table.bottom {
+    width: 100%;
+    background-color: white;
+    text-align: center;
+}
+tr.bottom {
+    width: 100%;
+    text-align: center;
+}
+td.bottom-icon {
+    width: 5%;
+    text-align: center;
+}
+p.bottom {
+    font-family: Myriad Pro;
+    color: #525558;
+    font-size: 15px;
+    text-align: center;
+}
+img.bottom {
+    width: 30px;
+    height: 30px;
+}
+
+/* school logo */
+img.school-logo {
+    width: 110px;
+    margin-left: 20px;
+    margin-right: 40px;
+}
+img.school-logo:hover {
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+}
+img.company-logo {
+    width: 110px;
+    margin-left: 20px;
+    margin-right: 40px;
+}
+img.company-logo:hover {
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+}
+td.item-school-logo {
+    height: 300px;
+    vertical-align: center;
+    text-align: center;
+}
+td.item-school-content {
+    vertical-align: top;
+    position: relative;
+    left: -30px;
+}
+span.school-name {
+    font-weight: bold;
+    font-size: 17px;
+}
+span.school-name:hover {
+    color: #2b6ea1;
+}
+span.school-info {
+    font-size: 14px;
+    margin-left: 40px;
+    font-weight: lighter;
+}
+
+
+/* Photography */
+p.image-description {
+    font-family: Myriad Pro;
+    color: #525558;
+    font-size: 18px;
+    visibility: hidden;
+    margin-top: -40px;
+    margin-left: 0px;
+    background-color: white;
+    text-align: center;
+}
+img.photo-43 {
+    width: 370px;
+    height: 260px;
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    box-shadow: 1px 1px 1px #CCCCCC;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
+}
+div.image-wrap:hover p.image-description {
+    visibility: visible;
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+}
+div.image-wrap:hover img.photo-43 {
+    -webkit-filter: blur(5px);
+}
+div.image-wrap:hover img.photo-169 {
+    -webkit-filter: blur(5px);
+}
+div.image-wrap:hover img.photo-34 {
+    -webkit-filter: blur(5px);
+}
+img.photo-169 {
+    width: 560px;
+    height: 260px;
+    margin-left: 5px;
+    margin-right: 4px;
+    margin-top: 4px;
+    margin-bottom: 2px;
+    box-shadow: 1px 1px 1px #CCCCCC;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
+}
+img.photo-34 {
+    width: 274px;
+    height: 390px;
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-top: 4px;
+    margin-bottom: 2px;
+    box-shadow: 1px 1px 1px #CCCCCC;
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
+}
