@@ -41,7 +41,7 @@ app.use((req, res, next) => {
 
 
 app.get('/statistics', (req, res) => {
-  res.render('about.hbs', {
+  res.render('statistics.hbs', {
     pageTitle: 'Statistics',
     currentYear: new Date().getFullYear()
   });
