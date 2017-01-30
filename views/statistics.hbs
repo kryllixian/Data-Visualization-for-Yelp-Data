@@ -83,7 +83,8 @@
                     <td class="body-item">
                         <div class="map" id="world-map"></div>
                         <script>
-                            $(function(){
+
+                            $(function() {
                               $('#world-map').vectorMap(
                                 {
                                   map: 'world_mill',
@@ -101,12 +102,33 @@
                                   },
                                   series: {
                                     regions: [{
+                                      attribute: 'fill',
                                       scale: ['#C8EEFF', '#0071A4'],
                                       normalizeFunction: 'polynomial'
                                     }]
                                   }
                                 }
                               );
+
+                              // Color for USA
+                              var mapObject = $('#world-map').vectorMap('get', 'mapObject');
+                              mapObject.regions['US'].element.config.style.selected.fill = "#24395c";
+                              mapObject.setSelectedRegions('US');
+
+                              // Color for Canada
+                              var mapObject = $('#world-map').vectorMap('get', 'mapObject');
+                              mapObject.regions['CA'].element.config.style.selected.fill = "#24395c";
+                              mapObject.setSelectedRegions('CA');
+
+                              // Color for Germany
+                              var mapObject = $('#world-map').vectorMap('get', 'mapObject');
+                              mapObject.regions['DE'].element.config.style.selected.fill = "#24395c";
+                              mapObject.setSelectedRegions('DE');
+
+                              // Color for UK
+                              var mapObject = $('#world-map').vectorMap('get', 'mapObject');
+                              mapObject.regions['GB'].element.config.style.selected.fill = "#24395c";
+                              mapObject.setSelectedRegions('GB');
                             });
                         </script>
                     </td>
@@ -141,18 +163,54 @@
                                       fill : backgroundColor,
                                       "fill-opacity" : 1,
                                       stroke : borderColor,
-                                      "stroke-width" : 0.7,
+                                      "stroke-width" : 1,
                                       "stroke-opacity" : 1
                                     }
                                   },
                                   series: {
                                     regions: [{
+                                      attribute: 'fill',
                                       scale: ['#C8EEFF', '#0071A4'],
                                       normalizeFunction: 'polynomial'
                                     }]
                                   }
                                 }
                               );
+
+                              // Color for Pittsburgh, Pennsylvania
+                              var mapObject = $('#usa-map').vectorMap('get', 'mapObject');
+                              mapObject.regions['US-PA'].element.config.style.selected.fill = "#24395c";
+                              mapObject.setSelectedRegions('US-PA');
+
+                              // Color for Charlotte, North Carolina
+                              var mapObject = $('#usa-map').vectorMap('get', 'mapObject');
+                              mapObject.regions['US-NC'].element.config.style.selected.fill = "#24395c";
+                              mapObject.setSelectedRegions('US-NC');
+
+                              // Color for Las Vegas, Nevada
+                              var mapObject = $('#usa-map').vectorMap('get', 'mapObject');
+                              mapObject.regions['US-NV'].element.config.style.selected.fill = "#24395c";
+                              mapObject.setSelectedRegions('US-NV');
+
+                              // Color for Cleveland, Ohio
+                              var mapObject = $('#usa-map').vectorMap('get', 'mapObject');
+                              mapObject.regions['US-OH'].element.config.style.selected.fill = "#24395c";
+                              mapObject.setSelectedRegions('US-OH');
+
+                              // Color for Madison, Wisconsin
+                              var mapObject = $('#usa-map').vectorMap('get', 'mapObject');
+                              mapObject.regions['US-WI'].element.config.style.selected.fill = "#24395c";
+                              mapObject.setSelectedRegions('US-WI');
+
+                              // Color for Pheonix, Arizona
+                              var mapObject = $('#usa-map').vectorMap('get', 'mapObject');
+                              mapObject.regions['US-AZ'].element.config.style.selected.fill = "#24395c";
+                              mapObject.setSelectedRegions('US-AZ');
+
+                              // Color for Urbana-Champaign, Illinois
+                              var mapObject = $('#usa-map').vectorMap('get', 'mapObject');
+                              mapObject.regions['US-IL'].element.config.style.selected.fill = "#24395c";
+                              mapObject.setSelectedRegions('US-IL');
                             });
                         </script>
                     </td>
@@ -187,18 +245,29 @@
                                       fill : backgroundColor,
                                       "fill-opacity" : 1,
                                       stroke : borderColor,
-                                      "stroke-width" : 1,
+                                      "stroke-width" : 1.3,
                                       "stroke-opacity" : 1
                                     }
                                   },
                                   series: {
                                     regions: [{
+                                      attribute: 'fill',
                                       scale: ['#C8EEFF', '#0071A4'],
                                       normalizeFunction: 'polynomial'
                                     }]
                                   }
                                 }
                               );
+
+                              // Color for Waterloo, Ontario
+                              var mapObject = $('#canada-map').vectorMap('get', 'mapObject');
+                              mapObject.regions['CA-ON'].element.config.style.selected.fill = "#24395c";
+                              mapObject.setSelectedRegions('CA-ON');
+
+                              // Color for Montreal, Quebec
+                              var mapObject = $('#canada-map').vectorMap('get', 'mapObject');
+                              mapObject.regions['CA-QC'].element.config.style.selected.fill = "#24395c";
+                              mapObject.setSelectedRegions('CA-QC');
                             });
                         </script>
                     </td>
@@ -233,18 +302,24 @@
                                       fill : backgroundColor,
                                       "fill-opacity" : 1,
                                       stroke : borderColor,
-                                      "stroke-width" : 1,
+                                      "stroke-width" : 1.5,
                                       "stroke-opacity" : 1
                                     }
                                   },
                                   series: {
                                     regions: [{
+                                      attribute: 'fill',
                                       scale: ['#C8EEFF', '#0071A4'],
                                       normalizeFunction: 'polynomial'
                                     }]
                                   }
                                 }
                               );
+
+                              // Color for Karlsruhe,
+                              var mapObject = $('#germany-map').vectorMap('get', 'mapObject');
+                              mapObject.regions['DE-BW'].element.config.style.selected.fill = "#24395c";
+                              mapObject.setSelectedRegions('DE-BW');
                             });
                         </script>
                     </td>
@@ -267,30 +342,40 @@
                     <td class="body-item">
                         <div class="map" id="uk-map"></div>
                         <script>
+                          // var colors = {};
+                          // colors['SCT'] = '#FFFFFF';
+
                             $(function(){
-                              $('#uk-map').vectorMap(
+                              map = $('#uk-map').vectorMap(
                                 {
                                   map: 'uk_regions_mill',
                                   backgroundColor: backgroundColor,
                                   hoverColor: false,
                                   hoverOpacity: 0.7,
+                                  // colors: colors,
                                   regionStyle : {
                                     initial : {
                                       fill : backgroundColor,
                                       "fill-opacity" : 1,
                                       stroke : borderColor,
-                                      "stroke-width" : 1.3,
+                                      "stroke-width" : 2,
                                       "stroke-opacity" : 1
                                     }
                                   },
                                   series: {
                                     regions: [{
+                                      attribute: 'fill',
                                       scale: ['#C8EEFF', '#0071A4'],
                                       normalizeFunction: 'polynomial'
                                     }]
                                   }
                                 }
                               );
+
+                              // Color for Edinburgh, Scotland
+                              var mapObject = $('#uk-map').vectorMap('get', 'mapObject');
+                              mapObject.regions['SCT'].element.config.style.selected.fill = "#24395c";
+                              mapObject.setSelectedRegions('SCT');
                             });
                         </script>
                     </td>
