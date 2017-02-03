@@ -1,0 +1,41 @@
+{
+  "name": "data-analytics-for-yelp-data",
+  "version": "0.0.0",
+  "description": "Data Visualization for Yelp Data",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wanghaodawn/Data-Analytics-for-Yelp-Data.git"
+  },
+  "keywords": [
+    "Express",
+    "Node.js",
+    "Yelp",
+    "Data"
+  ],
+  "author": "Hao Wang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wanghaodawn/Data-Analytics-for-Yelp-Data/issues"
+  },
+  "homepage": "https://github.com/wanghaodawn/Data-Analytics-for-Yelp-Data#readme",
+  "dependencies": {
+    "chart.js": "^2.4.0",
+    "d3": "^4.4.4",
+    "d3-tip": "^0.7.1",
+    "datamaps": "^0.5.8",
+    "express": "^4.14.0",
+    "hbs": "^4.0.1",
+    "jquery": "^3.1.1",
+    "line-by-line": "^0.1.5",
+    "mongo": "^0.1.0",
+    "mongodb": "^2.2.21",
+    "mysql": "^2.13.0",
+    "nodemon": "^1.11.0",
+    "readline": "^1.3.0",
+    "stream": "0.0.2"
+  }
+}

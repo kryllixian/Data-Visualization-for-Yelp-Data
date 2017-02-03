@@ -74,12 +74,12 @@
         <!-- Middle -->
         <div class="grey-canvas">
 
-            <!-- Bar Chart -->
+            <!-- STARS DISTRIBUTION OF BUSINESSES -->
             <table class="body-item-1">
                 <tr class="body-item">
                     <td class="body-item">
                         <p class="body-item-title-school">
-                            BAR CHART
+                            STARS DISTRIBUTION OF BUSINESSES
                         </p>
                     </td>
                 </tr>
@@ -87,35 +87,324 @@
             <table class="body-item-2">
                 <tr class="body-item">
                     <td class="body-item">
-                        <canvas id="myChart">
+                        <canvas id="bar-chart-stars-businesses">
                             <script>
                             var data = {
-                                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                                labels: ["1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5"],
                                 datasets: [
                                     {
-                                        label: "My First dataset",
+                                        label: "Stars Distribution of Businesses",
                                         backgroundColor: [
-                                            'rgba(255, 99, 132, 1)',
-                                            'rgba(54, 162, 235, 1)',
-                                            'rgba(255, 206, 86, 1)',
-                                            'rgba(75, 192, 192, 1)',
-                                            'rgba(153, 102, 255, 1)',
-                                            'rgba(255, 159, 64, 1)'
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
                                         ],
                                         borderColor: [
-                                            'rgba(255,99,132,1)',
-                                            'rgba(54, 162, 235, 1)',
-                                            'rgba(255, 206, 86, 1)',
-                                            'rgba(75, 192, 192, 1)',
-                                            'rgba(153, 102, 255, 1)',
-                                            'rgba(255, 159, 64, 1)'
                                         ],
                                         borderWidth: 1,
-                                        data: [65, 59, 80, 81, 56, 55, 40],
+                                        data: [30, 62, 149, 293, 546, 901, 905, 754, 448],
                                     }
                                 ]
                             };
-                            var ctx = document.getElementById("myChart");
+                            var ctx = document.getElementById("bar-chart-stars-businesses");
+                            var myBarChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: data,
+                                options: {
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero:true
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+                            </script>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+
+            <!-- NUMBER OF REVIEWS OF BUSINESSES -->
+            <table class="body-item-1">
+                <tr class="body-item">
+                    <td class="body-item">
+                        <p class="body-item-title-school">
+                            NUMBER OF REVIEWS OF BUSINESSES
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <table class="body-item-2">
+                <tr class="body-item">
+                    <td class="body-item">
+                        <canvas id="bar-chart-review_count-businesses">
+                            <script>
+                            var data = {
+                                labels: ["0-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70-79", "80-89", "90-99", "100-1175"],
+                                datasets: [
+                                    {
+                                        label: "Number of Reviews of Businesses",
+                                        backgroundColor: [
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                        ],
+                                        borderColor: [
+                                        ],
+                                        borderWidth: 1,
+                                        data: [1842, 713, 349, 184, 126, 96, 74, 64, 45, 48, 270],
+                                    }
+                                ]
+                            };
+                            var ctx = document.getElementById("bar-chart-review_count-businesses");
+                            var myBarChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: data,
+                                options: {
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero:true
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+                            </script>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+
+            <!-- NEIGHBORHOODS DISTRIBUTION OF BUSINESSES -->
+            <table class="body-item-1">
+                <tr class="body-item">
+                    <td class="body-item">
+                        <p class="body-item-title-school">
+                            NEIGHBORHOODS DISTRIBUTION OF BUSINESSES
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <table class="body-item-2">
+                <tr class="body-item">
+                    <td class="body-item">
+                        <canvas id="bar-chart-neighborhoods-businesses">
+                            <script>
+                            var data = {
+                                labels: ["Allentown", "Aspinwall", "Avalon", "Banksville", "Beechview", "Bellevue",
+                                         "Bloomfield", "Bon Air", "Brighton Heights", "Brookline", "Carnegie",
+                                         "Carrick", "Crafton Heights", "Dormont", "Downtown", "Duquesne Heights",
+                                         "East Carnegie", "East Liberty", "Etna", "Fairywood", "Friendship", "Garfield",
+                                         "Greenfield", "Greentree", "Hays", "Hazelwood", "Highland Park", "Homestead",
+                                         "Homewood", "Knoxville", "Larimer", "Lawrenceville", "Lincoln", "Millvale",
+                                         "Morningside", "Mt. Oliver", "Mt. Washington", "North Side", "Oakland",
+                                         "Observatory Hill", "Overbrook", "Point Breeze", "Polish Hill", "Regent Square",
+                                         "Shadyside", "Sharpsburg", "Sheraden", "South Side", "South Side Slopes",
+                                         "Squirrel Hill", "Strip District", "The Hill District", "Troy Hill", "West End",
+                                         "West View", "Windgap"],
+                                datasets: [
+                                    {
+                                        label: "Neighborhoods Distribution of Businesses",
+                                        backgroundColor: [
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                        ],
+                                        borderColor: [
+                                        ],
+                                        borderWidth: 1,
+                                        data: [9, 27, 10, 35, 32, 47, 163, 3, 10, 47, 37, 28, 3, 71, 491, 14, 1, 83,
+                                               15, 2, 10, 27, 42, 44, 3, 3, 18, 114, 12, 4, 25, 199, 4, 20, 9, 7, 41,
+                                               170, 278, 4, 11, 25, 12, 7, 263, 13, 2, 382, 9, 234, 186, 34, 11, 38, 2, 1],
+                                    }
+                                ]
+                            };
+                            var ctx = document.getElementById("bar-chart-neighborhoods-businesses");
+                            var myBarChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: data,
+                                options: {
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero:true
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+                            </script>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+
+            <!-- STARS DISTRIBUTION OF REVIEWES -->
+            <table class="body-item-1">
+                <tr class="body-item">
+                    <td class="body-item">
+                        <p class="body-item-title-school">
+                            STARS DISTRIBUTION OF REVIEWES
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <table class="body-item-2">
+                <tr class="body-item">
+                    <td class="body-item">
+                        <canvas id="bar-chart-stars-reviewes">
+                            <script>
+                            var data = {
+                                labels: ["1", "2", "3", "4", "5"],
+                                datasets: [
+                                    {
+                                        label: "Stars Distribution of Reviews",
+                                        backgroundColor: [
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                        ],
+                                        borderColor: [
+                                        ],
+                                        borderWidth: 1,
+                                        data: [9942, 10163, 16051, 33150, 42244],
+                                    }
+                                ]
+                            };
+                            var ctx = document.getElementById("bar-chart-stars-reviewes");
+                            var myBarChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: data,
+                                options: {
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero:true
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+                            </script>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+
+            <!-- AVERAGE STARS GIVEN BY USERS -->
+            <table class="body-item-1">
+                <tr class="body-item">
+                    <td class="body-item">
+                        <p class="body-item-title-school">
+                            AVERAGE STARS GIVEN BY USERS
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <table class="body-item-2">
+                <tr class="body-item">
+                    <td class="body-item">
+                        <canvas id="bar-chart-stars-users">
+                            <script>
+                            var data = {
+                                labels: ["1.00-1.49", "1.50-1.99", "2.00-2.49", "2.50-2.99", "3.00-3.49", "3.50-3.99", "4.00-4.49", "4.50-5.00"],
+                                datasets: [
+                                    {
+                                        label: "Average Stars Given by Users",
+                                        backgroundColor: [
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                        ],
+                                        borderColor: [
+                                        ],
+                                        borderWidth: 1,
+                                        data: [2080, 615, 2463, 4036, 16913, 45580, 27247, 12612],
+                                    }
+                                ]
+                            };
+                            var ctx = document.getElementById("bar-chart-stars-users");
                             var myBarChart = new Chart(ctx, {
                                 type: 'bar',
                                 data: data,
