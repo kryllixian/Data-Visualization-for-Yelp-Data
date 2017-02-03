@@ -47,6 +47,13 @@ app.get('/statistics', (req, res) => {
   });
 });
 
+app.get('/pittsburgh', (req, res) => {
+  res.render('pittsburgh.hbs', {
+    pageTitle: 'Pittsburgh',
+    currentYear: new Date().getFullYear()
+  });
+});
+
 
 app.get('/about', (req, res) => {
   res.render('about.hbs', {
