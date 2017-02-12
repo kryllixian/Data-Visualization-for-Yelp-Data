@@ -11,9 +11,11 @@ CREATE TABLE IF NOT EXISTS businesses (
     stars FLOAT,
     review_count INT,
     type VARCHAR(80),
+    neighborhood VARCHAR(80),
     PRIMARY KEY(business_id)
 );
 
+-- Loaded
 CREATE TABLE IF NOT EXISTS attributes (
     business_id VARCHAR(80) NOT NULL,
     name VARCHAR(80) NOT NULL,
@@ -29,14 +31,14 @@ CREATE TABLE IF NOT EXISTS categories (
     PRIMARY KEY(business_id, name),
     FOREIGN KEY(business_id) REFERENCES businesses(business_id) ON DELETE CASCADE
 );
-
--- Loaded
-CREATE TABLE IF NOT EXISTS neighborhoods (
-    business_id VARCHAR(80) NOT NULL,
-    name VARCHAR(80) NOT NULL,
-    PRIMARY KEY(business_id, name),
-    FOREIGN KEY(business_id) REFERENCES businesses(business_id) ON DELETE CASCADE
-);
+--
+-- -- Loaded
+-- CREATE TABLE IF NOT EXISTS neighborhoods (
+--     business_id VARCHAR(80) NOT NULL,
+--     name VARCHAR(80) NOT NULL,
+--     PRIMARY KEY(business_id, name),
+--     FOREIGN KEY(business_id) REFERENCES businesses(business_id) ON DELETE CASCADE
+-- );
 
 
 CREATE TABLE IF NOT EXISTS hours (
@@ -49,40 +51,25 @@ CREATE TABLE IF NOT EXISTS users (
     user_id VARCHAR(80) NOT NULL,
     name VARCHAR(80),
     review_count INT,
-    yelping_since_year INT,
-    yelping_since_month INT,
-    fans INT,
+    yelping_since DATE,
+    num_fans INT,
     average_stars FLOAT,
     type VARCHAR(80),
+    num_votes_useful INT,
+    num_votes_funny INT,
+    num_votes_cool INT,
+    num_compliment_hot INT,
+    num_compliment_more INT,
+    num_compliment_profile INT,
+    num_compliment_cute INT,
+    num_compliment_list INT,
+    num_compliment_note INT,
+    num_compliment_plain INT,
+    num_compliment_cool INT,
+    num_compliment_funny INT,
+    num_compliment_writer INT,
+    num_compliment_photos INT,
     PRIMARY KEY(user_id)
-);
-
--- Loaded
-CREATE TABLE IF NOT EXISTS votes (
-    user_id VARCHAR(80) NOT NULL,
-    useful INT,
-    funny INT,
-    cool INT,
-    PRIMARY KEY(user_id),
-    FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE CASCADE
-);
-
--- Loaded
-CREATE TABLE IF NOT EXISTS compliments (
-    user_id VARCHAR(80) NOT NULL,
-    hot INT,
-    more INT,
-    profile INT,
-    cute INT,
-    list INT,
-    note INT,
-    plain INT,
-    cool INT,
-    funny INT,
-    writer INT,
-    photos INT,
-    PRIMARY KEY(user_id),
-    FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
 -- Sort the ids, smaller id comes first then bigger one
@@ -126,12 +113,13 @@ CREATE TABLE IF NOT EXISTS reviews (
 
 -- Checkin
 CREATE TABLE IF NOT EXISTS checkins (
+    checkin_id INT NOT NULL AUTO_INCREMENT,
     business_id VARCHAR(80) NOT NULL,
-    day INT,
+    day VARCHAR(10),
     hour INT,
-    checkin_number INT,
+    num_checkins INT,
     type VARCHAR(80),
-    PRIMARY KEY(business_id, day, hour),
+    PRIMARY KEY(checkin_id),
     FOREIGN KEY(business_id) REFERENCES businesses(business_id) ON DELETE CASCADE
 );
 
