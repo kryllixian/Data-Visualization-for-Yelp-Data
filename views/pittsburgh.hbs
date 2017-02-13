@@ -74,6 +74,8 @@
         <!-- Middle -->
         <div class="grey-canvas">
 
+            {{> wordcloud_template}}
+
             <!-- STARS DISTRIBUTION OF BUSINESSES -->
             <table class="body-item-1">
                 <tr class="body-item">
@@ -367,6 +369,131 @@
             </table>
 
 
+            <!-- YEAR DISTRIBUTION OF REVIEWES -->
+            <table class="body-item-1">
+                <tr class="body-item">
+                    <td class="body-item">
+                        <p class="body-item-title-school">
+                            YEAR DISTRIBUTION OF REVIEWES
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <table class="body-item-2">
+                <tr class="body-item">
+                    <td class="body-item">
+                        <canvas id="bar-chart-year-reviewes">
+                            <script>
+                            var data = {
+                                labels: ["2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016"],
+                                datasets: [
+                                    {
+                                        label: "Year Distribution of Reviews",
+                                        backgroundColor: [
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)'
+                                        ],
+                                        borderColor: [
+                                        ],
+                                        borderWidth: 1,
+                                        data: [2, 21, 70, 192, 318, 552, 929, 1237, 1993, 2856, 1772],
+                                    }
+                                ]
+                            };
+                            var ctx = document.getElementById("bar-chart-year-reviewes");
+                            var myBarChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: data,
+                                options: {
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero:true
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+                            </script>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+
+            <!-- MONTH DISTRIBUTION OF REVIEWES -->
+            <table class="body-item-1">
+                <tr class="body-item">
+                    <td class="body-item">
+                        <p class="body-item-title-school">
+                            MONTH DISTRIBUTION OF REVIEWES
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <table class="body-item-2">
+                <tr class="body-item">
+                    <td class="body-item">
+                        <canvas id="bar-chart-month-reviewes">
+                            <script>
+                            var data = {
+                                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                                datasets: [
+                                    {
+                                        label: "Year Distribution of Reviews",
+                                        backgroundColor: [
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)'
+                                        ],
+                                        borderColor: [
+                                        ],
+                                        borderWidth: 1,
+                                        data: [805, 745, 814, 871, 868, 974, 951, 846, 770, 822, 756, 720],
+                                    }
+                                ]
+                            };
+                            var ctx = document.getElementById("bar-chart-month-reviewes");
+                            var myBarChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: data,
+                                options: {
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero:true
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+                            </script>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+
+
+
             <!-- AVERAGE STARS GIVEN BY USERS -->
             <table class="body-item-1">
                 <tr class="body-item">
@@ -405,6 +532,67 @@
                                 ]
                             };
                             var ctx = document.getElementById("bar-chart-stars-users");
+                            var myBarChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: data,
+                                options: {
+                                    scales: {
+                                        yAxes: [{
+                                            ticks: {
+                                                beginAtZero:true
+                                            }
+                                        }]
+                                    }
+                                }
+                            });
+                            </script>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+
+            <!-- NUMBER OF FANS OF USERS -->
+            <table class="body-item-1">
+                <tr class="body-item">
+                    <td class="body-item">
+                        <p class="body-item-title-school">
+                            NUMBER OF FANS OF USERS
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <table class="body-item-2">
+                <tr class="body-item">
+                    <td class="body-item">
+                        <canvas id="bar-chart-fans-users">
+                            <script>
+                            var data = {
+                                labels: ["0-9", "10-19", "20-29", "30-39", "40-49", "50-59", "60-69", "70-79", "80-89", "90-99", "100-1354"],
+                                datasets: [
+                                    {
+                                        label: "Number of Fans of Users",
+                                        backgroundColor: [
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                            'rgba(67, 129, 182, 1)',
+                                        ],
+                                        borderColor: [
+                                        ],
+                                        borderWidth: 1,
+                                        data: [94124, 9199, 3219, 1253, 1009, 1053, 447, 32, 14, 1048],
+                                    }
+                                ]
+                            };
+                            var ctx = document.getElementById("bar-chart-fans-users");
                             var myBarChart = new Chart(ctx, {
                                 type: 'bar',
                                 data: data,

@@ -1,0 +1,103 @@
+{{> header}}
+
+    <body>
+
+    <link rel="stylesheet" href="//rawgithub.com/Caged/d3-tip/master/examples/example-styles.css">
+
+
+      <!-- JvectorMap -->
+      <link rel="stylesheet" href="jvectormap/jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/>
+      <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+      <script src="jvectormap/jquery-jvectormap-2.0.3.min.js"></script>
+      <script src="jvectormap/jquery-jvectormap-world-mill.js"></script>
+      <script src="jvectormap/jquery-jvectormap-us-aea.js"></script>
+      <script src="jvectormap/jquery-jvectormap-ca-lcc.js"></script>
+      <script src="jvectormap/jquery-jvectormap-de-mill.js"></script>
+      <script src="jvectormap/jquery-jvectormap-uk_regions-mill.js"></script>
+      <script src="http://d3js.org/d3.v3.min.js"></script>
+      <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+      <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+      <script src="//cdn.tagul.com/tagul.min.js" async defer></script>
+
+      <script>
+          // Parameters
+          const backgroundColor = '#08101c';
+          const borderColor = '#4772b8';
+      </script>
+
+
+      <!-- Navbar -->
+        <div class="navbar">
+            <table class="navbar">
+                <tr class="navbar">
+                    <td class="navbar-icon">
+                        <a href="index.html">
+                            <img class="navbar-logo" src="images/logo/logo-medium.png" alt="logo">
+                        </a>
+                    </td>
+                    <td class="navbar-word">
+                        <a href="statistics">
+                            <p class="navbar">
+                                STATISTICS
+                            </p>
+                        </a>
+                    </td>
+                    <td class="navbar-word">
+                        <a href="pittsburgh">
+                            <p class="navbar-current">
+                                PITTSBURGH
+                            </p>
+                        </a>
+                    </td>
+                    <td class="navbar-word">
+                        <a href="">
+                            <p class="navbar">
+                                ABOUT
+                            </p>
+                        </a>
+                    </td>
+                    <td class="navbar-word">
+                        <a href="about">
+                            <p class="navbar">
+                                ABOUT
+                            </p>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+
+
+            <!-- I love the slim seprator line generated in this way -->
+            <div style="height:0;overflow:hiddne;border-top:1px solid #DBDBDB" class="separator"></div>
+        </div>
+
+        <!-- Middle -->
+        <div class="grey-canvas">
+
+            {{> wordcloud_template}}
+
+            <!-- WORD CLOUD PICTURE -->
+            <table class="body-item-1">
+                <tr class="body-item">
+                    <td class="body-item">
+                        <p class="body-item-title-school">
+                            WORD CLOUD  {{wordcloudTitle}}
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <table class="body-item-2">
+                <tr class="body-item">
+                    <td class="body-item">
+                        <div clss="wordcloud" style="width: 400px; height: 400px; margin-left: auto; margin-right: auto;" data-tagul-src={{wordcloudSRC}}></div>
+                    </td>
+                </tr>
+            </table>
+
+
+              <br /><br /><br /><br />
+        </div>
+
+
+{{> footer}}
