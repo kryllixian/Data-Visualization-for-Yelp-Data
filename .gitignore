@@ -2,3 +2,5 @@ node_modules/
 server.log
 yelp-oauth-data/
 yelp-data/
+yelp-data-new/
+wordcloud_data/
