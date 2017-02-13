@@ -41,10 +41,61 @@ WHERE b.latitude >= 40 AND b.latitude <= 41 AND
       b.longitude >= -81 AND b.longitude <= -79 AND
       r.business_id = b.business_id AND r.stars = 1;
 
+-- Distribution of Date of Reviews
+SELECT YEAR(date), COUNT(review_id)
+FROM businesses b, reviews r
+WHERE b.latitude >= 40 AND b.latitude <= 41 AND
+      b.longitude >= -81 AND b.longitude <= -79 AND
+      r.business_id = b.business_id AND r.stars = 1
+GROUP BY YEAR(date)
+ORDER BY YEAR(date);
+
+SELECT MONTH(date), COUNT(review_id)
+FROM businesses b, reviews r
+WHERE b.latitude >= 40 AND b.latitude <= 41 AND
+      b.longitude >= -81 AND b.longitude <= -79 AND
+      r.business_id = b.business_id AND r.stars = 1
+GROUP BY MONTH(date)
+ORDER BY MONTH(date);
+
 -- Average Stars Given by Users in Pittsburgh
 SELECT COUNT(u.user_id)
 FROM businesses b, reviews r, users u
 WHERE b.latitude >= 40 AND b.latitude <= 41 AND
       b.longitude >= -81 AND b.longitude <= -79 AND
       r.business_id = b.business_id AND r.user_id = u.user_id AND
-      average_stars >= 1.0 AND average_stars < 1.5;
+      u.average_stars >= 1.0 AND u.average_stars < 1.5;
+
+-- -- Users and Number of Friends
+-- SELECT u.user_id, COUNT(u.user_id)
+-- FROM businesses b, reviews r, users u, friends f
+-- WHERE b.latitude >= 40 AND b.latitude <= 41 AND
+--       b.longitude >= -81 AND b.longitude <= -79 AND
+--       r.business_id = b.business_id AND r.user_id = u.user_id AND
+--       (f.user_id1 = u.user_id OR f.user_id2 = u.user_id)
+-- GROUP BY u.user_id
+-- ORDER BY COUNT(u.user_id);
+
+-- Number of Fans for Each User
+SELECT MIN(u.fans), AVG(u.fans), MAX(u.fans)
+FROM businesses b, reviews r, users u
+WHERE b.latitude >= 40 AND b.latitude <= 41 AND
+      b.longitude >= -81 AND b.longitude <= -79 AND
+      r.business_id = b.business_id AND r.user_id = u.user_id;
+
+
+SELECT COUNT(u.user_id)
+FROM businesses b, reviews r, users u
+WHERE b.latitude >= 40 AND b.latitude <= 41 AND
+      b.longitude >= -81 AND b.longitude <= -79 AND
+      r.business_id = b.business_id AND r.user_id = u.user_id AND
+      u.fans >= 100;
+
+
+-- Get reviews for a category
+SELECT r.review_id, r.text
+FROM businesses b, reviews r, categories c
+WHERE b.latitude >= 40 AND b.latitude <= 41 AND
+      b.longitude >= -81 AND b.longitude <= -79 AND
+      c.name = 'Restaurants' AND r.business_id = b.business_id AND
+      c.business_id = b.business_id;
