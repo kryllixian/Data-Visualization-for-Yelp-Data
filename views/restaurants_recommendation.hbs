@@ -1,0 +1,323 @@
+{{> header}}
+
+<body>
+
+<link rel="stylesheet" href="//rawgithub.com/Caged/d3-tip/master/examples/example-styles.css">
+
+
+  <!-- JvectorMap -->
+  <link rel="stylesheet" href="jvectormap/jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/>
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+  <script src="jvectormap/jquery-jvectormap-2.0.3.min.js"></script>
+  <script src="jvectormap/jquery-jvectormap-world-mill.js"></script>
+  <script src="jvectormap/jquery-jvectormap-us-aea.js"></script>
+  <script src="jvectormap/jquery-jvectormap-ca-lcc.js"></script>
+  <script src="jvectormap/jquery-jvectormap-de-mill.js"></script>
+  <script src="jvectormap/jquery-jvectormap-uk_regions-mill.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+  <script>
+      // Parameters
+      const backgroundColor = '#08101c';
+      const borderColor = '#4772b8';
+  </script>
+
+
+  <!-- Navbar -->
+    <div class="navbar">
+        <table class="navbar">
+            <tr class="navbar">
+                <td class="navbar-icon">
+                    <a href="index.html">
+                        <img class="navbar-logo" src="images/logo/logo-medium.png" alt="logo">
+                    </a>
+                </td>
+                <td class="navbar-word">
+                    <a href="statistics">
+                        <p class="navbar">
+                            STATISTICS
+                        </p>
+                    </a>
+                </td>
+                <td class="navbar-word">
+                    <a href="pittsburgh">
+                        <p class="navbar-current">
+                            PITTSBURGH
+                        </p>
+                    </a>
+                </td>
+                <td class="navbar-word">
+                    <a href="">
+                        <p class="navbar">
+                            ABOUT
+                        </p>
+                    </a>
+                </td>
+                <td class="navbar-word">
+                    <a href="about">
+                        <p class="navbar">
+                            ABOUT
+                        </p>
+                    </a>
+                </td>
+            </tr>
+        </table>
+
+
+        <!-- I love the slim seprator line generated in this way -->
+        <div style="height:0;overflow:hiddne;border-top:1px solid #DBDBDB" class="separator"></div>
+    </div>
+
+    <!-- Middle -->
+    <div class="grey-canvas">
+
+
+        <table class="body-item-1">
+            <tr class="body-item">
+                <td class="body-item">
+                    <p class="body-item-title-school">
+                        CHOOSE IMPORTANT FACTORS TO YOU
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <table class="body-item-2">
+            <tr class="body-item">
+                <td class="body-item">
+                    <form action="restaurants_recommendation" method="POST">
+                        <div>
+                            <p> Alcohol: </p>
+                            <span>
+                                <input type="checkbox" name="Alcohol" value="beer_and_wine"/> Beer and Wine
+                            </span>
+                            <span>
+                                <input type="checkbox" name="Alcohol" value="full_bar"/> Full Bar
+                            </span>
+                            <span>
+                                <input type="checkbox" name="Alcohol" value="none"/> None
+                            </span>
+                        </div>
+                        <div>
+                            <p> Ambience: </p>
+                            <span>
+                                <input type="checkbox" name="Ambience_casual" value="True"/> Casual
+                            </span>
+                            <span>
+                                <input type="checkbox" name="Ambience_classy" value="True"/> Classy
+                            </span>
+                            <span>
+                                <input type="checkbox" name="Ambience_divey" value="True"/> Divey
+                            </span>
+                            <span>
+                                <input type="checkbox" name="Ambience_hipster" value="True"/> Hipster
+                            </span>
+                            <span>
+                                <input type="checkbox" name="Ambience_intimate" value="True"/> Intimate
+                            </span>
+                            <span>
+                                <input type="checkbox" name="Ambience_romantic" value="True"/> romantic
+                            </span>
+                            <span>
+                                <input type="checkbox" name="Ambience_touristy" value="True"/> Touristy
+                            </span>
+                            <span>
+                                <input type="checkbox" name="Ambience_trendy" value="True"/> Trendy
+                            </span>
+                            <span>
+                                <input type="checkbox" name="Ambience_upscale" value="True"/> Upscale
+                            </span>
+                        </div>
+
+                        <div>
+                            <p> Dietary Restrictions: </p>
+                            <span>
+                                <input type="checkbox" name="DietaryRestrictions_dairy-free" value="True"/> Dairy-free
+                            </span>
+                            <span>
+                                <input type="checkbox" name="DietaryRestrictions_gluten-free" value="True"/> Gluten-free
+                            </span>
+                            <span>
+                                <input type="checkbox" name="DietaryRestrictions_halal" value="True"/> Halal
+                            </span>
+                            <span>
+                                <input type="checkbox" name="DietaryRestrictions_kosher" value="True"/> Kosher
+                            </span>
+                            <span>
+                                <input type="checkbox" name="DietaryRestrictions_soy-free" value="True"/> Soy-free
+                            </span>
+                            <span>
+                                <input type="checkbox" name="DietaryRestrictions_vegan" value="True"/> Vegan
+                            </span>
+                            <span>
+                                <input type="checkbox" name="DietaryRestrictions_vegetarian" value="True"/> Vegetarian
+                            </span>
+                        </div>
+
+                        <div>
+                            <p> Parking: </p>
+                            <span>
+                                <input type="checkbox" name="BikeParking" value="True"/> Bike Parking
+                            </span>
+                            <span>
+                                <input type="checkbox" name="BusinessParking_garage" value="True"/> Garage
+                            </span>
+                            <span>
+                                <input type="checkbox" name="BusinessParking_lot" value="True"/> Parking Lot
+                            </span>
+                            <span>
+                                <input type="checkbox" name="BusinessParking_street" value="True"/> Street Parking
+                            </span>
+                            <span>
+                                <input type="checkbox" name="BusinessParking_valet" value="True"/> Valet Parking
+                            </span>
+                            <span>
+                                <input type="checkbox" name="BusinessParking_validated" value="True"/> Validated Parking
+                            </span>
+                        </div>
+                        <div>
+                            <p> Music: </p>
+                            <span>
+                                <input type="checkbox" name="Music_background_music" value="True"/> Background Music
+                            </span>
+                            <span>
+                                <input type="checkbox" name="Music_dj" value="True"/> DJ
+                            </span>
+                            <span>
+                                <input type="checkbox" name="Music_jukebox" value="True"/> Jukebox
+                            </span>
+                            <span>
+                                <input type="checkbox" name="Music_karaoke" value="True"/> Karaoke
+                            </span>
+                            <span>
+                                <input type="checkbox" name="Music_live" value="True"/> Live Music
+                            </span>
+                            <span>
+                                <input type="checkbox" name="Music_no_music" value="True"/> No Music
+                            </span>
+                            <span>
+                                <input type="checkbox" name="Music_video" value="True"/> Video Music
+                            </span>
+                            <span>
+                                <input type="checkbox" name="GoodForDancing" value="True"/> Good for Dancing
+                            </span>
+                        </div>
+
+                        <div>
+                            <p> Noise Level: </p>
+                            <span>
+                                <input type="checkbox" name="NoiseLevel" value="quiet"/> Quiet
+                            </span>
+                            <span>
+                                <input type="checkbox" name="NoiseLevel" value="average"/> Average
+                            </span>
+                            <span>
+                                <input type="checkbox" name="NoiseLevel" value="loud"/> Loud
+                            </span>
+                            <span>
+                                <input type="checkbox" name="NoiseLevel" value="very_loud"/> Very Loud
+                            </span>
+                        </div>
+
+                        <div>
+                            <p> Other Attributes: </p>
+                            <span>
+                                <input type="checkbox" name="GoodForKids" value="True"/> Good for Kids
+                            </span>
+                            <span>
+                                <input type="checkbox" name="HasTV" value="True"/> Has TV
+                            </span>
+                            <span>
+                                <input type="checkbox" name="OutdoorSeating" value="True"/> Outdoor Seating
+                            </span>
+                            <span>
+                                <input type="checkbox" name="WheelchairAccessible" value="True"/> Wheelchair Accessible
+                            </span>
+                            <span>
+                                <input type="checkbox" name="WiFi" value="True"/> WiFi
+                            </span>
+                            <span>
+                                <input type="checkbox" name="Open24Hours" value="True"/> Open 24 Hours
+                            </span>
+                            <span>
+                                <input type="checkbox" name="Smoking" value="True"/> Smoking
+                            </span>
+                            <span>
+                                <input type="checkbox" name="DogsAllowed" value="True"/> Dogs Allowed
+                            </span>
+                            <span>
+                                <input type="checkbox" name="DriveThru" value="True"/> DriveThru
+                            </span>
+                            <span>
+                                <input type="checkbox" name="ByAppointmentOnly" value="True"/> By Appointment Only
+                            </span>
+                            <span>
+                                <input type="checkbox" name="Smoking" value="True"/> Smoking
+                            </span>
+                        </div>
+
+
+                        <div>
+                            <input type="submit" value="Submit" />
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        </table>
+
+        <table class="body-item-1">
+            <tr class="body-item">
+                <td class="body-item">
+                    <p class="body-item-title-school">
+                        RECOMMENDATION RESULT
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <table class="body-item-2">
+            <tr class="body-item">
+                <td class="body-item">
+                    <div id="div_messages" style="display: none;" width="100%">
+                        {{messages}}
+                    </div>
+                    <div id="div_restaurants" style="display: none;" width="100%">{{restaurants}}</div>
+
+                    <script>
+                        var restaurants = JSON.parse($('#div_restaurants').text());
+                        var messages = JSON.parse($('#div_messages').text());
+                        var output = '';
+                        console.log(messages)
+                        if (messages) {
+                            output += messages;
+                        }
+                        if (restaurants) {
+                            for (var i = 0; i < restaurants.length; i++) {
+                                output += '<ul>';
+                                output += '<li>stars:       ' + restaurants[i].stars + '</li>';
+                                output += '<li>review Count:' + restaurants[i].review_count + '</li>';
+                                output += '<li>business_id: ' + restaurants[i].business_id + '</li>';
+                                output += '<li>name:        ' + restaurants[i].name + '</li>';
+                                output += '<li>address:     ' + restaurants[i].address + '</li>';
+                                output += '<li>city:        ' + restaurants[i].city + '</li>';
+                                output += '<li>name:        ' + restaurants[i].name + '</li>';
+                                output += '<li>state:       ' + restaurants[i].state + '</li>';
+                                output += '<li>latitude:    ' + restaurants[i].latitude + '</li>';
+                                output += '<li>longitude:   ' + restaurants[i].longitude + '</li>';
+                                output += '<li>neighborhood:' + restaurants[i].longitude + '</li>';
+                                output += '</ul>';
+                            }
+                        }
+                        $('body').append(output);
+                    </script>
+
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+
+{{> footer}}

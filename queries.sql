@@ -99,3 +99,19 @@ WHERE b.latitude >= 40 AND b.latitude <= 41 AND
       b.longitude >= -81 AND b.longitude <= -79 AND
       c.name = 'Restaurants' AND r.business_id = b.business_id AND
       c.business_id = b.business_id;
+
+
+-- Get reviews in restaurants
+SELECT r.review_id, r.text
+FROM businesses b, reviews r, categories c
+WHERE c.name = 'Restaurants' AND r.business_id = b.business_id AND
+      c.business_id = b.business_id;
+
+SELECT * FROM (
+    SELECT * FROM businesses
+    WHERE latitude >= 40 AND latitude <= 41 AND
+          longitude >= -81 AND longitude <= -79
+) b LEFT JOIN attributes a
+    ON b.business_id = a.business_id
+    ORDER BY stars DESC, review_count DESC
+    LIMIT 20;

@@ -98,6 +98,25 @@ def filter_review_pittsburgh(db):
         ])
 
 
+def filter_user_pittsburgh(db):
+    print('Left outer join user to business in pittsburgh')
+    db['pittsburgh_business_tip_checkin_review'].aggregate(
+        [
+            {
+                '$lookup': 
+                {
+                    'from': 'user',
+                    'localField': 'business_id',
+                    'foreignField': 'business_id',
+                    'as': 'users'
+                }
+            },
+            {
+                '$out': "pittsburgh_business_tip_checkin_review_user"
+            }
+        ])
+
+
 def test(db):
     for item in db['pittsburgh_business'].find():
         business_id = str(item['business_id'])
@@ -108,8 +127,10 @@ def test(db):
     for item in db['checkin'].find():
         # print(item['business_id'])
         if ids.has_key(item['business_id']):
-            print('Find one!!!!!!!')
-            break
+            if ids[item['business_id']] == 2:
+                print('Find one!!!!!!!')
+                break
+            ids[item['business_id']] = 2
 
 
 def main():
@@ -117,8 +138,9 @@ def main():
     # test(db)
     # filter_business_pittsburgh(db, 'business', 'pittsburgh_business')
     # filter_tip_pittsburgh(db)
-    filter_checkin_pittsburgh(db)
+    # filter_checkin_pittsburgh(db)
     # filter_review_pittsburgh(db)
+    # filter_user_pittsburgh(db)
 
 
 if __name__ == "__main__":

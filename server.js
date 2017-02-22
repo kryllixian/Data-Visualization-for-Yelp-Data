@@ -2,6 +2,19 @@ const express = require('express');
 const hbs = require('hbs');
 const fs = require('fs');
 const url = require('url');
+const bodyParser = require('body-parser');
+const mysql = require('mysql');
+const model = require('./model.js')
+
+
+// Configurate the connection to MySQL
+var connection = mysql.createConnection({
+    host     : 'localhost',
+    user     : 'root',
+    password : '',
+    database : 'yelp_data_new'
+});
+connection.connect();
 
 
 var app = express();
@@ -29,6 +42,13 @@ app.use((req, res, next) => {
 });
 
 
+// Set body parser
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+
+
 // app.get('/', (req, res) => {
 //   // res.send('Hello Express!');
 //   res.send({
@@ -46,6 +66,34 @@ app.get('/statistics', (req, res) => {
     pageTitle: 'Statistics',
     currentYear: new Date().getFullYear()
   });
+});
+
+app.get('/restaurants_recommendation', (req, res) => {
+    res.render('restaurants_recommendation.hbs', {
+        pageTitle: 'Restaurants Recommendation',
+        currentYear: new Date().getFullYear()
+    });
+});
+
+app.post('/restaurants_recommendation', (req, res) => {
+    model.recommendation(connection, req, res, function(result) {
+        console.log(result);
+        if (!result) {
+            res.render('restaurants_recommendation.hbs', {
+                pageTitle: 'Restaurants Recommendation',
+                currentYear: new Date().getFullYear(),
+                messages: JSON.stringify(result.messages, undefined, 2),
+                restaurants: JSON.stringify(result.restaurants, undefined, 2)
+            });
+        } else {
+            res.render('restaurants_recommendation.hbs', {
+                pageTitle: 'Restaurants Recommendation',
+                currentYear: new Date().getFullYear(),
+                messages: JSON.stringify(result.messages, undefined, 2),
+                restaurants: JSON.stringify(result.restaurants, undefined, 2)
+            });
+        }
+    });
 });
 
 app.get('/pittsburgh', (req, res) => {
