@@ -77,20 +77,23 @@ app.get('/restaurants_recommendation', (req, res) => {
 
 app.post('/restaurants_recommendation', (req, res) => {
     model.recommendation(connection, req, res, function(result) {
+        console.log(req.body);
         console.log(result);
         if (!result) {
             res.render('restaurants_recommendation.hbs', {
                 pageTitle: 'Restaurants Recommendation',
                 currentYear: new Date().getFullYear(),
                 messages: JSON.stringify(result.messages, undefined, 2),
-                restaurants: JSON.stringify(result.restaurants, undefined, 2)
+                restaurants: JSON.stringify(result.restaurants, undefined, 2),
+                former_query: JSON.stringify(req.body, undefined, 2)
             });
         } else {
             res.render('restaurants_recommendation.hbs', {
                 pageTitle: 'Restaurants Recommendation',
                 currentYear: new Date().getFullYear(),
                 messages: JSON.stringify(result.messages, undefined, 2),
-                restaurants: JSON.stringify(result.restaurants, undefined, 2)
+                restaurants: JSON.stringify(result.restaurants, undefined, 2),
+                former_query: JSON.stringify(req.body, undefined, 2)
             });
         }
     });

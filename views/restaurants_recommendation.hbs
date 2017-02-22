@@ -280,20 +280,29 @@
         <table class="body-item-2">
             <tr class="body-item">
                 <td class="body-item">
-                    <div id="div_messages" style="display: none;" width="100%">
-                        {{messages}}
-                    </div>
+                    <div id="div_messages" style="display: none;" width="100%">{{messages}}</div>
+                    <div id="div_former_query" style="display: none;" width="100%">{{former_query}}</div>
                     <div id="div_restaurants" style="display: none;" width="100%">{{restaurants}}</div>
 
                     <script>
                         var restaurants = JSON.parse($('#div_restaurants').text());
                         var messages = JSON.parse($('#div_messages').text());
+                        var former_query = JSON.parse($('#div_former_query').text());
+                        console.log(former_query);
                         var output = '';
-                        console.log(messages)
+                        console.log(messages);
                         if (messages) {
-                            output += messages;
+                            output += '<p> messages:       ' + messages + '</p><br />';
+                        }
+                        if (former_query) {
+                            output += '<p> Former Query: </p>';
+                            for (key in former_query) {
+                                output += '<p>' + key + ':      ' + former_query[key] + '</p>';
+                            }
+                            output += '<br />'
                         }
                         if (restaurants) {
+                            output += '<p> Results: </p>'
                             for (var i = 0; i < restaurants.length; i++) {
                                 output += '<ul>';
                                 output += '<li>stars:       ' + restaurants[i].stars + '</li>';
