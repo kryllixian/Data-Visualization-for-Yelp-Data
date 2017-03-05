@@ -222,7 +222,22 @@ app.get('/reviews/business_id?', (req, res) => {
             pageTitle: 'See Reviews by Businesses',
             currentYear: new Date().getFullYear(),
             message: JSON.stringify(result.message),
-            reviews: JSON.stringify(result.reviews)
+            reviews: JSON.stringify(result.reviews),
+            name: req.query.name
+        });
+    });
+});
+
+// RESTful API
+app.get('/reviews/user_id?', (req, res) => {
+    model.getReviewByUserId(connection, req, res, function(result) {
+        // console.log(result);
+        res.render('review_by_user_id.hbs',{
+            pageTitle: 'See Reviews by User',
+            currentYear: new Date().getFullYear(),
+            message: JSON.stringify(result.message),
+            reviews: JSON.stringify(result.reviews),
+            user_id: req.query.user_id
         });
     });
 });

@@ -4,6 +4,7 @@ const SUCCESS = 'SUCCESS';
 const FAIL = 'FAIL';
 const NO_RESULTS = 'NO_RESULTS';
 const MISSING_BUSINESS_ID = 'MISSING_BUSINESS_ID';
+const MISSING_USER_ID = 'MISSING_USER_ID';
 
 module.exports = {
     recommendation : function (connection, req, res, callback) {
@@ -121,7 +122,7 @@ module.exports = {
         });
     },
 
-    
+
 
     getReviewByBusinessId : function (connection, req, res, callback) {
         // Get all queries from request
@@ -130,9 +131,8 @@ module.exports = {
             return callback({message: MISSING_BUSINESS_ID, reviews:  null});
         }
         console.log(data);
-        var queryString =  "SELECT r.review_id, r.user_id, r.business_id, r.stars, r.date, r.text, r.num_useful, r.num_funny, r.num_cool \
-                            FROM reviews r, businesses b \
-                            WHERE b.business_id = ? AND r.business_id = b.business_id \
+        var queryString =  "SELECT r.review_id, r.user_id, r.business_id, r.stars, r.date, r.text, r.num_useful, r.num_funny, r.num_cool, b.name \
+                            FROM reviews r, businesses b WHERE r.business_id = ? AND b.business_id = r.business_id \
                             ORDER BY r.num_useful DESC, r.num_funny DESC, r.num_cool DESC, r.date DESC;";
         connection.query(queryString, data.business_id, function(err, rows) {
             if (err) {
@@ -152,7 +152,49 @@ module.exports = {
                     text: rows[i].text,
                     num_useful: rows[i].num_useful,
                     num_funny: rows[i].num_funny,
-                    num_cool: rows[i].num_cool
+                    num_cool: rows[i].num_cool,
+                    name: rows[i].name
+                }
+                // console.log(dic);
+                result.push(row);
+                // console.log(result);
+            }
+            return callback({message: SUCCESS, reviews: result});
+        });
+    },
+
+
+
+    getReviewByUserId : function (connection, req, res, callback) {
+        // Get all queries from request
+        data = req.query;
+        if (!'user_id' in data) {
+            return callback({message: MISSING_BUSINESS_ID, reviews:  null});
+        }
+        console.log(data);
+        var queryString =  "SELECT r.review_id, r.user_id, r.business_id, r.stars, r.date, r.text, r.num_useful, r.num_funny, r.num_cool, b.name \
+                            FROM reviews r, businesses b WHERE r.user_id = ? AND b.business_id = r.business_id \
+                            ORDER BY r.num_useful DESC, r.num_funny DESC, r.num_cool DESC, r.date DESC;";
+        connection.query(queryString, data.user_id, function(err, rows) {
+            if (err) {
+                // Fail
+                console.log(err);
+                return callback({message: FAIL, reviews:  null});
+            }
+            var dic = {};
+            var result = [];
+            for (var i = 0; i < rows.length && result.length <= 20; i++) {
+                var row = {
+                    review_id: rows[i].review_id,
+                    user_id: rows[i].user_id,
+                    business_id: rows[i].business_id,
+                    stars: rows[i].stars,
+                    date: rows[i].date,
+                    text: rows[i].text,
+                    num_useful: rows[i].num_useful,
+                    num_funny: rows[i].num_funny,
+                    num_cool: rows[i].num_cool,
+                    name: rows[i].name
                 }
                 // console.log(dic);
                 result.push(row);

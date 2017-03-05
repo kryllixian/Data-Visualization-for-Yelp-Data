@@ -402,10 +402,10 @@
                             output += '<p> Results: </p>'
                             for (var i = 0; i < restaurants.length; i++) {
                                 output += '<ul>';
+                                output += '<li>name:        ' + restaurants[i].name + '</li>';
                                 output += '<li>stars:       ' + restaurants[i].stars + '</li>';
                                 output += '<li>review Count:' + restaurants[i].review_count + '</li>';
-                                output += '<a href="/reviews/business_id?business_id=' + restaurants[i].business_id + '"><li>business_id: ' + restaurants[i].business_id + '</li></a>';
-                                output += '<li>name:        ' + restaurants[i].name + '</li>';
+                                output += '<a href="/reviews/business_id?business_id=' + restaurants[i].business_id + '&name=' + restaurants[i].name + '"><li>business_id: ' + restaurants[i].business_id + '</li></a>';
                                 output += '<li>address:     ' + restaurants[i].address + '</li>';
                                 output += '<li>city:        ' + restaurants[i].city + '</li>';
                                 output += '<li>name:        ' + restaurants[i].name + '</li>';
