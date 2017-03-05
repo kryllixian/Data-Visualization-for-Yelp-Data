@@ -83,7 +83,7 @@ app.post('/restaurants_recommendation', (req, res) => {
             res.render('restaurants_recommendation.hbs', {
                 pageTitle: 'Restaurants Recommendation',
                 currentYear: new Date().getFullYear(),
-                messages: JSON.stringify(result.messages, undefined, 2),
+                message: JSON.stringify(result.message, undefined, 2),
                 restaurants: JSON.stringify(result.restaurants, undefined, 2),
                 former_query: JSON.stringify(req.body, undefined, 2)
             });
@@ -91,7 +91,7 @@ app.post('/restaurants_recommendation', (req, res) => {
             res.render('restaurants_recommendation.hbs', {
                 pageTitle: 'Restaurants Recommendation',
                 currentYear: new Date().getFullYear(),
-                messages: JSON.stringify(result.messages, undefined, 2),
+                message: JSON.stringify(result.message, undefined, 2),
                 restaurants: JSON.stringify(result.restaurants, undefined, 2),
                 former_query: JSON.stringify(req.body, undefined, 2)
             });
@@ -203,16 +203,30 @@ app.get('/pittsburgh', (req, res) => {
 
 
 app.get('/about', (req, res) => {
-  res.render('about.hbs', {
-    pageTitle: 'About',
-    currentYear: new Date().getFullYear()
-  });
+    res.render('about.hbs', {
+        pageTitle: 'About',
+        currentYear: new Date().getFullYear()
+    });
 });
 
 
 app.get('/bad', (req, res) => {
-  res.send({errorMessage: 'Unable to handle the request'});
+    res.send({errorMessage: 'Unable to handle the request'});
 });
+
+// RESTful API
+app.get('/reviews/business_id?', (req, res) => {
+    model.getReviewByBusinessId(connection, req, res, function(result) {
+        // console.log(result);
+        res.render('review_by_business_id.hbs',{
+            pageTitle: 'See Reviews by Businesses',
+            currentYear: new Date().getFullYear(),
+            message: JSON.stringify(result.message),
+            reviews: JSON.stringify(result.reviews)
+        });
+    });
+});
+
 
 
 app.listen(port);

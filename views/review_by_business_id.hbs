@@ -1,0 +1,39 @@
+<script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+<div id="div_message" style="display: none;" width="100%">{{message}}</div>
+<div id="div_reviews" style="display: none;" width="100%">{{reviews}}</div>
+<script>
+    var reviews = JSON.parse($('#div_reviews').text());
+    var message = JSON.parse($('#div_message').text());
+    // var former_query = JSON.parse($('#div_former_query').text());
+    // console.log(former_query);
+    var output = '';
+    console.log(message);
+    if (message) {
+        output += '<p> message:       ' + message + '</p><br />';
+    }
+    // if (former_query) {
+    //     output += '<p> Former Query: </p>';
+    //     for (key in former_query) {
+    //         output += '<p>' + key + ':      ' + former_query[key] + '</p>';
+    //     }
+    //     output += '<br />'
+    // }
+    if (reviews) {
+        output += '<p> Results: </p>'
+        for (var i = 0; i < reviews.length; i++) {
+            output += '<ul>';
+            output += '<li>review_id:   ' + reviews[i].review_id + '</li>';
+            output += '<li>user_id:     ' + reviews[i].user_id + '</li>';
+            output += '<li>business_id: ' + reviews[i].business_id + '</li>';
+            output += '<li>stars:       ' + reviews[i].stars + '</li>';
+            output += '<li>date:        ' + reviews[i].date + '</li>';
+            output += '<li>num_useful:  ' + reviews[i].num_useful + '</li>';
+            output += '<li>num_funny:   ' + reviews[i].num_funny + '</li>';
+            output += '<li>num_cool:    ' + reviews[i].num_cool + '</li>';
+            output += '<li>text:        ' + reviews[i].text + '</li>';
+            output += '</ul>';
+        }
+    }
+    $('body').append(output);
+</script>
