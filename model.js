@@ -47,8 +47,31 @@ module.exports = {
                     queryString += ` AND (a.attribute = 'NoiseLevel' AND (a.value = '${data['NoiseLevel'][0]}\n' OR a.value = '${data['NoiseLevel'][1]}'\n OR a.value = '${data['NoiseLevel'][2]}\n' OR a.value = '${data['NoiseLevel'][3]}\n')) `;
                 }
             }
+            if (data['RestaurantsAttire']) {
+                if ((data['RestaurantsAttire'] instanceof Array) == false) {
+                    queryString += ` AND (a.attribute = 'RestaurantsAttire' AND a.value = '${data['RestaurantsAttire']}\n') `;
+                } else if (data['NoiseLevel'] == 2) {
+                    queryString += ` AND (a.attribute = 'RestaurantsAttire' AND (a.value = '${data['RestaurantsAttire'][0]}\n' OR a.value = '${data['RestaurantsAttire'][1]}\n')) `;
+                } else if (data['NoiseLevel'] == 3) {
+                    queryString += ` AND (a.attribute = 'RestaurantsAttire' AND (a.value = '${data['RestaurantsAttire'][0]}\n' OR a.value = '${data['RestaurantsAttire'][1]}\n' OR a.value = '${data['RestaurantsAttire'][2]}\n')) `;
+                } else if (data['NoiseLevel'] == 4) {
+                    queryString += ` AND (a.attribute = 'RestaurantsAttire' AND (a.value = '${data['RestaurantsAttire'][0]}\n' OR a.value = '${data['RestaurantsAttire'][1]}'\n OR a.value = '${data['RestaurantsAttire'][2]}\n' OR a.value = '${data['RestaurantsAttire'][3]}\n')) `;
+                }
+            }
+            if (data['RestaurantsPriceRange2']) {
+                console.log(!data['RestaurantsPriceRange2'] instanceof Array);
+                if ((data['RestaurantsPriceRange2'] instanceof Array) == false) {
+                    queryString += ` AND (a.attribute = 'RestaurantsPriceRange2' AND a.value = '${data['RestaurantsPriceRange2']}\n') `;
+                } else if (data['Alcohol'].length == 2) {
+                    queryString += ` AND (a.attribute = 'RestaurantsPriceRange2' AND (a.value = '${data['RestaurantsPriceRange2'][0]}\n' OR a.value = '${data['RestaurantsPriceRange2'][1]}\n')) `;
+                } else if (data['Alcohol'].length == 3) {
+                    queryString += ` AND (a.attribute = 'RestaurantsPriceRange2' AND (a.value = '${data['RestaurantsPriceRange2'][0]}\n' OR a.value = '${data['RestaurantsPriceRange2'][1]}\n' OR a.value = '${data['RestaurantsPriceRange2'][2]}\n')) `;
+                } else if (data['Alcohol'].length == 4) {
+                    queryString += ` AND (a.attribute = 'RestaurantsPriceRange2' AND (a.value = '${data['RestaurantsPriceRange2'][0]}\n' OR a.value = '${data['RestaurantsPriceRange2'][1]}\n' OR a.value = '${data['RestaurantsPriceRange2'][2]}\n OR a.value = '${data['RestaurantsPriceRange2'][3]}\n')) `;
+                }
+            }
             for (attribute in data) {
-                if (attribute == 'Alcohol' || attribute == 'NoiseLevel') {
+                if (attribute == 'Alcohol' || attribute == 'NoiseLevel' || attribute == 'RestaurantsPriceRange2' || attribute == 'RestaurantsAttire') {
                     continue;
                 }
                 value = data[attribute];

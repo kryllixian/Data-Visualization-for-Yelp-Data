@@ -115,3 +115,10 @@ SELECT * FROM (
     ON b.business_id = a.business_id
     ORDER BY stars DESC, review_count DESC
     LIMIT 20;
+
+
+
+-- Create index
+CREATE INDEX ATTR_INDEX ON Attributes(attribute);
+
+CREATE INDEX VALUE_INDEX ON Attributes(value);
