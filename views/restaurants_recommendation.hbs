@@ -331,9 +331,6 @@
                                 <input type="checkbox" name="ByAppointmentOnly" value="True"/> By Appointment Only
                             </span>
                             <span>
-                                <input type="checkbox" name="Smoking" value="True"/> Smoking
-                            </span>
-                            <span>
                                 <input type="checkbox" name="BusinessAcceptsCreditCards" value="True"/> Acdepts Credit Cards
                             </span>
                             <span>
@@ -380,11 +377,14 @@
                     <div id="div_messages" style="display: none;" width="100%">{{message}}</div>
                     <div id="div_former_query" style="display: none;" width="100%">{{former_query}}</div>
                     <div id="div_restaurants" style="display: none;" width="100%">{{restaurants}}</div>
+                    <div id="div_key_words" style="display: none;" width="100%">{{key_words}}</div>
 
                     <script>
                         var restaurants = JSON.parse($('#div_restaurants').text());
                         var messages = JSON.parse($('#div_messages').text());
                         var former_query = JSON.parse($('#div_former_query').text());
+                        var str_key_words = $('#div_key_words').text();
+
                         console.log(former_query);
                         var output = '';
                         console.log(messages);
@@ -405,7 +405,7 @@
                                 output += '<li>name:        ' + restaurants[i].name + '</li>';
                                 output += '<li>stars:       ' + restaurants[i].stars + '</li>';
                                 output += '<li>review Count:' + restaurants[i].review_count + '</li>';
-                                output += '<a href="/reviews/business_id?business_id=' + restaurants[i].business_id + '&name=' + restaurants[i].name + '"><li>business_id: ' + restaurants[i].business_id + '</li></a>';
+                                output += `<a href="/reviews/business_id?business_id=${restaurants[i].business_id}&name=${restaurants[i].name}&key_words=${str_key_words}"><li>business_id: ${restaurants[i].business_id}</li></a>`;
                                 output += '<li>address:     ' + restaurants[i].address + '</li>';
                                 output += '<li>city:        ' + restaurants[i].city + '</li>';
                                 output += '<li>name:        ' + restaurants[i].name + '</li>';

@@ -88,12 +88,197 @@ app.post('/restaurants_recommendation', (req, res) => {
                 former_query: JSON.stringify(req.body, undefined, 2)
             });
         } else {
+            // Generate key words for the query
+            key_words = {};
+            for (key in req.body) {
+                if (key == 'Alcohol') {
+                    key_words['alcohol'] = 1;
+                    key_words['wine'] = 1;
+                    key_words['beer'] = 1;
+                    key_words['bar'] = 1;
+                    key_words['pub'] = 1;
+                    key_words['wine'] = 1;
+                } else if (key.startsWith('Ambience_')) {
+                    key_words['ambience'] = 1;
+                    key_words['atmosphere'] = 1;
+                    key_words['environment'] = 1;
+                    key_words['casual'] = 1;
+                    key_words['classy'] = 1;
+                    key_words['gorgeous'] = 1;
+                    key_words['fancy'] = 1;
+                    key_words['divey'] = 1;
+                    key_words['hipster'] = 1;
+                    key_words['cool'] = 1;
+                    key_words['sexy'] = 1;
+                    key_words['divey'] = 1;
+                    key_words['intimate'] = 1;
+                    key_words['private'] = 1;
+                    key_words['close'] = 1;
+                    key_words['chamber'] = 1;
+                    key_words['romantic'] = 1;
+                    key_words['fantastic'] = 1;
+                    key_words['amorous'] = 1;
+                    key_words['touristy'] = 1;
+                    key_words['trendy'] = 1;
+                    key_words['famous'] = 1;
+                    key_words['modern'] = 1;
+                    key_words['beautiful'] = 1;
+                    key_words['popular'] = 1;
+                    key_words['fashionable'] = 1;
+                    key_words['tony'] = 1;
+                    key_words['upscale'] = 1;
+                    key_words['superior'] = 1;
+                    key_words['modern'] = 1;
+                    key_words['amazing'] = 1;
+                } else if (key.startsWith('DietaryRestrictions_')) {
+                    key_words['dietary'] = 1;
+                    key_words['restriction'] = 1;
+                    key_words['restrictions'] = 1;
+                    key_words['dairy-free'] = 1;
+                    key_words['dairy'] = 1;
+                    key_words['gluten-free'] = 1;
+                    key_words['gluten'] = 1;
+                    key_words['halal'] = 1;
+                    key_words['hallal'] = 1;
+                    key_words['kosher'] = 1;
+                    key_words['soy-free'] = 1;
+                    key_words['soy'] = 1;
+                    key_words['vegan'] = 1;
+                    key_words['vegetarian'] = 1;
+                } else if (key.indexOf('Parking') != -1) {
+                    key_words['park'] = 1;
+                    key_words['parking'] = 1;
+                    key_words['bike'] = 1;
+                    key_words['bikes'] = 1;
+                    key_words['bicycle'] = 1;
+                    key_words['bicycles'] = 1;
+                    key_words['garage'] = 1;
+                    key_words['lot'] = 1;
+                    key_words['street'] = 1;
+                    key_words['valet'] = 1;
+                    key_words['validate'] = 1;
+                    key_words['validated'] = 1;
+                } else if (key.startsWith('Music_')) {
+                    key_words['music'] = 1;
+                    key_words['song'] = 1;
+                    key_words['songs'] = 1;
+                    key_words['sound'] = 1;
+                    key_words['audio'] = 1;
+                    key_words['background'] = 1;
+                    key_words['dj'] = 1;
+                    key_words['jukebox'] = 1;
+                    key_words['karaoke'] = 1;
+                    key_words['live'] = 1;
+                    key_words['video'] = 1;
+                    key_words['dance'] = 1;
+                    key_words['dancing'] = 1;
+                } else if (key == 'NoiseLevel') {
+                    key_words['quiet'] = 1;
+                    key_words['comfortable'] = 1;
+                    key_words['loud'] = 1;
+                    key_words['noisy'] = 1;
+                } else if (key == 'RestaurantsPriceRange2') {
+                    key_words['price'] = 1;
+                    key_words['cost'] = 1;
+                } else if (key == 'RestaurantsAttire') {
+                    key_words['casual'] = 1;
+                    key_words['dressy'] = 1;
+                    key_words['formal'] = 1;
+                    key_words['official'] = 1;
+                    key_words['leisure'] = 1;
+                    key_words['informal'] = 1;
+                } else if (key.startsWith('GoodForMeal_')) {
+                    key_words['breakfast'] = 1;
+                    key_words['brunch'] = 1;
+                    key_words['lunch'] = 1;
+                    key_words['dessert'] = 1;
+                    key_words['dinner'] = 1;
+                    key_words['late'] = 1;
+                    key_words['night'] = 1;
+                    key_words['evening'] = 1;
+                    key_words['morning'] = 1;
+                    key_words['noon'] = 1;
+                    key_words['afternoon'] = 1;
+                } else if (key.startsWith('BestNights_')) {
+                    key_words['monday'] = 1;
+                    key_words['tuesday'] = 1;
+                    key_words['wednesday'] = 1;
+                    key_words['thursday'] = 1;
+                    key_words['friday'] = 1;
+                    key_words['saturday'] = 1;
+                    key_words['sunday'] = 1;
+                } else if (key == 'GoodForKids') {
+                    key_words['child'] = 1;
+                    key_words['children'] = 1;
+                    key_words['kid'] = 1;
+                    key_words['kids'] = 1;
+                } else if (key == 'HasTV') {
+                    key_words['tv'] = 1;
+                    key_words['television'] = 1;
+                    key_words['screen'];
+                } else if (key == 'OutdoorSeating') {
+                    key_words['outdoor'] = 1;
+                    key_words['outside'] = 1;
+                } else if (key == 'WheelchairAccessible') {
+                    key_words['wheel'] = 1;
+                    key_words['chari'] = 1;
+                    key_words['wheelchair'] = 1;
+                } else if (key == 'WiFi') {
+                    key_words['wifi'] = 1;
+                    key_words['wi-fi'] = 1;
+                } else if (key == 'Open24Hours') {
+                    key_words['open'] = 1;
+                    key_words['hour'] = 1;
+                    key_words['hours'] = 1;
+                    key_words['24'] = 1;
+                } else if (key == 'Smoking') {
+                    key_words['smoking'] = 1;
+                    key_words['smoke'] = 1
+                } else if (key == 'DogsAllowed') {
+                    key_words['dog'] = 1;
+                    key_words['dogs'] = 1;
+                    key_words['pet'] = 1;
+                    key_words['puppy'] = 1;
+                } else if (key == 'DriveThru') {
+                    key_words['drivethru'] = 1;
+                    key_words['drive'] = 1;
+                    key_words['drive-thru'] = 1;
+                    key_words['thru'] = 1;
+                } else if (key == 'ByAppointmentOnly' || key == 'RestaurantsReservations') {
+                    key_words['appointment'] = 1;
+                    key_words['appoint'] = 1;
+                    key_words['reserve'] = 1;
+                    key_words['reservation'] = 1;
+                } else if (key == 'BusinessAcceptsCreditCards') {
+                    key_words['credit'] = 1;
+                    key_words['debit'] = 1;
+                    key_words['card'] = 1;
+                    key_words['cards'] = 1;
+                } else if (key == 'RestaurantsDelivery') {
+                    key_words['deliver'] = 1;
+                    key_words['delivery'] = 1;
+                } else if (key == 'RestaurantsGoodForGroups') {
+                    key_words['group'] = 1;
+                    key_words['groups'] = 1;
+                } else if (key == 'RestaurantsTableService') {
+                    key_words['table'] = 1;
+                    key_words['service'] = 1;
+                } else if (key == 'Caters') {
+                    key_words['cater'] = 1;
+                    key_words['caters'] = 1;
+                }
+            }
+
+            str_key_words = JSON.stringify(key_words).replace(/\n/g, ' ').replace(/"/g, "'");
+            // console.log(str_key_words);
+
             res.render('restaurants_recommendation.hbs', {
                 pageTitle: 'Restaurants Recommendation',
                 currentYear: new Date().getFullYear(),
                 message: JSON.stringify(result.message, undefined, 2),
                 restaurants: JSON.stringify(result.restaurants, undefined, 2),
-                former_query: JSON.stringify(req.body, undefined, 2)
+                former_query: JSON.stringify(req.body, undefined, 2),
+                key_words: str_key_words
             });
         }
     });
@@ -223,7 +408,8 @@ app.get('/reviews/business_id?', (req, res) => {
             currentYear: new Date().getFullYear(),
             message: JSON.stringify(result.message),
             reviews: JSON.stringify(result.reviews),
-            name: req.query.name
+            name: req.query.name,
+            key_words: req.query.key_words
         });
     });
 });
@@ -237,7 +423,8 @@ app.get('/reviews/user_id?', (req, res) => {
             currentYear: new Date().getFullYear(),
             message: JSON.stringify(result.message),
             reviews: JSON.stringify(result.reviews),
-            user_id: req.query.user_id
+            user_id: req.query.user_id,
+            key_words: req.query.key_words
         });
     });
 });
