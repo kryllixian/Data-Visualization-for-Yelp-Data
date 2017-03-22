@@ -259,14 +259,9 @@ def readfile_review(conn, filename):
         text        = data['text'].strip().replace('\n', '\t')
         type        = data['type']
 
-        if 'votes' in data:
-            num_useful      = data['votes'].get('useful', 0)
-            num_funny       = data['votes'].get('funny', 0)
-            num_cool        = data['votes'].get('cool', 0)
-        else:
-            num_useful  = 0
-            num_funny   = 0
-            num_cool    = 0
+        num_useful  = data.get('useful', 0)
+        num_funny   = data.get('funny', 0)
+        num_cool    = data.get('cool', 0)
 
         # Insert into reviews
         try:
@@ -279,12 +274,12 @@ def readfile_review(conn, filename):
                         (review_id, user_id, business_id, stars, date, text, num_useful, num_funny, num_cool, type))
             conn.commit()
         except mysql.connector.Error as e:
-            print "Error code:", e.errno  # error number
-            print "SQLSTATE value:", e.sqlstate  # SQLSTATE value
-            print "Error message:", e.msg  # error message
-            print "Error:", e  # errno, sqlstate, msg values
-            s = str(e)
-            print "Error:", s  # errno, sqlstate, msg values
+            # print "Error code:", e.errno  # error number
+            # print "SQLSTATE value:", e.sqlstate  # SQLSTATE value
+            # print "Error message:", e.msg  # error message
+            # print "Error:", e  # errno, sqlstate, msg values
+            # s = str(e)
+            # print "Error:", s  # errno, sqlstate, msg values
             conn.rollback()
 
 
@@ -368,13 +363,49 @@ def readfile_tip(conn, filename):
             conn.rollback()
 
 
+# def add_count_review(conn, filename):
+#     f = open(filename, 'r')
+#
+#     # Traverse the file
+#     while 1:
+#         line = str(f.readline())
+#         # If line is null
+#         if not line:
+#             break
+#
+#         data = json.loads(line)
+#         num_useful  = data.get('useful', 0)
+#         num_funny   = data.get('funny', 0)
+#         num_cool    = data.get('cool', 0)
+#
+#         # Update counts
+#         try:
+#             cur = conn.cursor()
+#             cur.execute("""
+#                         INSERT INTO reviews
+#                         (review_id, user_id, business_id, stars, date, text, num_useful, num_funny, num_cool, type)
+#                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+#                         """,
+#                         (review_id, user_id, business_id, stars, date, text, num_useful, num_funny, num_cool, type))
+#             conn.commit()
+#         except mysql.connector.Error as e:
+#             print "Error code:", e.errno  # error number
+#             print "SQLSTATE value:", e.sqlstate  # SQLSTATE value
+#             print "Error message:", e.msg  # error message
+#             print "Error:", e  # errno, sqlstate, msg values
+#             s = str(e)
+#             print "Error:", s  # errno, sqlstate, msg values
+#             conn.rollback()
+
+
+
 def main():
     conn = connect_to_mysql("localhost", 3306, "", "", "yelp_data_new")
     # readfile_business(conn, 'yelp-data-new/business.json')
     # readfile_user(conn, 'yelp-data-new/user.json')
-    # readfile_review(conn, 'yelp-data-new/review.json')
+    readfile_review(conn, 'yelp-data-new/review.json')
     # readfile_tip(conn, 'yelp-data-new/tip.json')
-    readfile_checkin(conn, 'yelp-data-new/checkin.json')
+    # readfile_checkin(conn, 'yelp-data-new/checkin.json')
 
     conn.close()
 
