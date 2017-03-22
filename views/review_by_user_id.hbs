@@ -4,7 +4,7 @@
 
 <div id="div_message" style="display: none;" width="100%">{{message}}</div>
 <div id="div_reviews" style="display: none;" width="100%">{{reviews}}</div>
-<div id="div_key_words" style="display: none;" width="100%">{{key_words}}</div>
+<div id="div_key_words" width="100%">{{key_words}}</div>
 <script>
     var reviews = JSON.parse($('#div_reviews').text());
     var message = JSON.parse($('#div_message').text());
@@ -17,8 +17,20 @@
     var output = '';
     console.log(message);
     if (message) {
-        output += '<p> message:       ' + message + '</p><br />';
+        output += '<p> message:       ' + message + '</p>';
     }
+
+    if (key_words) {
+        output += '<p> key words: </p>'
+        output += '<p>';
+        for (var key in key_words) {
+            output += key + '&emsp;';
+        }
+        output += '</p>';
+    }
+
+    output += '<br />'
+
     // if (former_query) {
     //     output += '<p> Former Query: </p>';
     //     for (key in former_query) {

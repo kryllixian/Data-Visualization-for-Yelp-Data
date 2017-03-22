@@ -18,9 +18,9 @@ CREATE TABLE IF NOT EXISTS businesses (
 -- Loaded
 CREATE TABLE IF NOT EXISTS attributes (
     business_id VARCHAR(80) NOT NULL,
-    name VARCHAR(80) NOT NULL,
+    attribute VARCHAR(80) NOT NULL,
     value VARCHAR(80),
-    PRIMARY KEY(business_id, name),
+    PRIMARY KEY(business_id, attribute),
     FOREIGN KEY(business_id) REFERENCES businesses(business_id) ON DELETE CASCADE
 );
 

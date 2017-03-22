@@ -17,8 +17,20 @@
     var output = '';
     console.log(message);
     if (message) {
-        output += '<p> message:       ' + message + '</p><br />';
+        output += '<p> message:       ' + message + '</p>';
     }
+
+    if (key_words) {
+        output += '<p> key words: </p>'
+        output += '<p>';
+        for (var key in key_words) {
+            output += key + '&emsp;';
+        }
+        output += '</p>';
+    }
+
+    output += '<br />'
+
     // if (former_query) {
     //     output += '<p> Former Query: </p>';
     //     for (key in former_query) {

@@ -225,16 +225,16 @@
                         <div>
                             <p> Price Range: </p>
                             <span>
-                                <input type="checkbox" name="RestaurantsPriceRange2" value="1"/> 1
+                                <input type="checkbox" name="RestaurantsPriceRange2" value="1"/> $
                             </span>
                             <span>
-                                <input type="checkbox" name="RestaurantsPriceRange2" value="2"/> 2
+                                <input type="checkbox" name="RestaurantsPriceRange2" value="2"/> $$
                             </span>
                             <span>
-                                <input type="checkbox" name="RestaurantsPriceRange2" value="3"/> 3
+                                <input type="checkbox" name="RestaurantsPriceRange2" value="3"/> $$$
                             </span>
                             <span>
-                                <input type="checkbox" name="RestaurantsPriceRange2" value="4"/> 4
+                                <input type="checkbox" name="RestaurantsPriceRange2" value="4"/> $$$$
                             </span>
                         </div>
 
@@ -384,13 +384,26 @@
                         var messages = JSON.parse($('#div_messages').text());
                         var former_query = JSON.parse($('#div_former_query').text());
                         var str_key_words = $('#div_key_words').text();
+                        var key_words = JSON.parse(str_key_words.replace(/'/g, '"'));
 
                         console.log(former_query);
                         var output = '';
                         console.log(messages);
                         if (messages) {
-                            output += '<p> messages:       ' + messages + '</p><br />';
+                            output += '<p> messages:       ' + messages + '</p>';
                         }
+
+                        if (key_words) {
+                            output += '<p> key words: </p>'
+                            output += '<p>';
+                            for (var key in key_words) {
+                                output += key + '&emsp;';
+                            }
+                            output += '</p>';
+                        }
+
+                        output += '<br />'
+
                         if (former_query) {
                             output += '<p> Former Query: </p>';
                             for (key in former_query) {
