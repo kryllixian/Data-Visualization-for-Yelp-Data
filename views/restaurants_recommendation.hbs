@@ -390,11 +390,11 @@
                         var output = '';
                         console.log(messages);
                         if (messages) {
-                            output += '<p> messages:       ' + messages + '</p>';
+                            output += '<h3> Messages:       ' + messages + '</h3>';
                         }
 
                         if (key_words) {
-                            output += '<p> key words: </p>'
+                            output += '<h3> key words: </h3>'
                             output += '<p>';
                             for (var key in key_words) {
                                 output += key + '&emsp;';
@@ -405,14 +405,14 @@
                         output += '<br />'
 
                         if (former_query) {
-                            output += '<p> Former Query: </p>';
+                            output += '<h3> Former Query: </h3>';
                             for (key in former_query) {
                                 output += '<p>' + key + ':      ' + former_query[key] + '</p>';
                             }
                             output += '<br />'
                         }
                         if (restaurants) {
-                            output += '<p> Results: </p>'
+                            output += '<h3> Results: </h3>'
                             for (var i = 0; i < restaurants.length; i++) {
                                 output += '<ul>';
                                 output += '<li>name:        ' + restaurants[i].name + '</li>';

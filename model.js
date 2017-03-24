@@ -31,45 +31,45 @@ module.exports = {
             if (data['Alcohol']) {
                 console.log(!data['Alcohol'] instanceof Array);
                 if ((data['Alcohol'] instanceof Array) == false) {
-                    queryString += ` AND (a.attribute = 'Alcohol' AND a.value = '${data['Alcohol']}\n') `;
+                    queryString += ` AND (a.attribute = 'Alcohol' AND a.value = '${data['Alcohol']}') `;
                 } else if (data['Alcohol'].length == 2) {
-                    queryString += ` AND (a.attribute = 'Alcohol' AND (a.value = '${data['Alcohol'][0]}\n' OR a.value = '${data['Alcohol'][1]}\n')) `;
+                    queryString += ` AND (a.attribute = 'Alcohol' AND (a.value = '${data['Alcohol'][0]}' OR a.value = '${data['Alcohol'][1]}')) `;
                 } else if (data['Alcohol'].length == 3) {
-                    queryString += ` AND (a.attribute = 'Alcohol' AND (a.value = '${data['Alcohol'][0]}\n' OR a.value = '${data['Alcohol'][1]}\n' OR a.value = '${data['Alcohol'][2]}\n')) `;
+                    queryString += ` AND (a.attribute = 'Alcohol' AND (a.value = '${data['Alcohol'][0]}' OR a.value = '${data['Alcohol'][1]}' OR a.value = '${data['Alcohol'][2]}')) `;
                 }
             }
             if (data['NoiseLevel']) {
                 if ((data['NoiseLevel'] instanceof Array) == false) {
-                    queryString += ` AND (a.attribute = 'NoiseLevel' AND a.value = '${data['NoiseLevel']}\n') `;
+                    queryString += ` AND (a.attribute = 'NoiseLevel' AND a.value = '${data['NoiseLevel']}') `;
                 } else if (data['NoiseLevel'] == 2) {
-                    queryString += ` AND (a.attribute = 'NoiseLevel' AND (a.value = '${data['NoiseLevel'][0]}\n' OR a.value = '${data['NoiseLevel'][1]}\n')) `;
+                    queryString += ` AND (a.attribute = 'NoiseLevel' AND (a.value = '${data['NoiseLevel'][0]}' OR a.value = '${data['NoiseLevel'][1]}')) `;
                 } else if (data['NoiseLevel'] == 3) {
-                    queryString += ` AND (a.attribute = 'NoiseLevel' AND (a.value = '${data['NoiseLevel'][0]}\n' OR a.value = '${data['NoiseLevel'][1]}\n' OR a.value = '${data['NoiseLevel'][2]}\n')) `;
+                    queryString += ` AND (a.attribute = 'NoiseLevel' AND (a.value = '${data['NoiseLevel'][0]}' OR a.value = '${data['NoiseLevel'][1]}' OR a.value = '${data['NoiseLevel'][2]}')) `;
                 } else if (data['NoiseLevel'] == 4) {
-                    queryString += ` AND (a.attribute = 'NoiseLevel' AND (a.value = '${data['NoiseLevel'][0]}\n' OR a.value = '${data['NoiseLevel'][1]}'\n OR a.value = '${data['NoiseLevel'][2]}\n' OR a.value = '${data['NoiseLevel'][3]}\n')) `;
+                    queryString += ` AND (a.attribute = 'NoiseLevel' AND (a.value = '${data['NoiseLevel'][0]}' OR a.value = '${data['NoiseLevel'][1]}' OR a.value = '${data['NoiseLevel'][2]}' OR a.value = '${data['NoiseLevel'][3]}')) `;
                 }
             }
             if (data['RestaurantsAttire']) {
                 if ((data['RestaurantsAttire'] instanceof Array) == false) {
-                    queryString += ` AND (a.attribute = 'RestaurantsAttire' AND a.value = '${data['RestaurantsAttire']}\n') `;
+                    queryString += ` AND (a.attribute = 'RestaurantsAttire' AND a.value = '${data['RestaurantsAttire']}') `;
                 } else if (data['NoiseLevel'] == 2) {
-                    queryString += ` AND (a.attribute = 'RestaurantsAttire' AND (a.value = '${data['RestaurantsAttire'][0]}\n' OR a.value = '${data['RestaurantsAttire'][1]}\n')) `;
+                    queryString += ` AND (a.attribute = 'RestaurantsAttire' AND (a.value = '${data['RestaurantsAttire'][0]}' OR a.value = '${data['RestaurantsAttire'][1]}')) `;
                 } else if (data['NoiseLevel'] == 3) {
-                    queryString += ` AND (a.attribute = 'RestaurantsAttire' AND (a.value = '${data['RestaurantsAttire'][0]}\n' OR a.value = '${data['RestaurantsAttire'][1]}\n' OR a.value = '${data['RestaurantsAttire'][2]}\n')) `;
+                    queryString += ` AND (a.attribute = 'RestaurantsAttire' AND (a.value = '${data['RestaurantsAttire'][0]}' OR a.value = '${data['RestaurantsAttire'][1]}' OR a.value = '${data['RestaurantsAttire'][2]}')) `;
                 } else if (data['NoiseLevel'] == 4) {
-                    queryString += ` AND (a.attribute = 'RestaurantsAttire' AND (a.value = '${data['RestaurantsAttire'][0]}\n' OR a.value = '${data['RestaurantsAttire'][1]}'\n OR a.value = '${data['RestaurantsAttire'][2]}\n' OR a.value = '${data['RestaurantsAttire'][3]}\n')) `;
+                    queryString += ` AND (a.attribute = 'RestaurantsAttire' AND (a.value = '${data['RestaurantsAttire'][0]}' OR a.value = '${data['RestaurantsAttire'][1]}' OR a.value = '${data['RestaurantsAttire'][2]}' OR a.value = '${data['RestaurantsAttire'][3]}')) `;
                 }
             }
             if (data['RestaurantsPriceRange2']) {
                 console.log(!data['RestaurantsPriceRange2'] instanceof Array);
                 if ((data['RestaurantsPriceRange2'] instanceof Array) == false) {
-                    queryString += ` AND (a.attribute = 'RestaurantsPriceRange2' AND a.value = '${data['RestaurantsPriceRange2']}\n') `;
+                    queryString += ` AND (a.attribute = 'RestaurantsPriceRange2' AND a.value = '${data['RestaurantsPriceRange2']}') `;
                 } else if (data['Alcohol'].length == 2) {
-                    queryString += ` AND (a.attribute = 'RestaurantsPriceRange2' AND (a.value = '${data['RestaurantsPriceRange2'][0]}\n' OR a.value = '${data['RestaurantsPriceRange2'][1]}\n')) `;
+                    queryString += ` AND (a.attribute = 'RestaurantsPriceRange2' AND (a.value = '${data['RestaurantsPriceRange2'][0]}' OR a.value = '${data['RestaurantsPriceRange2'][1]}')) `;
                 } else if (data['Alcohol'].length == 3) {
-                    queryString += ` AND (a.attribute = 'RestaurantsPriceRange2' AND (a.value = '${data['RestaurantsPriceRange2'][0]}\n' OR a.value = '${data['RestaurantsPriceRange2'][1]}\n' OR a.value = '${data['RestaurantsPriceRange2'][2]}\n')) `;
+                    queryString += ` AND (a.attribute = 'RestaurantsPriceRange2' AND (a.value = '${data['RestaurantsPriceRange2'][0]}' OR a.value = '${data['RestaurantsPriceRange2'][1]}' OR a.value = '${data['RestaurantsPriceRange2'][2]}')) `;
                 } else if (data['Alcohol'].length == 4) {
-                    queryString += ` AND (a.attribute = 'RestaurantsPriceRange2' AND (a.value = '${data['RestaurantsPriceRange2'][0]}\n' OR a.value = '${data['RestaurantsPriceRange2'][1]}\n' OR a.value = '${data['RestaurantsPriceRange2'][2]}\n OR a.value = '${data['RestaurantsPriceRange2'][3]}\n')) `;
+                    queryString += ` AND (a.attribute = 'RestaurantsPriceRange2' AND (a.value = '${data['RestaurantsPriceRange2'][0]}' OR a.value = '${data['RestaurantsPriceRange2'][1]}' OR a.value = '${data['RestaurantsPriceRange2'][2]} OR a.value = '${data['RestaurantsPriceRange2'][3]}')) `;
                 }
             }
             for (attribute in data) {
@@ -77,11 +77,11 @@ module.exports = {
                     continue;
                 }
                 value = data[attribute];
-                queryString += ` AND a.attribute = '${attribute}' AND a.value = '${value}\n' `
+                queryString += ` AND a.attribute = '${attribute}' AND a.value = '${value}' `
             }
         }
         queryString += queryEnd;
-        console.log(queryString.replace('\n', ' '));
+        console.log(queryString);
         connection.query(queryString, function(err, rows) {
             if (err) {
                 // Fail

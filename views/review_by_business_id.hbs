@@ -1,4 +1,4 @@
-<p>name: {{name}}</p>
+<h3>Name: {{name}}</h3>
 
 <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 
@@ -17,11 +17,11 @@
     var output = '';
     console.log(message);
     if (message) {
-        output += '<p> message:       ' + message + '</p>';
+        output += '<h3> Message:       ' + message + '</h3>';
     }
 
     if (key_words) {
-        output += '<p> key words: </p>'
+        output += '<h3> key words: </h3>'
         output += '<p>';
         for (var key in key_words) {
             output += key + '&emsp;';
@@ -39,7 +39,7 @@
     //     output += '<br />'
     // }
     if (reviews) {
-        output += '<p> Results: </p>'
+        output += '<h3> All Reviews of This Business: </h3>'
         for (var i = 0; i < reviews.length; i++) {
             output += '<ul>';
             output += '<li>review_id:   ' + reviews[i].review_id + '</li>';
