@@ -5,11 +5,13 @@
 <div id="div_message" style="display: none;" width="100%">{{message}}</div>
 <div id="div_reviews" style="display: none;" width="100%">{{reviews}}</div>
 <div id="div_key_words" style="display: none;" width="100%">{{key_words}}</div>
+<div id="div_similar_list" style="display: none;" width="100%">{{similar_list}}</div>
 <script>
     var reviews = JSON.parse($('#div_reviews').text());
     var message = JSON.parse($('#div_message').text());
     var str_key_words = $('#div_key_words').text();
     var key_words = JSON.parse(str_key_words.replace(/'/g, '"'));
+    var similar_list = JSON.parse($('#div_similar_list').text());
 
     console.log(str_key_words);
     // var former_query = JSON.parse($('#div_former_query').text());
@@ -27,6 +29,28 @@
             output += key + '&emsp;';
         }
         output += '</p>';
+    }
+
+    output += '<br />'
+
+    if (similar_list) {
+        output += '<h3> Similar Restaurants: </h3>'
+        for (var i = 0; i < similar_list.length; i++) {
+            output += '<ul>';
+            output += '<li>name:        ' + similar_list[i].name + '</li>';
+            output += '<li>score:       ' + similar_list[i].similarity_score + '</li>';
+            output += '<li>stars:       ' + similar_list[i].stars + '</li>';
+            output += '<li>review Count:' + similar_list[i].review_count + '</li>';
+            output += `<a href="/reviews/business_id?business_id=${similar_list[i].business_id}&name=${similar_list[i].name}&key_words=${str_key_words}"><li>business_id: ${similar_list[i].business_id}</li></a>`;
+            output += '<li>address:     ' + similar_list[i].address + '</li>';
+            output += '<li>city:        ' + similar_list[i].city + '</li>';
+            output += '<li>name:        ' + similar_list[i].name + '</li>';
+            output += '<li>state:       ' + similar_list[i].state + '</li>';
+            output += '<li>latitude:    ' + similar_list[i].latitude + '</li>';
+            output += '<li>longitude:   ' + similar_list[i].longitude + '</li>';
+            output += '<li>neighborhood:' + similar_list[i].longitude + '</li>';
+            output += '</ul>';
+        }
     }
 
     output += '<br />'

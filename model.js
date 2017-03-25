@@ -202,5 +202,58 @@ module.exports = {
             }
             return callback({message: SUCCESS, reviews: result});
         });
+    },
+
+
+    getBusinessByBusinessId : function (connection, recommendation_list, res, callback) {
+        var result = [];
+        var business_ids = [];
+        var business_scores = {};
+        for (var i = 0; i < 10; i++) {
+            var id = recommendation_list[i].split('\t')[0];
+            business_ids.push(id);
+            business_scores[id] = parseInt(recommendation_list[i].split('\t')[1]);
+        }
+        // console.log(business_ids);
+        var queryString =  "SELECT * FROM businesses WHERE business_id IN (?,?,?,?,?,?,?,?,?,?);";
+        connection.query(queryString, business_ids, function(err, rows) {
+            if (err) {
+                // Fail
+                console.log(err);
+                return callback({message: FAIL, businesses:  null});
+            }
+
+            for (var i = 0; i < rows.length && result.length <= 20; i++) {
+                var row = {
+                    business_id: rows[i].business_id,
+                    name: rows[i].name,
+                    address: rows[i].address,
+                    city: rows[i].city,
+                    state: rows[i].state,
+                    latitude: rows[i].latitude,
+                    longitude: rows[i].longitude,
+                    stars: rows[i].stars,
+                    review_count: rows[i].review_count,
+                    type: rows[i].type,
+                    neighborhood: rows[i].neighborhood,
+                    similarity_score: business_scores[rows[i].business_id]
+                }
+                result.push(row);
+            }
+
+            // Sort the result
+            result = result.sort(function (a, b) {
+                if (a.similarity_score != b.similarity_score) {
+                    return a.similarity_score - b.similarity_score;
+                } else if (a.stars != b.stars) {
+                    return b.stars - a.stars;
+                } else {
+                    return b.review_count - a.review_count;
+                }
+            })
+
+            // console.log(result);
+            return callback({message: SUCCESS, businesses: result});
+        });
     }
 }

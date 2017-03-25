@@ -4,7 +4,21 @@ const fs = require('fs');
 const url = require('url');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
-const model = require('./model.js')
+const model = require('./model.js');
+
+const helper = require('./helper.js');
+
+// Read data
+var pittsburgh_restaurants_dic = {};
+helper.getPittsburghRestaurantsData(function (result) {
+    if (result.message != 'SUCCESS') {
+        console.log(result.message);
+    } else {
+        pittsburgh_restaurants_dic = result.data;
+        // console.log(result.data);
+    }
+});
+
 
 
 // Configurate the connection to MySQL
@@ -403,14 +417,105 @@ app.get('/bad', (req, res) => {
 app.get('/reviews/business_id?', (req, res) => {
     model.getReviewByBusinessId(connection, req, res, function(result) {
         // console.log(result);
-        res.render('review_by_business_id.hbs',{
-            pageTitle: 'See Reviews by Businesses',
-            currentYear: new Date().getFullYear(),
-            message: JSON.stringify(result.message),
-            reviews: JSON.stringify(result.reviews),
-            name: req.query.name,
-            key_words: req.query.key_words
-        });
+        recommendation_list = [];
+        if ('business_id' in req.query) {
+            // console.log(req.query.business_id);
+            var temp_list = [];
+            var curr_restaurant = pittsburgh_restaurants_dic[req.query.business_id];
+            for (business_id in pittsburgh_restaurants_dic) {
+                if (business_id == curr_restaurant.business_id) {
+                    continue;
+                }
+
+                // Compute Similarity Score
+                var score = 0;
+                temp_restaurant = pittsburgh_restaurants_dic[business_id];
+                if (curr_restaurant['Alcohol'] == temp_restaurant['Alcohol']) {
+                    score += 1;
+                }
+                for (ambience in curr_restaurant['Ambience']) {
+                    if (ambience in temp_restaurant['Ambience']) {
+                        score += 1;
+                    }
+                }
+                for (dietary in curr_restaurant['Dietary']) {
+                    if (dietary in temp_restaurant['Dietary']) {
+                        score += 1;
+                    }
+                }
+                for (parking in curr_restaurant['Parking']) {
+                    if (parking in temp_restaurant['Parking']) {
+                        score += 1;
+                    }
+                }
+                for (music in curr_restaurant['Music']) {
+                    if (music in temp_restaurant['Music']) {
+                        score += 1;
+                    }
+                }
+                if (curr_restaurant['NoiseLevel'] == temp_restaurant['NoiseLevel']) {
+                    score += 1;
+                }
+                if (curr_restaurant['PriceRange'] == temp_restaurant['PriceRange']) {
+                    score += 1;
+                }
+                if (curr_restaurant['Attire'] == temp_restaurant['Attire']) {
+                    score += 1;
+                }
+                for (good_for_meal in curr_restaurant['GoodForMeal']) {
+                    if (good_for_meal in temp_restaurant['GoodForMeal']) {
+                        score += 1;
+                    }
+                }
+                for (best_night in curr_restaurant['BestNight']) {
+                    if (best_night in temp_restaurant['BestNight']) {
+                        score += 1;
+                    }
+                }
+                for (other in curr_restaurant['Others']) {
+                    if (other in temp_restaurant['Others']) {
+                        score += 1;
+                    }
+                }
+
+                temp_list.push(business_id + '\t' + score);
+            }
+
+            recommendation_list = temp_list.sort(function (a, b) {
+                var id_a = a.split('\t')[0];
+                var score_a = parseInt(a.split('\t')[1]);
+                var id_b = b.split('\t')[0];
+                var score_b = parseInt(b.split('\t')[1]);
+
+                if (score_a != score_b) {
+                    return score_a - score_b;
+                } else {
+                    return id_a - id_b;
+                }
+            }).slice(0, 10);
+
+            model.getBusinessByBusinessId(connection, recommendation_list, res, function(rows) {
+                console.log(rows.business);
+                res.render('review_by_business_id.hbs',{
+                    pageTitle: 'See Reviews by Businesses',
+                    currentYear: new Date().getFullYear(),
+                    message: JSON.stringify(result.message),
+                    reviews: JSON.stringify(result.reviews),
+                    name: req.query.name,
+                    key_words: req.query.key_words,
+                    similar_list: JSON.stringify(rows.businesses)
+                });
+            });
+        } else {
+            res.render('review_by_business_id.hbs',{
+                pageTitle: 'See Reviews by Businesses',
+                currentYear: new Date().getFullYear(),
+                message: JSON.stringify(result.message),
+                reviews: JSON.stringify(result.reviews),
+                name: req.query.name,
+                key_words: req.query.key_words
+            });
+        }
     });
 });
 

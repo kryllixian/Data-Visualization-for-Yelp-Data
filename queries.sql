@@ -122,3 +122,11 @@ SELECT * FROM (
 CREATE INDEX ATTR_INDEX ON Attributes(attribute);
 
 CREATE INDEX VALUE_INDEX ON Attributes(value);
+
+
+
+-- Get all restaurants in Pittsburgh
+SELECT b.business_id FROM businesses b, categories c 
+WHERE b.latitude >= 40 AND b.latitude <= 41 AND
+      b.longitude >= -81 AND b.longitude <= -79 AND
+      b.business_id = c.business_id AND c.name = 'Restaurants';
