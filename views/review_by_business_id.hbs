@@ -6,12 +6,15 @@
 <div id="div_reviews" style="display: none;" width="100%">{{reviews}}</div>
 <div id="div_key_words" style="display: none;" width="100%">{{key_words}}</div>
 <div id="div_similar_list" style="display: none;" width="100%">{{similar_list}}</div>
+<div id="div_user_review_restaurants_recommendations" style="display: none;" width="100%">{{user_review_restaurants_recommendations}}</div>
+
 <script>
     var reviews = JSON.parse($('#div_reviews').text());
     var message = JSON.parse($('#div_message').text());
     var str_key_words = $('#div_key_words').text();
     var key_words = JSON.parse(str_key_words.replace(/'/g, '"'));
     var similar_list = JSON.parse($('#div_similar_list').text());
+    var user_reviewed_both_list = JSON.parse($('#div_user_review_restaurants_recommendations').text());
 
     console.log(str_key_words);
     // var former_query = JSON.parse($('#div_former_query').text());
@@ -31,10 +34,10 @@
         output += '</p>';
     }
 
-    output += '<br />'
+    output += '<br />';
 
     if (similar_list) {
-        output += '<h3> Similar Restaurants: </h3>'
+        output += '<h3> Similar Restaurants by Attributes: </h3>'
         for (var i = 0; i < similar_list.length; i++) {
             output += '<ul>';
             output += '<li>name:        ' + similar_list[i].name + '</li>';
@@ -53,7 +56,29 @@
         }
     }
 
-    output += '<br />'
+    output += '<br />';
+
+    if (user_reviewed_both_list) {
+        output += '<h3> Similar Restaurants by Number of Users Reviewed Both: </h3>'
+        for (var i = 0; i < user_reviewed_both_list.length; i++) {
+            output += '<ul>';
+            output += '<li>name:        ' + user_reviewed_both_list[i].name + '</li>';
+            output += '<li>num of both riewed users: ' + user_reviewed_both_list[i].num_users_reviewed_both + '</li>';
+            output += '<li>stars:       ' + user_reviewed_both_list[i].stars + '</li>';
+            output += '<li>review Count:' + user_reviewed_both_list[i].review_count + '</li>';
+            output += `<a href="/reviews/business_id?business_id=${user_reviewed_both_list[i].business_id}&name=${user_reviewed_both_list[i].name}&key_words=${str_key_words}"><li>business_id: ${user_reviewed_both_list[i].business_id}</li></a>`;
+            output += '<li>address:     ' + user_reviewed_both_list[i].address + '</li>';
+            output += '<li>city:        ' + user_reviewed_both_list[i].city + '</li>';
+            output += '<li>name:        ' + user_reviewed_both_list[i].name + '</li>';
+            output += '<li>state:       ' + user_reviewed_both_list[i].state + '</li>';
+            output += '<li>latitude:    ' + user_reviewed_both_list[i].latitude + '</li>';
+            output += '<li>longitude:   ' + user_reviewed_both_list[i].longitude + '</li>';
+            output += '<li>neighborhood:' + user_reviewed_both_list[i].longitude + '</li>';
+            output += '</ul>';
+        }
+    }
+
+    output += '<br />';
 
     // if (former_query) {
     //     output += '<p> Former Query: </p>';

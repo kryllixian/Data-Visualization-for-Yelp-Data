@@ -495,15 +495,19 @@ app.get('/reviews/business_id?', (req, res) => {
             }).slice(0, 10);
 
             model.getBusinessByBusinessId(connection, recommendation_list, res, function(rows) {
-                console.log(rows.business);
-                res.render('review_by_business_id.hbs',{
-                    pageTitle: 'See Reviews by Businesses',
-                    currentYear: new Date().getFullYear(),
-                    message: JSON.stringify(result.message),
-                    reviews: JSON.stringify(result.reviews),
-                    name: req.query.name,
-                    key_words: req.query.key_words,
-                    similar_list: JSON.stringify(rows.businesses)
+                // console.log(rows.business);
+                model.getNumUsersReviewedBothRestaurants(connection, req.query.business_id, res, function(results) {
+                    // console.log(results.businesses);
+                    res.render('review_by_business_id.hbs',{
+                        pageTitle: 'See Reviews by Businesses',
+                        currentYear: new Date().getFullYear(),
+                        message: JSON.stringify(result.message),
+                        reviews: JSON.stringify(result.reviews),
+                        name: req.query.name,
+                        key_words: req.query.key_words,
+                        similar_list: JSON.stringify(rows.businesses),
+                        user_review_restaurants_recommendations: JSON.stringify(results.businesses)
+                    });
                 });
             });
         } else {

@@ -57,10 +57,5 @@ module.exports = {
             }
             return callback({message: 'SUCCESS', data: dic});
         });
-    },
-
-    // getTenSimilarRestaurants : function (dic) {
-    //
-    // }
-
+    }
 }

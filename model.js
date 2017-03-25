@@ -255,5 +255,45 @@ module.exports = {
             // console.log(result);
             return callback({message: SUCCESS, businesses: result});
         });
+    },
+
+
+    getNumUsersReviewedBothRestaurants : function (connection, business_id, res, callback) {
+        var queryString =  "SELECT b.business_id, b.name, b.address, b.city, b.state, \
+                                  b.latitude, b.longitude, b.stars, b.review_count, \
+                                  b.type, b.neighborhood, COUNT(DISTINCT(u.user_id)) AS COUNT \
+                            FROM reviews r1, reviews r2, users u, businesses b \
+                            WHERE r1.business_id = ? AND r2.business_id != r1.business_id AND \
+                                  r1.user_id = u.user_id AND r2.user_id = u.user_id AND r2.business_id = b.business_id \
+                            GROUP BY b.business_id, b.name, b.address, b.city, b.state, \
+                                  b.latitude, b.longitude, b.stars, b.review_count, b.type, b.neighborhood \
+                            ORDER BY COUNT(DISTINCT(u.user_id)) DESC, b.stars DESC, b.review_count DESC LIMIT 10;";
+        connection.query(queryString, business_id, function(err, rows) {
+            if (err) {
+                // Fail
+                console.log(err);
+                return callback({message: FAIL, businesses:  null});
+            }
+
+            result = [];
+            for (var i = 0; i < rows.length && result.length <= 20; i++) {
+                var row = {
+                    business_id: rows[i].business_id,
+                    name: rows[i].name,
+                    address: rows[i].address,
+                    city: rows[i].city,
+                    state: rows[i].state,
+                    latitude: rows[i].latitude,
+                    longitude: rows[i].longitude,
+                    stars: rows[i].stars,
+                    review_count: rows[i].review_count,
+                    type: rows[i].type,
+                    neighborhood: rows[i].neighborhood,
+                    num_users_reviewed_both: rows[i].COUNT
+                }
+                result.push(row);
+            }
+            return callback({message: SUCCESS, businesses: result});
+        });
     }
 }

@@ -124,9 +124,23 @@ CREATE INDEX ATTR_INDEX ON Attributes(attribute);
 CREATE INDEX VALUE_INDEX ON Attributes(value);
 
 
+SELECT business_id, name, review_count FROM businesses
+WHERE latitude >= 40 AND latitude <= 41 AND
+      longitude >= -81 AND longitude <= -79
+ORDER BY review_count DESC LIMIT 10;
+
+
 
 -- Get all restaurants in Pittsburgh
-SELECT b.business_id FROM businesses b, categories c 
+SELECT b.business_id FROM businesses b, categories c
 WHERE b.latitude >= 40 AND b.latitude <= 41 AND
       b.longitude >= -81 AND b.longitude <= -79 AND
       b.business_id = c.business_id AND c.name = 'Restaurants';
+
+-- Given a restaurant, recommend other restaurants by number of users reviewed both of them
+SELECT b.business_id, b.name, b.address, b.city, b.state, b.latitude, b.longitude, b.stars, b.review_count, b.type, b.neighborhood, COUNT(DISTINCT(u.user_id)) AS COUNT
+FROM reviews r1, reviews r2, users u, businesses b
+WHERE r1.business_id = 'JLbgvGM4FXh9zNP4O5ZWjQ' AND r2.business_id != r1.business_id AND
+      r1.user_id = u.user_id AND r2.user_id = u.user_id AND r2.business_id = b.business_id
+GROUP BY b.business_id, b.name, b.address, b.city, b.state, b.latitude, b.longitude, b.stars, b.review_count, b.type, b.neighborhood
+ORDER BY COUNT(DISTINCT(u.user_id)) DESC, b.stars DESC, b.review_count DESC LIMIT 10;
