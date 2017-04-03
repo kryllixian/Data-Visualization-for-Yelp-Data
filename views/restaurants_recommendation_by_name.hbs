@@ -1,0 +1,145 @@
+{{> header}}
+
+<body>
+
+<link rel="stylesheet" href="//rawgithub.com/Caged/d3-tip/master/examples/example-styles.css">
+
+
+  <!-- JvectorMap -->
+  <link rel="stylesheet" href="jvectormap/jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/>
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+  <script src="jvectormap/jquery-jvectormap-2.0.3.min.js"></script>
+  <script src="jvectormap/jquery-jvectormap-world-mill.js"></script>
+  <script src="jvectormap/jquery-jvectormap-us-aea.js"></script>
+  <script src="jvectormap/jquery-jvectormap-ca-lcc.js"></script>
+  <script src="jvectormap/jquery-jvectormap-de-mill.js"></script>
+  <script src="jvectormap/jquery-jvectormap-uk_regions-mill.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+  <script>
+      // Parameters
+      const backgroundColor = '#08101c';
+      const borderColor = '#4772b8';
+  </script>
+
+
+  <!-- Navbar -->
+    <div class="navbar">
+        <table class="navbar">
+            <tr class="navbar">
+                <td class="navbar-icon">
+                    <a href="index.html">
+                        <img class="navbar-logo" src="images/logo/logo-medium.png" alt="logo">
+                    </a>
+                </td>
+                <td class="navbar-word">
+                    <a href="statistics">
+                        <p class="navbar">
+                            STATISTICS
+                        </p>
+                    </a>
+                </td>
+                <td class="navbar-word">
+                    <a href="pittsburgh">
+                        <p class="navbar-current">
+                            PITTSBURGH
+                        </p>
+                    </a>
+                </td>
+                <td class="navbar-word">
+                    <a href="">
+                        <p class="navbar">
+                            ABOUT
+                        </p>
+                    </a>
+                </td>
+                <td class="navbar-word">
+                    <a href="about">
+                        <p class="navbar">
+                            ABOUT
+                        </p>
+                    </a>
+                </td>
+            </tr>
+        </table>
+
+
+        <!-- I love the slim seprator line generated in this way -->
+        <div style="height:0;overflow:hiddne;border-top:1px solid #DBDBDB" class="separator"></div>
+    </div>
+
+    <!-- Middle -->
+    <div class="grey-canvas">
+
+
+        <table class="body-item-1">
+            <tr class="body-item">
+                <td class="body-item">
+                    <p class="body-item-title-school">
+                        ENTER THE NAME OF YOUR FAVORITE RESTAURANT
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <table class="body-item-2">
+            <tr class="body-item">
+                <td class="body-item">
+                    <form action="restaurants_recommendation_by_name" method="POST">
+                        <div>
+                            <p>Restauran Name: </p>
+                            <input type="text" name="restaurant_name"/>
+                        </div>
+                        <div>
+                            <input type="submit" value="Submit" />
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+
+    <div id="div_message" style="display: none;" width="100%">{{message}}</div>
+    <div id="div_reviews" style="display: none;" width="100%">{{reviews}}</div>
+    <h3>Name: {{restaurant_name}}</h3>
+
+    <script>
+        var reviews = JSON.parse($('#div_reviews').text());
+        var message = JSON.parse($('#div_message').text());
+
+        var output = '';
+        console.log(message);
+        if (message) {
+            output += '<h3> Message:       ' + message + '</h3>';
+        }
+
+        output += '<br />';
+
+        if (reviews) {
+            output += '<h3> All Reviews of This Business: </h3>'
+            for (var i = 0; i < reviews.length; i++) {
+                output += '<ul>';
+                output += '<li>review_id:   ' + reviews[i].review_id + '</li>';
+                output += `<li>user_id: ${reviews[i].user_id}</li>`;
+                output += `<li>business_id: ${reviews[i].business_id}</li>`;
+                output += '<li>stars:       ' + reviews[i].stars + '</li>';
+                output += '<li>date:        ' + reviews[i].date + '</li>';
+                output += '<li>text:    ' + reviews[i].text + '</li>';
+                output += '<li>num_useful:  ' + reviews[i].num_useful + '</li>';
+                output += '<li>num_funny:   ' + reviews[i].num_funny + '</li>';
+                output += '<li>num_cool:    ' + reviews[i].num_cool + '</li>';
+                output += '</ul>';
+            }
+        }
+        $('body').append(output);
+    </script>
+
+
+
+{{> footer}}

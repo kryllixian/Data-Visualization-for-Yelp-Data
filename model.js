@@ -5,6 +5,8 @@ const FAIL = 'FAIL';
 const NO_RESULTS = 'NO_RESULTS';
 const MISSING_BUSINESS_ID = 'MISSING_BUSINESS_ID';
 const MISSING_USER_ID = 'MISSING_USER_ID';
+const MISSING_RESTAURANT_NAME = 'MISSING_RESTAURANT_NAME';
+const NO_RESTAURANTS_FOUND = 'NO_RESTAURANTS_FOUND';
 
 module.exports = {
     recommendation : function (connection, req, res, callback) {
@@ -294,6 +296,58 @@ module.exports = {
                 result.push(row);
             }
             return callback({message: SUCCESS, businesses: result});
+        });
+    },
+
+
+    getReviewByRestaurantName : function (connection, req, res, callback) {
+        if (!'restaurant_name' in req.body) {
+            return callback({message: MISSING_BUSINESS_ID, reviews:  null});
+        }
+        var restaurant_name = req.body.restaurant_name;
+
+        var queryString0 = "SELECT business_id FROM businesses WHERE name = ? AND \
+                            latitude >= 40 AND latitude <= 41 AND \
+                            longitude >= -81 AND longitude <= -79;";
+        connection.query(queryString0, restaurant_name, function(err, rows) {
+            if (err) {
+                // Fail
+                console.log(err);
+                return callback({message: FAIL, reviews:  null});
+            }
+
+            if (rows[0].length == 0) {
+                return callback({message: NO_RESTAURANTS_FOUND, reviews:  null});
+            }
+
+            var queryString1 = "SELECT review_id, user_id, business_id, stars, date, text, num_useful, num_funny, num_cool \
+                                FROM reviews WHERE business_id = ? \
+                                ORDER BY num_useful DESC, num_funny DESC, num_cool DESC, date DESC LIMIT 5;";
+            connection.query(queryString1, rows[0].business_id, function(err, rows) {
+                if (err) {
+                    // Fail
+                    console.log(err);
+                    return callback({message: FAIL, reviews:  null});
+                }
+
+                var result = [];
+                for (var i = 0; i < rows.length && result.length <= 20; i++) {
+                    var row = {
+                        review_id: rows[i].review_id,
+                        user_id: rows[i].user_id,
+                        business_id: rows[i].business_id,
+                        stars: rows[i].stars,
+                        date: rows[i].date,
+                        text: rows[i].text,
+                        num_useful: rows[i].num_useful,
+                        num_funny: rows[i].num_funny,
+                        num_cool: rows[i].num_cool
+                    }
+                    // console.log(dic);
+                    result.push(row);
+                }
+                return callback({message: SUCCESS, reviews: result});
+            });
         });
     }
 }

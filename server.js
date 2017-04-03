@@ -523,6 +523,7 @@ app.get('/reviews/business_id?', (req, res) => {
     });
 });
 
+
 // RESTful API
 app.get('/reviews/user_id?', (req, res) => {
     model.getReviewByUserId(connection, req, res, function(result) {
@@ -538,6 +539,25 @@ app.get('/reviews/user_id?', (req, res) => {
     });
 });
 
+app.get('/restaurants_recommendation_by_name', (req, res) => {
+    res.render('restaurants_recommendation_by_name.hbs', {
+        pageTitle: 'Restaurants Recommendation By Name',
+        currentYear: new Date().getFullYear()
+    });
+});
+
+app.post('/restaurants_recommendation_by_name', (req, res) => {
+    model.getReviewByRestaurantName(connection, req, res, function(result) {
+        // console.log(result);
+        res.render('restaurants_recommendation_by_name.hbs',{
+            pageTitle: 'Restaurants Recommendation By Name',
+            currentYear: new Date().getFullYear(),
+            message: JSON.stringify(result.message),
+            reviews: JSON.stringify(result.reviews),
+            restaurant_name: req.body.restaurant_name
+        });
+    });
+});
 
 
 app.listen(port);
