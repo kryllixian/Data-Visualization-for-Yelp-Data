@@ -90,9 +90,12 @@
                 <td class="body-item">
                     <form action="restaurants_recommendation_by_name" method="POST">
                         <div>
-                            <p>Restauran Name: </p>
-                            <input type="text" name="restaurant_name"/>
+                            <p>Restaurant Name: </p>
+                            <input type="text" name="restaurant_name" value="{{restaurant_name}}"/>
+                            <p>Key Words: </p>
+                            <input type="text" name="key_words" value="{{key_words}}"/>
                         </div>
+                        <br />
                         <div>
                             <input type="submit" value="Submit" />
                         </div>
@@ -125,9 +128,6 @@
             output += '<h3> All Reviews of This Business: </h3>'
             for (var i = 0; i < reviews.length; i++) {
                 output += '<ul>';
-                output += '<li>review_id:   ' + reviews[i].review_id + '</li>';
-                output += `<li>user_id: ${reviews[i].user_id}</li>`;
-                output += `<li>business_id: ${reviews[i].business_id}</li>`;
                 output += '<li>stars:       ' + reviews[i].stars + '</li>';
                 output += '<li>date:        ' + reviews[i].date + '</li>';
                 output += '<li>text:    ' + reviews[i].text + '</li>';

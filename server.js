@@ -16,6 +16,18 @@ helper.getPittsburghRestaurantsData(function (result) {
     } else {
         pittsburgh_restaurants_dic = result.data;
         // console.log(result.data);
+        console.log("Finished Reading pittsburgh restaurants list");
+    }
+});
+
+var pittsburgh_restaurants_reviews = {};
+helper.getPittsburghRestaurantsReviews(function (result) {
+    if (result.message != 'SUCCESS') {
+        console.log(result.message);
+    } else {
+        pittsburgh_restaurants_reviews = result.data;
+        // console.log(result.data);
+        console.log("Finished Reading pittsburgh restaurants reviews");
     }
 });
 
@@ -549,6 +561,14 @@ app.get('/restaurants_recommendation_by_name', (req, res) => {
 app.post('/restaurants_recommendation_by_name', (req, res) => {
     model.getReviewByRestaurantName(connection, req, res, function(result) {
         // console.log(result);
+
+        // Recommend restaurants by key words
+        // var key_words = req.body.key_words;
+        // restaurants_recommendation = [];
+        // if (key_words) {
+        //
+        // }
+
         res.render('restaurants_recommendation_by_name.hbs',{
             pageTitle: 'Restaurants Recommendation By Name',
             currentYear: new Date().getFullYear(),

@@ -1,3 +1,10 @@
+-- CREATE indexes
+CREATE INDEX review_business_id ON reviews(business_id);
+CREATE INDEX category_name_index ON categories(name);
+CREATE INDEX latitude_index ON businesses(latitude);
+CREATE INDEX longitude_index ON businesses(longitude);
+CREATE INDEX review_user_id ON reviews(user_id);
+
 -- Distribution of Stars of Business in Pittsburgh
 SELECT COUNT(*)
 FROM businesses
@@ -144,3 +151,20 @@ WHERE r1.business_id = 'JLbgvGM4FXh9zNP4O5ZWjQ' AND r2.business_id != r1.busines
       r1.user_id = u.user_id AND r2.user_id = u.user_id AND r2.business_id = b.business_id
 GROUP BY b.business_id, b.name, b.address, b.city, b.state, b.latitude, b.longitude, b.stars, b.review_count, b.type, b.neighborhood
 ORDER BY COUNT(DISTINCT(u.user_id)) DESC, b.stars DESC, b.review_count DESC LIMIT 10;
+
+
+WIWTH
+SELECT review_id, (LENGTH(text) - LENGTH(replace(text ,'great','')))/LENGTH('great') AS COUNT
+FROM reviews
+GROUP BY review_id
+ORDER BY COUNT DESC LIMIT 10;
+
+
+SELECT b.business_id, (
+    SELECT r.review_id, SUM(CASE WHEN r.text LIKE '%great%' THEN 1 ELSE 0 END)
+    FROM reviews r
+    WHERE r.business_id = b.business_id
+    GROUP BY r.review_id
+) AS COUNT
+FROM businesses b
+ORDER BY COUNT DESC LIMIT 10;

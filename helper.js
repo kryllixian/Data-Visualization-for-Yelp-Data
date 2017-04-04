@@ -57,5 +57,27 @@ module.exports = {
             }
             return callback({message: 'SUCCESS', data: dic});
         });
+    },
+
+
+    getPittsburghRestaurantsReviews : function (callback) {
+        fs.readFile('pitt_restaurants_review_compressed.dat', 'utf8', function (err, data) {
+            if (err) {
+                return callback({message: 'Cannot get the local Pittsburgh restaurants review data', data: null});
+            }
+            var rows = data.split('\n');
+            var dic = {};
+            for (var i = 0; i < rows.length; i++) {
+                var items = rows[i].split('\t');
+                var business_id = items[0];
+                dic[business_id] = {};
+                for (var j = 1; j < items.length; j++) {
+                    var word = items[j].split(':')[0];
+                    var freq = items[j].split(':')[1];
+                    dic[business_id][word] = freq;
+                }
+            }
+            return callback({message: 'SUCCESS', data: dic});
+        });
     }
 }
