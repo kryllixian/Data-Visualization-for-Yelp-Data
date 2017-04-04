@@ -26,7 +26,7 @@ helper.getPittsburghRestaurantsReviews(function (result) {
         console.log(result.message);
     } else {
         pittsburgh_restaurants_reviews = result.data;
-        console.log(result.data);
+        // console.log(result.data);
         console.log("Finished Reading pittsburgh restaurants reviews");
     }
 });
@@ -561,20 +561,60 @@ app.get('/restaurants_recommendation_by_name', (req, res) => {
 app.post('/restaurants_recommendation_by_name', (req, res) => {
     model.getReviewByRestaurantName(connection, req, res, function(result) {
         // console.log(result);
+        var restaurants_list = [];
 
         // Recommend restaurants by key words
-        // var key_words = req.body.key_words;
-        // restaurants_recommendation = [];
-        // if (key_words) {
-        //
-        // }
+        if (req.body.key_words) {
+            var temp_list = [];
+
+            // Process input key words
+            var key_words = req.body.key_words.split(' ');
+            var words = [];
+            for (var i = 0; i < key_words.length; i++) {
+                var word = key_words[i].trim().toLowerCase();
+                if (word.lenght == 0) {
+                    continue;
+                }
+                words.push(word);
+            }
+            console.log(words);
+
+            // Compute the score for each restaurants in Pittsburgh
+            for (key in pittsburgh_restaurants_reviews) {
+                var score = 0.0;
+                for (var i = 0; i < words.length; i++) {
+                    var word = words[i];
+                    if (word in pittsburgh_restaurants_reviews[key]) {
+                        score += pittsburgh_restaurants_reviews[key][word];
+                    }
+                }
+                temp_list.push(key + '\t' + score);
+            }
+
+            // Sort the dictionary by score
+            restaurants_list = temp_list.sort(function (a, b) {
+                var key_a = a.split('\t')[0] + '\t' + a.split('\t')[1];
+                var score_a = parseInt(a.split('\t')[2]);
+                var key_b = b.split('\t')[0] + '\t' + b.split('\t')[1];
+                var score_b = parseInt(b.split('\t')[2]);
+
+                if (score_a != score_b) {
+                    return score_b - score_a;
+                } else {
+                    return key_a - key_b;
+                }
+            }).slice(0, 10);
+        }
+        // console.log(restaurants_list);
 
         res.render('restaurants_recommendation_by_name.hbs',{
             pageTitle: 'Restaurants Recommendation By Name',
             currentYear: new Date().getFullYear(),
             message: JSON.stringify(result.message),
             reviews: JSON.stringify(result.reviews),
-            restaurant_name: req.body.restaurant_name
+            restaurant_name: req.body.restaurant_name,
+            recommendation_list: JSON.stringify(restaurants_list),
+            key_words: req.body.key_words
         });
     });
 });

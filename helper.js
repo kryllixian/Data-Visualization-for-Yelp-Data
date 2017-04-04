@@ -74,11 +74,14 @@ module.exports = {
                     continue;
                 }
                 dic[key] = {};
+                var total_word_count = 0;
                 for (var j = 2; j < items.length; j++) {
                     var word = items[j].split(':')[0];
                     var freq = parseInt(items[j].split(':')[1]);
+                    total_word_count += freq;
                     dic[key][word] = freq;
                 }
+                dic[key]['total_word_count'] = total_word_count;
             }
             return callback({message: 'SUCCESS', data: dic});
         });

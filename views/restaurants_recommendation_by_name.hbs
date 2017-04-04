@@ -110,22 +110,37 @@
 
     <div id="div_message" style="display: none;" width="100%">{{message}}</div>
     <div id="div_reviews" style="display: none;" width="100%">{{reviews}}</div>
+    <div id="div_recommendation" style="display: none;" width="100%">{{recommendation_list}}</div>
     <h3>Name: {{restaurant_name}}</h3>
 
     <script>
         var reviews = JSON.parse($('#div_reviews').text());
         var message = JSON.parse($('#div_message').text());
+        var recommendation_list = JSON.parse($('#div_recommendation').text());
 
         var output = '';
-        console.log(message);
+        // console.log(message);
         if (message) {
             output += '<h3> Message:       ' + message + '</h3>';
         }
 
         output += '<br />';
 
+        if (recommendation_list) {
+            output += '<h3> Similar Restaurants: </h3>';
+            for (var i = 0; i < recommendation_list.length; i++) {
+                var business_id = recommendation_list[i].split('\t')[0];
+                var name = recommendation_list[i].split('\t')[1];
+                var score = recommendation_list[i].split('\t')[2];
+                output += '<ul>';
+                output += `<a href="/reviews/business_id?business_id=${business_id}&name=${name}"><li>name: ${name}</li></a>`;
+                output += '<li>score:       ' + score + '</li>';
+                output += '</ul>';
+            }
+        }
+
         if (reviews) {
-            output += '<h3> All Reviews of This Business: </h3>'
+            output += '<h3> All Reviews of This Business: </h3>';
             for (var i = 0; i < reviews.length; i++) {
                 output += '<ul>';
                 output += '<li>stars:       ' + reviews[i].stars + '</li>';
