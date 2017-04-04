@@ -26,7 +26,7 @@ helper.getPittsburghRestaurantsReviews(function (result) {
         console.log(result.message);
     } else {
         pittsburgh_restaurants_reviews = result.data;
-        // console.log(result.data);
+        console.log(result.data);
         console.log("Finished Reading pittsburgh restaurants reviews");
     }
 });

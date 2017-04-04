@@ -18,7 +18,7 @@ def group_review_text_by_business_id(conn, output_file):
     try:
         cur = conn.cursor()
         cur.execute("""
-                        SELECT r.review_id, r.business_id, r.text
+                        SELECT r.review_id, r.business_id, b.name, r.text
                         FROM businesses b, categories c, reviews r
                         WHERE
                             c.name = 'Restaurants' AND b.latitude >= 40 AND b.latitude <= 41 AND
@@ -29,8 +29,8 @@ def group_review_text_by_business_id(conn, output_file):
 
         rows = cur.fetchall()
         for row in rows:
-            key = row[1]
-            data = re.sub('[^A-Za-z0-9 ]+','' , row[2].encode('ascii', errors='ignore').lower().replace('\t', ' '))
+            key = row[1] + '\t' + row[2].replace('\t', ' ').encode('ascii', errors='ignore')
+            data = re.sub('[^A-Za-z0-9 ]+','' , row[3].encode('ascii', errors='ignore').lower().replace('\t', ' '))
             data = re.sub(' +', ' ', data)
             if dic.has_key(key):
                 dic[key] += data
@@ -71,10 +71,10 @@ def get_word_count_each_item(stopword_filename, input_filename, output_filename)
         if not line:
             break
 
-        business_id = line.split('\t')[0]
-        words = line.split('\t')[1]
+        key = line.split('\t')[0] + '\t' + line.split('\t')[1]
+        words = line.split('\t')[2]
         word_freq = {}
-        output = business_id + '\t'
+        output = key + '\t'
 
         for word in words.split(' '):
             # Skip stop words
@@ -97,9 +97,9 @@ def get_word_count_each_item(stopword_filename, input_filename, output_filename)
 
 
 def main():
-    # conn = connect_to_mysql("localhost", 3306, "", "", "yelp_data_new")
-    # group_review_text_by_business_id(conn, 'pitt_restaurants_review_text')
-    get_word_count_each_item('stop_words', 'pitt_restaurants_review_text', 'pitt_restaurants_review_compressed')
+    conn = connect_to_mysql("localhost", 3306, "", "", "yelp_data_new")
+    group_review_text_by_business_id(conn, 'pitt_restaurants_review_text.dat')
+    get_word_count_each_item('stop_words', 'pitt_restaurants_review_text.dat', 'pitt_restaurants_review_compressed.dat')
 
 
 if __name__ == "__main__":

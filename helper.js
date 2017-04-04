@@ -69,12 +69,15 @@ module.exports = {
             var dic = {};
             for (var i = 0; i < rows.length; i++) {
                 var items = rows[i].split('\t');
-                var business_id = items[0];
-                dic[business_id] = {};
-                for (var j = 1; j < items.length; j++) {
+                var key = items[0] + '\t' + items[1];
+                if (items[0].length == 0 || items[1].length == 0) {
+                    continue;
+                }
+                dic[key] = {};
+                for (var j = 2; j < items.length; j++) {
                     var word = items[j].split(':')[0];
-                    var freq = items[j].split(':')[1];
-                    dic[business_id][word] = freq;
+                    var freq = parseInt(items[j].split(':')[1]);
+                    dic[key][word] = freq;
                 }
             }
             return callback({message: 'SUCCESS', data: dic});
