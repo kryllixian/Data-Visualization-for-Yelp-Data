@@ -577,7 +577,7 @@ app.post('/restaurants_recommendation_by_name', (req, res) => {
                 }
                 words.push(word);
             }
-            console.log(words);
+            // console.log(words);
 
             // Compute the score for each restaurants in Pittsburgh
             for (key in pittsburgh_restaurants_reviews) {

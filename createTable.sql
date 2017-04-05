@@ -24,6 +24,13 @@ CREATE TABLE IF NOT EXISTS attributes (
     FOREIGN KEY(business_id) REFERENCES businesses(business_id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS attributes_by_businesses (
+    business_id VARCHAR(80) NOT NULL,
+
+    PRIMARY KEY(business_id),
+    FOREIGN KEY(business_id) REFERENCES businesses(business_id) ON DELETE CASCADE
+);
+
 -- Loaded
 CREATE TABLE IF NOT EXISTS categories (
     business_id VARCHAR(80) NOT NULL,

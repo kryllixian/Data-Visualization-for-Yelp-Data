@@ -322,7 +322,7 @@ module.exports = {
 
             var queryString1 = "SELECT review_id, user_id, business_id, stars, date, text, num_useful, num_funny, num_cool \
                                 FROM reviews WHERE business_id = ? \
-                                ORDER BY num_useful DESC, num_funny DESC, num_cool DESC, date DESC LIMIT 5;";
+                                ORDER BY num_useful DESC, num_funny DESC, num_cool DESC, date DESC;";
             connection.query(queryString1, rows[0].business_id, function(err, rows) {
                 if (err) {
                     // Fail

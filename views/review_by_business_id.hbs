@@ -18,11 +18,11 @@
     var similar_list = JSON.parse($('#div_similar_list').text());
     var user_reviewed_both_list = JSON.parse($('#div_user_review_restaurants_recommendations').text());
 
-    console.log(str_key_words);
+    // console.log(str_key_words);
     // var former_query = JSON.parse($('#div_former_query').text());
     // console.log(former_query);
     var output = '';
-    console.log(message);
+    // console.log(message);
     if (message) {
         output += '<h3> Message:       ' + message + '</h3>';
     }
@@ -103,14 +103,14 @@
             output += '<li>num_funny:   ' + reviews[i].num_funny + '</li>';
             output += '<li>num_cool:    ' + reviews[i].num_cool + '</li>';
 
-            if (key_words) {
+            if (str_key_words) {
                 var words = reviews[i].text.split(" ");
                 output += '<li>text: ';
                 for (var j in words) {
                     var word = words[j].replace(/[^A-Za-z0-9]/gi, '');
                     if (word.toLowerCase() in key_words) {
-                        console.log('Found a word in dictionary');
-                        console.log(word);
+                        // console.log('Found a word in dictionary');
+                        // console.log(word);
                         output += '<span style="background-color:yellow">' + words[j] + '</span>';
                     } else {
                         output += words[j];
