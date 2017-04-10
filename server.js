@@ -551,24 +551,32 @@ app.get('/reviews/user_id?', (req, res) => {
     });
 });
 
-app.get('/restaurants_recommendation_by_name', (req, res) => {
-    res.render('restaurants_recommendation_by_name.hbs', {
-        pageTitle: 'Restaurants Recommendation By Name',
-        currentYear: new Date().getFullYear()
-    });
-});
+// app.get('/restaurants_recommendation_by_name', (req, res) => {
+//     res.render('restaurants_recommendation_by_name.hbs', {
+//         pageTitle: 'Restaurants Recommendation By Name',
+//         currentYear: new Date().getFullYear()
+//     });
+// });
 
-app.post('/restaurants_recommendation_by_name', (req, res) => {
+app.get('/restaurants_recommendation_by_name', (req, res) => {
+    console.log(req.query);
+    if (JSON.stringify(req.body) === '{}' && JSON.stringify(req.query) === '{}') {
+        return res.render('restaurants_recommendation_by_name.hbs', {
+            pageTitle: 'Restaurants Recommendation By Name',
+            currentYear: new Date().getFullYear()
+        });
+    }
+
     model.getReviewByRestaurantName(connection, req, res, function(result) {
         // console.log(result);
         var restaurants_list = [];
 
         // Recommend restaurants by key words
-        if (req.body.key_words) {
+        if (req.query.key_words) {
             var temp_list = [];
 
             // Process input key words
-            var key_words = req.body.key_words.split(' ');
+            var key_words = req.query.key_words.split(' ');
             var words = [];
             for (var i = 0; i < key_words.length; i++) {
                 var word = key_words[i].trim().toLowerCase();
@@ -612,9 +620,9 @@ app.post('/restaurants_recommendation_by_name', (req, res) => {
             currentYear: new Date().getFullYear(),
             message: JSON.stringify(result.message),
             reviews: JSON.stringify(result.reviews),
-            restaurant_name: req.body.restaurant_name,
+            restaurant_name: req.query.restaurant_name,
             recommendation_list: JSON.stringify(restaurants_list),
-            key_words: req.body.key_words
+            key_words: req.query.key_words
         });
     });
 });

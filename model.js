@@ -301,10 +301,10 @@ module.exports = {
 
 
     getReviewByRestaurantName : function (connection, req, res, callback) {
-        if (!'restaurant_name' in req.body) {
+        if (!'restaurant_name' in req.query) {
             return callback({message: MISSING_BUSINESS_ID, reviews:  null});
         }
-        var restaurant_name = req.body.restaurant_name;
+        var restaurant_name = req.query.restaurant_name;
 
         var queryString0 = "SELECT business_id FROM businesses WHERE name = ? AND \
                             latitude >= 40 AND latitude <= 41 AND \
