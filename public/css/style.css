@@ -15,6 +15,21 @@ img.other-icon {
     margin-bottom: 0px;
     margin-right: 0px;
 }
+input.submit-button {
+    width: 193px;
+    height: 25px;
+    font-family: Myriad Pro;
+    background-color: #525558;
+    border: none;
+    color: white;
+    /*padding: 15px 32px;*/
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 20px;
+    cursor: pointer;
+    font-size: 18px;
+}
 
 /* Maps */
 div.map {
@@ -169,7 +184,7 @@ p.body-item-content {
     margin-bottom: 11px;
     font-size: 15px;
     max-width: 610px;
-    word-wrap: break-word;
+    word-wrap: normal;
 }
 input.body-item-content {
     font-family: Myriad Pro;

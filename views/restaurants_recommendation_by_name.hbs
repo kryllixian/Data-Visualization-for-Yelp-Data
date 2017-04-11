@@ -90,15 +90,17 @@
                 <td class="body-item">
                     <form action="restaurants_recommendation_by_name" method="GET">
                         <div>
-                            <p class="body-item-content-first">Restaurant Name: </p>
-                            <input class="body-item-content" type="text" name="restaurant_name" value="{{restaurant_name}}"/>
-                            <p class="body-item-content">Key Words: </p>
-                            <input  class="body-item-content" type="text" name="key_words" value="{{key_words}}"/>
+                            <p class="body-item-content-first">Restaurant Name:
+                                <input class="body-item-content" type="text" name="restaurant_name" value="{{restaurant_name}}"/>
+                            </p>
+                            <p class="body-item-content">Key Words:
+                                <input  class="body-item-content" type="text" name="key_words" value="{{key_words}}"/>
+                            </p>
                             <p class="body-item-content">0<input id="test" type="range" min="0" max="10"/>10</p>
                         </div>
                         <br />
                         <div>
-                            <input type="submit" value="Submit" />
+                            <input class="submit-button" type="submit" value="Get Similar Restaurants!" />
                         </div>
                     </form>
                 </td>
@@ -126,6 +128,7 @@
         if ($('#div_message').text() === '' || JSON.parse($('#div_message').text()) !== 'SUCCESS') {
             output += '<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />';
         } else {
+            const MAX_CHAR_EACH_LINE = 85;
             var reviews = JSON.parse($('#div_reviews').text());
             var message = JSON.parse($('#div_message').text());
             var recommendation_list = JSON.parse($('#div_recommendation').text());
@@ -206,8 +209,16 @@
                     if (dic_key_words) {
                         var words = reviews[i].text.split(" ");
                         output += '<p class="body-item-content">';
+                        var curr_len = 0;
                         for (var j in words) {
                             var word = words[j].replace(/[^A-Za-z0-9]/gi, '');
+
+                            if (curr_len + word.length + 1 > MAX_CHAR_EACH_LINE) {
+                                output += '<br />';
+                                curr_len = 0;
+                            }
+                            curr_len += word.length + 1;
+
                             if (word.toLowerCase() in dic_key_words) {
                                 // console.log('Found a word in dictionary');
                                 // console.log(word);
