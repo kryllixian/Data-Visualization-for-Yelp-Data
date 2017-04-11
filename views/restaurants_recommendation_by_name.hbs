@@ -124,21 +124,26 @@
                 </tr>
             </table>
         </div>
+
+
         <script type="text/javascript">
+            // Use dictionary to remove duplicate key words
+            var dic = {};
             $(document).ready(function () {
                 // If the user Added Space, then create bar
                 $('#key-words-input').keypress(function(e) {
                     if (e.keyCode == 0 || e.keyCode == 32) {
                          // `0` works in mozilla and `320 in other`
                          console.log('space pressed');
-                         var key_word = String($('#key-words-input').val()).trim();
-                         if (key_word.length == 0) {
+                         var key_word = String($('#key-words-input').val()).trim().toLowerCase();
+                         if (key_word.length == 0 || key_word in dic) {
                              return;
                          }
 
+                         dic[key_word] = 1;
                          // Add slide bar
                          var first_row = `<p class="body-item-content">${key_word}:</p>`;
-                         var second_row = `<p class="body-item-content">0<input name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
+                         var second_row = `<p class="body-item-content">0<input onchange="updateRecommentaion(this.value)" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
                          $('#append-br-here').append("<br /><br /><br />");
                          $('#append-first-column-here').append(first_row);
                          $('#append-second-column-here').append(second_row);
@@ -146,7 +151,6 @@
                     }
                 });
             });
-
         </script>
 
         <script type="text/javascript">
@@ -161,20 +165,59 @@
                         key_word = document.selection.createRange().text.toString();
                     }
 
-                    key_word = key_word.trim();
-                    if (key_word.length == 0) {
+                    key_word = key_word.trim().toLowerCase();
+                    if (key_word.length == 0 || key_word in dic) {
                         return;
                     }
 
+                    dic[key_word] = 1;
+
                     // Add slide bar
                     var first_row = `<p class="body-item-content">${key_word}:</p>`;
-                    var second_row = `<p class="body-item-content">0<input name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
+                    var second_row = `<p class="body-item-content">0<input onchange="updateRecommentaion(this.value)" class="range" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
                     $('#append-br-here').append("<br /><br /><br />");
                     $('#append-first-column-here').append(first_row);
                     $('#append-second-column-here').append(second_row);
                 });
             });
         </script>
+
+        <script type="text/javascript">
+            // Send HTTP request to update similarity
+            function updateRecommentaion(value) {
+                // Add all data to dictionary
+                var data = {};
+                $("input[type='range']").each(function() {
+                    data[$(this).attr("name")] = $(this).val();
+                });
+                data['restaurant_name'] = $('#restaurants-name-input').val();
+                data['key_words_input'] = $('#key-words-input').val();
+
+                // console.log(data);
+                $.get('similar_restaurants_jquery', data, function(response) {
+                    // console.log(response.message.replace(/"/g, "") === 'SUCCESS');
+                    if (response == null || response.message.replace(/"/g, "") !== 'SUCCESS') {
+                        return;
+                    }
+
+                    var recommendation_list = JSON.parse(response.recommendation_list);
+                    if (recommendation_list) {
+                        for (var i = 0; i < recommendation_list.length; i++) {
+                            var business_id = recommendation_list[i].split('\t')[0];
+                            var name = recommendation_list[i].split('\t')[1];
+                            var score = recommendation_list[i].split('\t')[2];
+                            // console.log(business_id);
+                            // console.log(name);
+                            // console.log(score);
+                            $(`#${i+1}_recommendation`).attr('href', `/reviews/business_id?business_id=${business_id}&name=${name}&key_words=`);
+                            $(`#${i+1}_recommendation`).html(`${name}`);
+                            $(`#${i+1}_recommendation_score`).html(`score: ${score}`);
+                        }
+                    }
+                });
+            }
+        </script>
+
         <div id="append-br-here"></div>
         <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
         <div id="append-here"></div>
@@ -241,8 +284,8 @@
                     var name = recommendation_list[i].split('\t')[1];
                     var score = recommendation_list[i].split('\t')[2];
                     output += '<br />';
-                    output += `<p class="body-item-content-first">${i+1}. <a href="/reviews/business_id?business_id=${business_id}&name=${name}&key_words=${str_dic_key_words}" class="school-name">${name}</a>:</p>`;
-                    output += '<p class="body-item-content">score: ' + score + '</p>';
+                    output += `<p class="body-item-content-first">${i+1}. <a id="${i+1}_recommendation" href="/reviews/business_id?business_id=${business_id}&name=${name}&key_words=${str_dic_key_words}" class="school-name">${name}</a>:</p>`;
+                    output += `<p class="body-item-content" id="${i+1}_recommendation_score">score: ${score}</p>`;
                     output += '<br />';
                     output += '     </td>\
                                 </tr>\

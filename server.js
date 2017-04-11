@@ -644,5 +644,86 @@ app.get('/restaurants_recommendation_by_name', (req, res) => {
 });
 
 
+app.get('/similar_restaurants_jquery', (req, res) => {
+    console.log(req.query);
+    if (JSON.stringify(req.body) === '{}' && JSON.stringify(req.query) === '{}') {
+        return res.render('restaurants_recommendation_by_name.hbs', {
+            pageTitle: 'Restaurants Recommendation By Name',
+            currentYear: new Date().getFullYear()
+        });
+    }
+
+    // console.log(result);
+    var restaurants_list = [];
+
+    // Recommend restaurants by key words
+    var temp_list = [];
+
+    // Process input key words
+    var key_words = {};
+    // var key_words = req.query.key_words.split(' ');
+    for (key in req.query) {
+        if (!key.startsWith('key_word_')) {
+            continue;
+        }
+
+        var word = key.substring(9).trim().toLowerCase();
+        if (key.length == 0) {
+            continue;
+        }
+        key_words[word] = parseInt(req.query[key]);
+    }
+
+    // var words = [];
+    // for (var i = 0; i < key_words.length; i++) {
+    //     var word = key_words[i].trim().toLowerCase();
+    //     if (word.lenght == 0) {
+    //         continue;
+    //     }
+    //     words.push(word);
+    // }
+    // console.log(words);
+    // console.log(key_words);
+
+    if (Object.keys(key_words).length > 0) {
+
+        // Compute the score for each restaurants in Pittsburgh
+        for (key in pittsburgh_restaurants_reviews) {
+            var score = 0.0;
+            for (var word in key_words) {
+                if (word in pittsburgh_restaurants_reviews[key]) {
+                    score += pittsburgh_restaurants_reviews[key][word] * key_words[word];
+                }
+            }
+            temp_list.push(key + '\t' + score);
+        }
+
+        // Sort the dictionary by score
+        restaurants_list = temp_list.sort(function (a, b) {
+            var key_a = a.split('\t')[0] + '\t' + a.split('\t')[1];
+            var score_a = parseInt(a.split('\t')[2]);
+            var key_b = b.split('\t')[0] + '\t' + b.split('\t')[1];
+            var score_b = parseInt(b.split('\t')[2]);
+
+            if (score_a != score_b) {
+                return score_b - score_a;
+            } else {
+                return key_a - key_b;
+            }
+        }).slice(0, 10);
+    }
+    console.log(restaurants_list);
+
+    res.send({
+        pageTitle: 'Restaurants Recommendation By Name',
+        currentYear: new Date().getFullYear(),
+        message: 'SUCCESS',
+        restaurant_name: req.query.restaurant_name,
+        recommendation_list: JSON.stringify(restaurants_list),
+        key_words: req.query.key_words
+    });
+});
+
+
 app.listen(port);
 console.log(`Starting server at localhost:${port}`);
