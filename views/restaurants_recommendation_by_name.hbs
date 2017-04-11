@@ -75,54 +75,55 @@
     <!-- Middle -->
     <div class="grey-canvas">
 
-
-        <table class="body-item-1">
-            <tr class="body-item">
-                <td class="body-item">
-                    <p class="body-item-title-school">
-                        ENTER THE NAME OF YOUR FAVORITE RESTAURANT
-                    </p>
-                </td>
-            </tr>
-        </table>
-        <table class="body-item-2">
-            <tr class="body-item">
-                <td class="body-item">
-                    <form action="restaurants_recommendation_by_name" method="GET">
-                        <div>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <p class="body-item-content-first">Restaurant Name:</p>
-                                    </td>
-                                    <td>
-                                        <input id="restaurants-name-input" class="body-item-content" type="text" name="restaurant_name" value="{{restaurant_name}}"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="body-item-content">Key Words:</p>
-                                    </td>
-                                    <td>
-                                        <input id="key-words-input" class="body-item-content" type="text" name="key_words_input" value=""/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td id="append-first-column-here">
-                                    </td>
-                                    <td id="append-second-column-here">
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <br />
-                        <div>
-                            <input class="submit-button" type="submit" value="Get Similar Restaurants!" />
-                        </div>
-                    </form>
-                </td>
-            </tr>
-        </table>
+        <div class="fixed-form-div">
+            <table class="body-item-1">
+                <tr class="body-item">
+                    <td class="body-item">
+                        <p class="body-item-title-school">
+                            ENTER THE NAME OF YOUR FAVORITE RESTAURANT
+                        </p>
+                    </td>
+                </tr>
+            </table>
+            <table class="body-item-2">
+                <tr class="body-item">
+                    <td class="body-item">
+                        <form action="restaurants_recommendation_by_name" method="GET">
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <p class="body-item-content-first">Restaurant Name:</p>
+                                        </td>
+                                        <td>
+                                            <input id="restaurants-name-input" class="body-item-content" type="text" name="restaurant_name" value="{{restaurant_name}}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p class="body-item-content">Key Words:</p>
+                                        </td>
+                                        <td>
+                                            <input id="key-words-input" class="body-item-content" type="text" name="key_words_input" value=""/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td id="append-first-column-here">
+                                        </td>
+                                        <td id="append-second-column-here">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <br />
+                            <div>
+                                <input class="submit-button" type="submit" value="Get Similar Restaurants!" />
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
         <script type="text/javascript">
             $(document).ready(function () {
                 // If the user Added Space, then create bar
@@ -138,6 +139,7 @@
                          // Add slide bar
                          var first_row = `<p class="body-item-content">${key_word}:</p>`;
                          var second_row = `<p class="body-item-content">0<input name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
+                         $('#append-br-here').append("<br /><br /><br />");
                          $('#append-first-column-here').append(first_row);
                          $('#append-second-column-here').append(second_row);
                          $('#key-words-input').val('');
@@ -167,13 +169,15 @@
                     // Add slide bar
                     var first_row = `<p class="body-item-content">${key_word}:</p>`;
                     var second_row = `<p class="body-item-content">0<input name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
+                    $('#append-br-here').append("<br /><br /><br />");
                     $('#append-first-column-here').append(first_row);
                     $('#append-second-column-here').append(second_row);
                 });
             });
         </script>
-
-        <div id="append-here"/>
+        <div id="append-br-here"></div>
+        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+        <div id="append-here"></div>
 
     </div>
     <!-- <script>
