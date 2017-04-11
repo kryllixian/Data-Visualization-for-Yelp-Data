@@ -90,13 +90,30 @@
                 <td class="body-item">
                     <form action="restaurants_recommendation_by_name" method="GET">
                         <div>
-                            <p class="body-item-content-first">Restaurant Name:
-                                <input class="body-item-content" type="text" name="restaurant_name" value="{{restaurant_name}}"/>
-                            </p>
-                            <p class="body-item-content">Key Words:
-                                <input  class="body-item-content" type="text" name="key_words" value="{{key_words}}"/>
-                            </p>
-                            <p class="body-item-content">0<input id="test" type="range" min="0" max="10"/>10</p>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <p class="body-item-content-first">Restaurant Name:</p>
+                                    </td>
+                                    <td>
+                                        <input id="restaurants-name-input" class="body-item-content" type="text" name="restaurant_name" value="{{restaurant_name}}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p class="body-item-content">Key Words:</p>
+                                    </td>
+                                    <td>
+                                        <input id="key-words-input" class="body-item-content" type="text" name="key_words_input" value=""/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td id="append-first-column-here">
+                                    </td>
+                                    <td id="append-second-column-here">
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                         <br />
                         <div>
@@ -106,6 +123,23 @@
                 </td>
             </tr>
         </table>
+        <script type="text/javascript">
+        // If the user Added Space, then create bar
+            $('#key-words-input').keypress(function(e) {
+                if (e.keyCode == 0 || e.keyCode == 32) {
+                     // `0` works in mozilla and `320 in other`
+                     console.log('space pressed');
+                     var key_word = String($('#key-words-input').val()).trim();
+                     var first_row = `<p class="body-item-content">${key_word}:</p>`;
+                     var second_row = `<p class="body-item-content">0<input name="${key_word}" type="range" min="0" max="10"/>10</p>`;
+                     $('#append-first-column-here').append(first_row);
+                     $('#append-second-column-here').append(second_row);
+                     $('#key-words-input').val('');
+                }
+            });
+
+        </script>
+
         <div id="append-here"/>
 
     </div>
@@ -123,7 +157,8 @@
     <div id="div_recommendation" style="display: none;" width="100%">{{recommendation_list}}</div>
     <!-- <h3>Name: {{restaurant_name}}</h3> -->
 
-    <script>
+    <script type="text/javascript">
+    // Show the search result
         var output = '';
         if ($('#div_message').text() === '' || JSON.parse($('#div_message').text()) !== 'SUCCESS') {
             output += '<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />';
@@ -231,9 +266,9 @@
                         output += '</p>';
                     }
                     output += '<p class="body-item-content">';
-                    output += '<img src="/images/icons/bulb.png" class="other-icon"/>' + reviews[i].num_useful;
-                    output += '<img src="/images/icons/funny.png" class="other-icon"/>' + reviews[i].num_funny;
-                    output += '<img src="/images/icons/cool.png" class="other-icon"/>' + reviews[i].num_cool;
+                    output += '<img src="/images/icons/bulb.png" class="other-icon"/>&nbsp;' + reviews[i].num_useful;
+                    output += '<img src="/images/icons/funny.png" class="other-icon"/>&nbsp;' + reviews[i].num_funny;
+                    output += '<img src="/images/icons/cool.png" class="other-icon"/>&nbsp;' + reviews[i].num_cool;
                     output += '</p>';
                     output += '     </td>\
                                 </tr>\

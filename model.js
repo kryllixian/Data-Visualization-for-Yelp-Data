@@ -317,7 +317,7 @@ module.exports = {
                 return callback({message: FAIL, reviews:  null});
             }
 
-            if (rows[0].length == 0) {
+            if (rows.length == 0) {
                 return callback({message: NO_RESTAURANTS_FOUND, reviews:  null});
             }
 

@@ -552,7 +552,8 @@ app.get('/reviews/user_id?', (req, res) => {
     });
 });
 
-// app.get('/restaurants_recommendation_by_name', (req, res) => {
+// app.post('/restaurants_recommendation_by_name', (req, res) => {
+//     console.log(req);
 //     res.render('restaurants_recommendation_by_name.hbs', {
 //         pageTitle: 'Restaurants Recommendation By Name',
 //         currentYear: new Date().getFullYear()
