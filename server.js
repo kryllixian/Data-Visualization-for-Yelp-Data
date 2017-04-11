@@ -574,28 +574,42 @@ app.get('/restaurants_recommendation_by_name', (req, res) => {
         var restaurants_list = [];
 
         // Recommend restaurants by key words
-        if (req.query.key_words) {
-            var temp_list = [];
+        var temp_list = [];
 
-            // Process input key words
-            var key_words = req.query.key_words.split(' ');
-            var words = [];
-            for (var i = 0; i < key_words.length; i++) {
-                var word = key_words[i].trim().toLowerCase();
-                if (word.lenght == 0) {
-                    continue;
-                }
-                words.push(word);
+        // Process input key words
+        var key_words = {};
+        // var key_words = req.query.key_words.split(' ');
+        for (key in req.query) {
+            if (!key.startsWith('key_word_')) {
+                continue;
             }
-            // console.log(words);
+
+            var word = key.substring(9).trim().toLowerCase();
+            if (key.length == 0) {
+                continue;
+            }
+            key_words[word] = parseInt(req.query[key]);
+        }
+
+        // var words = [];
+        // for (var i = 0; i < key_words.length; i++) {
+        //     var word = key_words[i].trim().toLowerCase();
+        //     if (word.lenght == 0) {
+        //         continue;
+        //     }
+        //     words.push(word);
+        // }
+        // console.log(words);
+        // console.log(key_words);
+
+        if (Object.keys(key_words).length > 0) {
 
             // Compute the score for each restaurants in Pittsburgh
             for (key in pittsburgh_restaurants_reviews) {
                 var score = 0.0;
-                for (var i = 0; i < words.length; i++) {
-                    var word = words[i];
+                for (var word in key_words) {
                     if (word in pittsburgh_restaurants_reviews[key]) {
-                        score += pittsburgh_restaurants_reviews[key][word];
+                        score += pittsburgh_restaurants_reviews[key][word] * key_words[word];
                     }
                 }
                 temp_list.push(key + '\t' + score);
@@ -615,7 +629,7 @@ app.get('/restaurants_recommendation_by_name', (req, res) => {
                 }
             }).slice(0, 10);
         }
-        // console.log(restaurants_list);
+        console.log(restaurants_list);
 
         res.render('restaurants_recommendation_by_name.hbs',{
             pageTitle: 'Restaurants Recommendation By Name',
