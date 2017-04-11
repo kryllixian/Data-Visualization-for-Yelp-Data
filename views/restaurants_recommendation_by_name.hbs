@@ -124,23 +124,53 @@
             </tr>
         </table>
         <script type="text/javascript">
-        // If the user Added Space, then create bar
-            $('#key-words-input').keypress(function(e) {
-                if (e.keyCode == 0 || e.keyCode == 32) {
-                     // `0` works in mozilla and `320 in other`
-                     console.log('space pressed');
-                     var key_word = String($('#key-words-input').val()).trim();
-                     if (key_word.length == 0) {
-                         return;
-                     }
-                     var first_row = `<p class="body-item-content">${key_word}:</p>`;
-                     var second_row = `<p class="body-item-content">0<input name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
-                     $('#append-first-column-here').append(first_row);
-                     $('#append-second-column-here').append(second_row);
-                     $('#key-words-input').val('');
-                }
+            $(document).ready(function () {
+                // If the user Added Space, then create bar
+                $('#key-words-input').keypress(function(e) {
+                    if (e.keyCode == 0 || e.keyCode == 32) {
+                         // `0` works in mozilla and `320 in other`
+                         console.log('space pressed');
+                         var key_word = String($('#key-words-input').val()).trim();
+                         if (key_word.length == 0) {
+                             return;
+                         }
+
+                         // Add slide bar
+                         var first_row = `<p class="body-item-content">${key_word}:</p>`;
+                         var second_row = `<p class="body-item-content">0<input name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
+                         $('#append-first-column-here').append(first_row);
+                         $('#append-second-column-here').append(second_row);
+                         $('#key-words-input').val('');
+                    }
+                });
             });
 
+        </script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.body-item-content').mouseup(function() {
+                    var key_word = '';
+
+                    // Get selection area
+                    if (window.getSelection) {
+                        key_word = window.getSelection().toString();
+                    } else if (document.selection) {
+                        key_word = document.selection.createRange().text.toString();
+                    }
+
+                    key_word = key_word.trim();
+                    if (key_word.length == 0) {
+                        return;
+                    }
+
+                    // Add slide bar
+                    var first_row = `<p class="body-item-content">${key_word}:</p>`;
+                    var second_row = `<p class="body-item-content">0<input name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
+                    $('#append-first-column-here').append(first_row);
+                    $('#append-second-column-here').append(second_row);
+                });
+            });
         </script>
 
         <div id="append-here"/>
