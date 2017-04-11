@@ -90,10 +90,11 @@
                 <td class="body-item">
                     <form action="restaurants_recommendation_by_name" method="GET">
                         <div>
-                            <p>Restaurant Name: </p>
-                            <input type="text" name="restaurant_name" value="{{restaurant_name}}"/>
-                            <p>Key Words: </p>
-                            <input type="text" name="key_words" value="{{key_words}}"/>
+                            <p class="body-item-content-first">Restaurant Name: </p>
+                            <input class="body-item-content" type="text" name="restaurant_name" value="{{restaurant_name}}"/>
+                            <p class="body-item-content">Key Words: </p>
+                            <input  class="body-item-content" type="text" name="key_words" value="{{key_words}}"/>
+                            <p class="body-item-content">0<input id="test" type="range" min="0" max="10"/>10</p>
                         </div>
                         <br />
                         <div>
@@ -103,8 +104,14 @@
                 </td>
             </tr>
         </table>
+        <div id="append-here"/>
 
     </div>
+    <!-- <script>
+        $("#test").dblclick(function(){
+            alert("The paragraph was double-clicked");
+        });
+    </script> -->
 
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 
@@ -112,75 +119,119 @@
     <div id="div_reviews" style="display: none;" width="100%">{{reviews}}</div>
     <div id="div_key_words" style="display: none;" width="100%">{{key_words}}</div>
     <div id="div_recommendation" style="display: none;" width="100%">{{recommendation_list}}</div>
-    <h3>Name: {{restaurant_name}}</h3>
+    <!-- <h3>Name: {{restaurant_name}}</h3> -->
 
     <script>
-        var reviews = JSON.parse($('#div_reviews').text());
-        var message = JSON.parse($('#div_message').text());
-        var recommendation_list = JSON.parse($('#div_recommendation').text());
-        var key_words = $('#div_key_words').text().split(' ');
-        var dic_key_words = {}
-        for (var i = 0; i < key_words.length; i++) {
-            var word = key_words[i].trim().toLowerCase();
-            if (word.lenght == 0) {
-                continue;
-            }
-            dic_key_words[word] = 1;
-        }
-        if (dic_key_words) {
-            var str_dic_key_words = JSON.stringify(dic_key_words).replace(/"/g, "'");
-        }
-
         var output = '';
-        // console.log(message);
-        if (message) {
-            output += '<h3> Message:       ' + message + '</h3>';
-        }
-
-        output += '<br />';
-
-        if (recommendation_list) {
-            output += '<h3> Similar Restaurants: </h3>';
-            for (var i = 0; i < recommendation_list.length; i++) {
-                var business_id = recommendation_list[i].split('\t')[0];
-                var name = recommendation_list[i].split('\t')[1];
-                var score = recommendation_list[i].split('\t')[2];
-                output += '<ul>';
-                output += `<a href="/reviews/business_id?business_id=${business_id}&name=${name}&key_words=${str_dic_key_words}"><li>name: ${name}</li></a>`;
-                output += '<li>score:       ' + score + '</li>';
-                output += '</ul>';
-            }
-        }
-
-        if (reviews) {
-            output += '<h3> All Reviews of This Business: </h3>';
-            for (var i = 0; i < reviews.length; i++) {
-                output += '<ul>';
-                output += '<li>stars:       ' + reviews[i].stars + '</li>';
-                output += '<li>date:        ' + reviews[i].date + '</li>';
-                if (dic_key_words) {
-                    var words = reviews[i].text.split(" ");
-                    output += '<li>text: ';
-                    for (var j in words) {
-                        var word = words[j].replace(/[^A-Za-z0-9]/gi, '');
-                        if (word.toLowerCase() in dic_key_words) {
-                            // console.log('Found a word in dictionary');
-                            // console.log(word);
-                            output += '<span style="background-color:yellow">' + words[j] + '</span>';
-                        } else {
-                            output += words[j];
-                        }
-                        output += '&nbsp;'
-                    }
-                    output += '</li>';
+        if ($('#div_message').text() === '' || JSON.parse($('#div_message').text()) !== 'SUCCESS') {
+            output += '<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />';
+        } else {
+            var reviews = JSON.parse($('#div_reviews').text());
+            var message = JSON.parse($('#div_message').text());
+            var recommendation_list = JSON.parse($('#div_recommendation').text());
+            var key_words = $('#div_key_words').text().split(' ');
+            var dic_key_words = {}
+            for (var i = 0; i < key_words.length; i++) {
+                var word = key_words[i].trim().toLowerCase();
+                if (word.lenght == 0) {
+                    continue;
                 }
-                output += '<li>num_useful:  ' + reviews[i].num_useful + '</li>';
-                output += '<li>num_funny:   ' + reviews[i].num_funny + '</li>';
-                output += '<li>num_cool:    ' + reviews[i].num_cool + '</li>';
-                output += '</ul>';
+                dic_key_words[word] = 1;
             }
+            if (dic_key_words) {
+                var str_dic_key_words = JSON.stringify(dic_key_words).replace(/"/g, "'");
+            }
+            // console.log(message);
+            // if (message) {
+            //     output += '<h3> Message:       ' + message + '</h3>';
+            // }
+            //
+            // output += '<br />';
+
+            if (recommendation_list) {
+                output += '<table class="body-item-1">\
+                                <tr class="body-item">\
+                                    <td class="body-item">\
+                                        <p class="body-item-title-school">\
+                                            SIMILAR RESTAURANTS\
+                                        </p>\
+                                    </td>\
+                                </tr>\
+                            </table>';
+                for (var i = 0; i < recommendation_list.length; i++) {
+                    output += '<table class="body-item-2">\
+                            <tr class="body-item">\
+                                <td class="body-item">';
+                    var business_id = recommendation_list[i].split('\t')[0];
+                    var name = recommendation_list[i].split('\t')[1];
+                    var score = recommendation_list[i].split('\t')[2];
+                    output += '<br />';
+                    output += `<p class="body-item-content-first">${i+1}. <a href="/reviews/business_id?business_id=${business_id}&name=${name}&key_words=${str_dic_key_words}" class="school-name">${name}</a>:</p>`;
+                    output += '<p class="body-item-content">score: ' + score + '</p>';
+                    output += '<br />';
+                    output += '     </td>\
+                                </tr>\
+                            </table>';
+                }
+            }
+
+            if (reviews) {
+                output += '<table class="body-item-1">\
+                                <tr class="body-item">\
+                                    <td class="body-item">\
+                                        <p class="body-item-title-school">\
+                                            ALL REVIEWS OF THE SELECTED RESTAURANT\
+                                        </p>\
+                                    </td>\
+                                </tr>\
+                            </table>';
+                for (var i = 0; i < reviews.length; i++) {
+                    output += '<table class="body-item-2">\
+                                <tr class="body-item">\
+                                    <td class="body-item">';
+                    output += '<ul>';
+
+                    output += '<p class="body-item-content-first">';
+
+                    // Add stars
+                    var j = 0;
+                    for (; j < reviews[i].stars ; j++) {
+                        output += '<img src="/images/icons/star.png" class="star-icon"/>';
+                    }
+                    for (; j < 5; j++) {
+                        output += '<img src="/images/icons/star-grey.png" class="star-icon"/>';
+                    }
+
+                    output += `${reviews[i].date}</p>`;
+                    if (dic_key_words) {
+                        var words = reviews[i].text.split(" ");
+                        output += '<p class="body-item-content">';
+                        for (var j in words) {
+                            var word = words[j].replace(/[^A-Za-z0-9]/gi, '');
+                            if (word.toLowerCase() in dic_key_words) {
+                                // console.log('Found a word in dictionary');
+                                // console.log(word);
+                                output += '<span style="background-color:yellow">' + words[j] + '</span>';
+                            } else {
+                                output += words[j];
+                            }
+                            output += '&nbsp;'
+                        }
+                        output += '</p>';
+                    }
+                    output += '<p class="body-item-content">';
+                    output += '<img src="/images/icons/bulb.png" class="other-icon"/>' + reviews[i].num_useful;
+                    output += '<img src="/images/icons/funny.png" class="other-icon"/>' + reviews[i].num_funny;
+                    output += '<img src="/images/icons/cool.png" class="other-icon"/>' + reviews[i].num_cool;
+                    output += '</p>';
+                    output += '     </td>\
+                                </tr>\
+                            </table>';
+                }
+            }
+            output += '<br /><br /><br /><br />';
         }
-        $('body').append(output);
+        $('#append-here').append(output);
     </script>
 
 

@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+const moment = require('moment-timezone');
 
 const SUCCESS = 'SUCCESS';
 const FAIL = 'FAIL';
@@ -337,7 +338,7 @@ module.exports = {
                         user_id: rows[i].user_id,
                         business_id: rows[i].business_id,
                         stars: rows[i].stars,
-                        date: rows[i].date,
+                        date: moment(rows[i].date).tz("America/New_York").format('MM/DD/YYYY'),
                         text: rows[i].text,
                         num_useful: rows[i].num_useful,
                         num_funny: rows[i].num_funny,
