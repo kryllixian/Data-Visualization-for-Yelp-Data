@@ -211,7 +211,16 @@
                             // console.log(score);
                             $(`#${i+1}_recommendation`).attr('href', `/reviews/business_id?business_id=${business_id}&name=${name}&key_words=`);
                             $(`#${i+1}_recommendation`).html(`${name}`);
-                            $(`#${i+1}_recommendation_score`).html(`score: ${score}`);
+
+                            var output = `Total score: ${score}&emsp;`;
+                            if (recommendation_list[i].split('\t').length > 3) {
+                                var scores = recommendation_list[i].split('\t')[3].split(';');
+                                // console.log(scores);
+                                for (var j = 0; j < scores.length; j++) {
+                                    output += scores[j].split(':')[0] + ' Score:&nbsp;' + scores[j].split(':')[1] + '&emsp;';
+                                }
+                            }
+                            $(`#${i+1}_recommendation_score`).html(output);
                         }
                     }
                 });
@@ -257,6 +266,7 @@
                 dic_key_words[word] = 1;
             }
             if (dic_key_words) {
+                dic_key_words = dic;
                 var str_dic_key_words = JSON.stringify(dic_key_words).replace(/"/g, "'");
             }
             // console.log(message);
@@ -285,7 +295,15 @@
                     var score = recommendation_list[i].split('\t')[2];
                     output += '<br />';
                     output += `<p class="body-item-content-first">${i+1}. <a id="${i+1}_recommendation" href="/reviews/business_id?business_id=${business_id}&name=${name}&key_words=${str_dic_key_words}" class="school-name">${name}</a>:</p>`;
-                    output += `<p class="body-item-content" id="${i+1}_recommendation_score">score: ${score}</p>`;
+                    output += `<p class="body-item-content" id="${i+1}_recommendation_score">Total Score: ${score}&emsp;`;
+
+                    if (recommendation_list[i].split('\t').length > 3) {
+                        var scores = recommendation_list[i].split('\t')[3].split(';');
+                        for (var j = 0; j < scores.length; j++) {
+                            output += scores[j].split(':')[0] + ' Score:&nbsp;' + scores[j].split(':')[1] + '&emsp;';
+                        }
+                    }
+                    output += '</p>';
                     output += '<br />';
                     output += '     </td>\
                                 </tr>\
