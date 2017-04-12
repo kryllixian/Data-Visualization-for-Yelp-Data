@@ -242,12 +242,12 @@
                     url += '?';
                 }
                 url += '&key_word_' + name + '=' + value;
+                // Update in this way can update the url without refreshing the page
                 history.pushState(null, null, url);
             }
 
             // Highlight words
-            function highlightWords() {
-
+            function highlightWords(reviews, path) {
                 // console.log(reviews);
                 for (var i = 0; i < reviews.length; i++) {
                     var words = reviews[i].text.split(" ");
@@ -271,7 +271,7 @@
                         }
                         output += '&nbsp;'
                     }
-                    $(`#${i+1}_review`).html(output);
+                    $(`#${i+1}_${path}`).html(output);
                 }
             }
 
@@ -294,9 +294,11 @@
                     }
 
                     reviews = response.reviews;
-                    highlightWords();
+                    highlightWords(reviews, 'review');
 
                     var recommendation_list = JSON.parse(response.recommendation_list);
+                    var recommendation_reviews = JSON.parse(response.recommendation_reviews);
+                    console.log(recommendation_reviews);
                     if (recommendation_list) {
                         for (var i = 0; i < recommendation_list.length; i++) {
                             var business_id = recommendation_list[i].split('\t')[0];
@@ -315,8 +317,32 @@
                                 for (var j = 0; j < scores.length; j++) {
                                     output += scores[j].split(':')[0] + ' Score:&nbsp;' + scores[j].split(':')[1] + '&emsp;';
                                 }
+
+                                var target_reviews = recommendation_reviews[business_id];
+                                // console.log(target_reviews);
+                                for (var j = 0; j < target_reviews.length; j++) {
+                                    output += '<br /><br />';
+                                    // Add stars
+                                    var k = 0;
+                                    for (; k < target_reviews[j].stars ; k++) {
+                                        output += '<img src="/images/icons/star.png" class="star-icon"/>';
+                                    }
+                                    for (; k < 5; k++) {
+                                        output += '<img src="/images/icons/star-grey.png" class="star-icon"/>';
+                                    }
+                                    output += `${target_reviews[j].date}<br />`;
+
+                                    output += target_reviews[j].text + '<br />';
+
+                                    output += '<img src="/images/icons/bulb.png" class="other-icon"/>&nbsp;' + reviews[i].num_useful;
+                                    output += '<img src="/images/icons/funny.png" class="other-icon"/>&nbsp;' + reviews[i].num_funny;
+                                    output += '<img src="/images/icons/cool.png" class="other-icon"/>&nbsp;' + reviews[i].num_cool;
+                                }
                             }
+
                             $(`#${i+1}_recommendation_score`).html(output);
+
+                            highlightWords(recommendation_reviews[business_id], 'recommendation_score');
                         }
                     }
                 });
@@ -392,8 +418,10 @@
                         var name = recommendation_list[i].split('\t')[1];
                         var score = recommendation_list[i].split('\t')[2];
                         output += '<br />';
-                        output += `<p class="body-item-content-first">${i+1}. <a id="${i+1}_recommendation" href="/reviews/business_id?business_id=${business_id}&name=${name}&key_words=${str_dic_key_words}" class="school-name">${name}</a></p>`;
+                        output += `<p class="body-item-content-first">${i+1}. <a name="load-more-reviews" id="${i+1}_recommendation" href="/get_top_reviews_business_id?business_id=${business_id}&begin_index=0&num_reviews=3" class="school-name">${name}</a></p>`;
                         output += `<p class="body-item-content" id="${i+1}_recommendation_score">Total Score: ${score}&emsp;`;
+                        // output += `<input type="hidden" id="${i+1}_begin_index" value="0"></input>`;
+                        // output += `<input type="hidden" id="${i+1}_num_reviews" value="3"></input>`;
 
                         if (recommendation_list[i].split('\t').length > 3) {
                             var scores = recommendation_list[i].split('\t')[3].split(';');

@@ -689,6 +689,7 @@ app.get('/similar_restaurants_jquery', (req, res) => {
     // Process input key words
     var key_words = {};
     var restaurants_score = {};
+    var recommendation_reviews = {};
     // var key_words = req.query.key_words.split(' ');
     for (key in req.query) {
         if (!key.startsWith('key_word_')) {
@@ -746,8 +747,8 @@ app.get('/similar_restaurants_jquery', (req, res) => {
 
         // Get score of each part
         for (var i = 0; i < temp_list.length; i++) {
-            key = temp_list[i].split('\t')[0] + '\t' + temp_list[i].split('\t')[1];
-            temp = key + '\t' + temp_list[i].split('\t')[2] + '\t';
+            var key = temp_list[i].split('\t')[0] + '\t' + temp_list[i].split('\t')[1];
+            var temp = key + '\t' + temp_list[i].split('\t')[2] + '\t';
             for (word in restaurants_score[key]) {
                 temp += word + ':' + restaurants_score[key][word] + ';';
             }
@@ -756,28 +757,121 @@ app.get('/similar_restaurants_jquery', (req, res) => {
             }
             restaurants_list.push(temp);
         }
+
+        var business_ids = [];
+        for (var i = 0; i < restaurants_list.length; i++) {
+            var business_id = restaurants_list[i].split('\t')[0];
+            business_ids.push(business_id);
+            recommendation_reviews[business_id] = {};
+        }
+        // console.log(business_ids);
+
+        model.getTopReviewByRestaurantId(connection, business_ids[0], 0, 5,  function(result) {
+            recommendation_reviews[business_ids[0]] = helper.rankReviewsByScoreDesc(result.reviews, key_words).slice(0, 5);
+            model.getTopReviewByRestaurantId(connection, business_ids[1], 0, 5, function(result) {
+                recommendation_reviews[business_ids[1]] = helper.rankReviewsByScoreDesc(result.reviews, key_words).slice(0, 5);
+                model.getTopReviewByRestaurantId(connection, business_ids[2], 0, 5, function(result) {
+                    recommendation_reviews[business_ids[2]] = helper.rankReviewsByScoreDesc(result.reviews, key_words).slice(0, 5);
+                    model.getTopReviewByRestaurantId(connection, business_ids[3], 0, 5, function(result) {
+                        recommendation_reviews[business_ids[3]] = helper.rankReviewsByScoreDesc(result.reviews, key_words).slice(0, 5);
+                        model.getTopReviewByRestaurantId(connection, business_ids[4], 0, 5, function(result) {
+                            recommendation_reviews[business_ids[4]] = helper.rankReviewsByScoreDesc(result.reviews, key_words).slice(0, 5);
+                            model.getTopReviewByRestaurantId(connection, business_ids[5], 0, 5, function(result) {
+                                recommendation_reviews[business_ids[5]] = helper.rankReviewsByScoreDesc(result.reviews, key_words).slice(0, 5);
+                                model.getTopReviewByRestaurantId(connection, business_ids[6], 0, 5, function(result) {
+                                    recommendation_reviews[business_ids[6]] = helper.rankReviewsByScoreDesc(result.reviews, key_words).slice(0, 5);
+                                    model.getTopReviewByRestaurantId(connection, business_ids[7], 0, 5, function(result) {
+                                        recommendation_reviews[business_ids[7]] = helper.rankReviewsByScoreDesc(result.reviews, key_words).slice(0, 5);
+                                        model.getTopReviewByRestaurantId(connection, business_ids[8], 0, 5, function(result) {
+                                            recommendation_reviews[business_ids[8]] = helper.rankReviewsByScoreDesc(result.reviews, key_words).slice(0, 5);
+                                            model.getTopReviewByRestaurantId(connection, business_ids[9], 0, 5, function(result) {
+                                                recommendation_reviews[business_ids[9]] = helper.rankReviewsByScoreDesc(result.reviews, key_words).slice(0, 5);
+
+                                                    // console.log(restaurants_list);
+                                                    var reviews = req.query.reviews;
+                                                    // console.log(reviews);
+                                                    // Rank reviews by score
+                                                    if (reviews!= null || reviews.length > 0) {
+                                                        // console.log(JSON.stringify(reviews));
+                                                        var reviews = helper.rankReviewsByScoreDesc(reviews, key_words);
+                                                    }
+
+                                                    res.send({
+                                                        pageTitle: 'Restaurants Recommendation By Name',
+                                                        currentYear: new Date().getFullYear(),
+                                                        message: 'SUCCESS',
+                                                        restaurant_name: req.query.restaurant_name,
+                                                        recommendation_list: JSON.stringify(restaurants_list),
+                                                        key_words: req.query.key_words,
+                                                        reviews: reviews,
+                                                        recommendation_reviews: JSON.stringify(recommendation_reviews)
+                                                    });
+                                            });
+                                        });
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
     }
-
-    // console.log(restaurants_list);
-
-    var reviews = req.query.reviews;
-    // console.log(reviews);
-    // Rank reviews by score
-    if (reviews!= null || reviews.length > 0) {
-        // console.log(JSON.stringify(reviews));
-        var reviews = helper.rankReviewsByScoreDesc(reviews, key_words);
-    }
-
-    res.send({
-        pageTitle: 'Restaurants Recommendation By Name',
-        currentYear: new Date().getFullYear(),
-        message: 'SUCCESS',
-        restaurant_name: req.query.restaurant_name,
-        recommendation_list: JSON.stringify(restaurants_list),
-        key_words: req.query.key_words,
-        reviews: reviews
-    });
 });
+
+
+// app.get('/get_top_reviews_business_id', (req, res) => {
+//     // console.log(req.query);
+//     if (JSON.stringify(req.body) === '{}' && JSON.stringify(req.query) === '{}') {
+//         return res.render('restaurants_recommendation_by_name.hbs', {
+//             pageTitle: 'Restaurants Recommendation By Name',
+//             currentYear: new Date().getFullYear()
+//         });
+//     }
+//
+//     model.getTopReviewByRestaurantId(connection, req, res, function(result) {
+//         var reviews = [];
+//         if (result.message === 'SUCCESS') {
+//             // Process input key words
+//             var key_words = {};
+//             var restaurants_score = {};
+//             // var key_words = req.query.key_words.split(' ');
+//             for (key in req.query) {
+//                 if (!key.startsWith('key_word_')) {
+//                     continue;
+//                 }
+//
+//                 var word = key.substring(9).trim().toLowerCase();
+//                 if (key.length == 0) {
+//                     continue;
+//                 }
+//                 key_words[word] = parseInt(req.query[key]);
+//             }
+//
+//             if (Object.keys(key_words).length > 0) {
+//                 reviews = result.reviews;
+//                 if (reviews.length > 0) {
+//                     reviews = helper.rankReviewsByScoreDesc(reviews, key_words);
+//                 }
+//
+//                 // Slice the reviews
+//                 var begin_index = parseInt(req.query.begin_index);
+//                 var num_reviews = parseInt(req.query.num_reviews);
+//                 reviews = reviews.slice(begin_index, begin_index + num_reviews);
+//             }
+//         }
+//
+//         res.send({
+//             pageTitle: 'Restaurants Recommendation By Name',
+//             currentYear: new Date().getFullYear(),
+//             message: 'SUCCESS',
+//             restaurant_name: req.query.restaurant_name,
+//             recommendation_list: JSON.stringify(restaurants_list),
+//             key_words: req.query.key_words,
+//             reviews: reviews
+//         });
+//     });
+// });
 
 
 app.listen(port);

@@ -8,6 +8,8 @@ const MISSING_BUSINESS_ID = 'MISSING_BUSINESS_ID';
 const MISSING_USER_ID = 'MISSING_USER_ID';
 const MISSING_RESTAURANT_NAME = 'MISSING_RESTAURANT_NAME';
 const NO_RESTAURANTS_FOUND = 'NO_RESTAURANTS_FOUND';
+const MISSING_BEGIN_INDEX = 'MISSING_BEGIN_INDEX';
+const MISSING_NUM_REVIEWS = 'MISSING_NUM_REVIEWS';
 
 module.exports = {
     recommendation : function (connection, req, res, callback) {
@@ -303,7 +305,7 @@ module.exports = {
 
     getReviewByRestaurantName : function (connection, req, res, callback) {
         if (!'restaurant_name' in req.query) {
-            return callback({message: MISSING_BUSINESS_ID, reviews:  null});
+            return callback({message: MISSING_RESTAURANT_NAME, reviews:  null});
         }
         var restaurant_name = req.query.restaurant_name;
 
@@ -349,6 +351,39 @@ module.exports = {
                 }
                 return callback({message: SUCCESS, reviews: result});
             });
+        });
+    },
+
+
+    getTopReviewByRestaurantId : function (connection, business_id, begin_index, num_reviews, callback) {
+
+        var queryString1 = "SELECT review_id, user_id, business_id, stars, date, text, num_useful, num_funny, num_cool \
+                            FROM reviews WHERE business_id = ? \
+                            ORDER BY num_useful DESC, num_funny DESC, num_cool DESC, date DESC;";
+        connection.query(queryString1, business_id, function(err, rows) {
+            if (err) {
+                // Fail
+                console.log(err);
+                return callback({message: FAIL, reviews:  null});
+            }
+
+            var result = [];
+            for (var i = 0; i < rows.length && result.length <= 20; i++) {
+                var row = {
+                    review_id: rows[i].review_id,
+                    user_id: rows[i].user_id,
+                    business_id: rows[i].business_id,
+                    stars: rows[i].stars,
+                    date: moment(rows[i].date).tz("America/New_York").format('MM/DD/YYYY'),
+                    text: rows[i].text,
+                    num_useful: rows[i].num_useful,
+                    num_funny: rows[i].num_funny,
+                    num_cool: rows[i].num_cool
+                }
+                result.push(row);
+            }
+
+            return callback({message: SUCCESS, reviews: result});
         });
     }
 }
