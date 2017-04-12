@@ -153,7 +153,7 @@
                         if (!key.startsWith('key_word_')) {
                             continue;
                         }
-                        var word = key.substring(9).trim().toLowerCase();
+                        var word = key.substring(9).trim().toLowerCase().replace(/[^A-Za-z0-9]/gi, '');
                         if (word.length == 0) {
                             continue;
                         }
@@ -161,38 +161,43 @@
                         dic[word] = 1;
                         // Add slide bar
                         var first_row = `<p class="body-item-content">${word}:</p>`;
-                        var second_row = `<p class="body-item-content">0<input onchange="updateRecommentaion(this.value)" name="key_word_${word}" type="range" min="0" max="10" value="${url_para[key]}"/>10</p>`;
+                        var second_row = `<p class="body-item-content">0<input onchange="updateRecommentaion()" name="key_word_${word}" type="range" min="0" max="10" value="${url_para[key]}"/>10</p>`;
                         $('#append-br-here').append("<br /><br /><br />");
                         $('#append-first-column-here').append(first_row);
                         $('#append-second-column-here').append(second_row);
                         $('#key-words-input').val('');
 
                         highlightWords();
+                        updateRecommentaion();
                     }
                 }
 
 
 
                 // If the user Added Space, then create slide bar
-                $('#key-words-input').keypress(function(e) {
-                    if (e.keyCode == 0 || e.keyCode == 32) {
+                $('#key-words-input').on('input', function(e) {
+                    var text = $('#key-words-input').val();
+                    if (text.charAt(text.length - 1) == ' ') {
                          // `0` works in mozilla and `320 in other`
                          console.log('space pressed');
-                         var key_word = String($('#key-words-input').val()).trim().toLowerCase();
+                         var key_word = String(text).trim().toLowerCase().replace(/[^A-Za-z0-9]/gi, '');
                          if (key_word.length == 0 || key_word in dic) {
+                             $('#key-words-input').val('');
                              return;
                          }
 
                          dic[key_word] = 1;
                          // Add slide bar
                          var first_row = `<p class="body-item-content">${key_word}:</p>`;
-                         var second_row = `<p class="body-item-content">0<input onchange="updateRecommentaion(this.value)" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
+                         var second_row = `<p class="body-item-content">0<input onchange="updateRecommentaion()" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
                          $('#append-br-here').append("<br /><br /><br />");
                          $('#append-first-column-here').append(first_row);
                          $('#append-second-column-here').append(second_row);
                          $('#key-words-input').val('');
 
                          highlightWords();
+                         updateRecommentaion();
+                         updateCurrentPageUrl(key_word, 5);
                     }
                 });
             });
@@ -200,6 +205,7 @@
 
         <script type="text/javascript">
             $(document).ready(function () {
+                // Add key words when a word is selected
                 $('.body-item-content').mouseup(function() {
                     var key_word = '';
 
@@ -210,7 +216,7 @@
                         key_word = document.selection.createRange().text.toString();
                     }
 
-                    key_word = key_word.trim().toLowerCase();
+                    key_word = key_word.trim().toLowerCase().replace(/[^A-Za-z0-9]/gi, '');
                     if (key_word.length == 0 || key_word in dic) {
                         return;
                     }
@@ -219,17 +225,29 @@
 
                     // Add slide bar
                     var first_row = `<p class="body-item-content">${key_word}:</p>`;
-                    var second_row = `<p class="body-item-content">0<input onchange="updateRecommentaion(this.value)" class="range" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
+                    var second_row = `<p class="body-item-content">0<input onchange="updateRecommentaion()" class="range" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
                     $('#append-br-here').append("<br /><br /><br />");
                     $('#append-first-column-here').append(first_row);
                     $('#append-second-column-here').append(second_row);
 
                     highlightWords();
+                    updateRecommentaion();
+                    updateCurrentPageUrl(key_word, 5);
                 });
             });
         </script>
 
         <script type="text/javascript">
+            function updateCurrentPageUrl(name, value) {
+                console.log();
+                var url = window.location.href;
+                if (url.indexOf('?') == -1) {
+                    url += '?';
+                }
+                url += '&key_word_' + name + '=' + value;
+                history.pushState(null, null, url);
+            }
+
             // Highlight words
             function highlightWords() {
 
@@ -261,7 +279,7 @@
             }
 
             // Send HTTP request to update similarity
-            function updateRecommentaion(value) {
+            function updateRecommentaion() {
                 // Add all data to dictionary
                 var data = {};
                 $("input[type='range']").each(function() {
@@ -330,127 +348,159 @@
         if ($('#div_message').text() === '' || JSON.parse($('#div_message').text()) !== 'SUCCESS') {
             output += '<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />';
         } else {
-            var reviews = JSON.parse($('#div_reviews').text());
-            var message = JSON.parse($('#div_message').text());
-            var recommendation_list = JSON.parse($('#div_recommendation').text());
-            var key_words = $('#div_key_words').text().split(' ');
-            var dic_key_words = {}
-            for (var i = 0; i < key_words.length; i++) {
-                var word = key_words[i].trim().toLowerCase();
-                if (word.lenght == 0) {
-                    continue;
-                }
-                dic_key_words[word] = 1;
-            }
-            if (dic_key_words) {
-                dic_key_words = dic;
-                var str_dic_key_words = JSON.stringify(dic_key_words).replace(/"/g, "'");
-            }
-            // console.log(message);
-            // if (message) {
-            //     output += '<h3> Message:       ' + message + '</h3>';
-            // }
-            //
-            // output += '<br />';
-
-            if (recommendation_list) {
-                output += '<table class="body-item-1">\
-                                <tr class="body-item">\
-                                    <td class="body-item">\
-                                        <p class="body-item-title-school">\
-                                            SIMILAR RESTAURANTS\
-                                        </p>\
-                                    </td>\
-                                </tr>\
-                            </table>';
-                for (var i = 0; i < recommendation_list.length; i++) {
-                    output += '<table class="body-item-2">\
-                            <tr class="body-item">\
-                                <td class="body-item">';
-                    var business_id = recommendation_list[i].split('\t')[0];
-                    var name = recommendation_list[i].split('\t')[1];
-                    var score = recommendation_list[i].split('\t')[2];
-                    output += '<br />';
-                    output += `<p class="body-item-content-first">${i+1}. <a id="${i+1}_recommendation" href="/reviews/business_id?business_id=${business_id}&name=${name}&key_words=${str_dic_key_words}" class="school-name">${name}</a>:</p>`;
-                    output += `<p class="body-item-content" id="${i+1}_recommendation_score">Total Score: ${score}&emsp;`;
-
-                    if (recommendation_list[i].split('\t').length > 3) {
-                        var scores = recommendation_list[i].split('\t')[3].split(';');
-                        for (var j = 0; j < scores.length; j++) {
-                            output += scores[j].split(':')[0] + ' Score:&nbsp;' + scores[j].split(':')[1] + '&emsp;';
-                        }
+            if ($('#div_reviews').text().trim().length != 0) {
+                var reviews = JSON.parse($('#div_reviews').text());
+                var message = JSON.parse($('#div_message').text());
+                var recommendation_list = JSON.parse($('#div_recommendation').text());
+                var key_words = $('#div_key_words').text().split(' ');
+                var dic_key_words = {}
+                for (var i = 0; i < key_words.length; i++) {
+                    var word = key_words[i].trim().toLowerCase();
+                    if (word.lenght == 0) {
+                        continue;
                     }
-                    output += '</p>';
-                    output += '<br />';
-                    output += '     </td>\
-                                </tr>\
-                            </table>';
+                    dic_key_words[word] = 1;
                 }
-            }
+                if (dic_key_words) {
+                    dic_key_words = dic;
+                    var str_dic_key_words = JSON.stringify(dic_key_words).replace(/"/g, "'");
+                }
+                // console.log(message);
+                // if (message) {
+                //     output += '<h3> Message:       ' + message + '</h3>';
+                // }
+                //
+                // output += '<br />';
 
-            if (reviews) {
-                output += '<table class="body-item-1">\
-                                <tr class="body-item">\
-                                    <td class="body-item">\
-                                        <p class="body-item-title-school">\
-                                            ALL REVIEWS OF THE SELECTED RESTAURANT\
-                                        </p>\
-                                    </td>\
-                                </tr>\
-                            </table>';
-                for (var i = 0; i < reviews.length; i++) {
-                    output += '<table class="body-item-2">\
+                if ($('#div_recommendation').text().trim().length > 2) {
+                    console.log(111);
+                    output += '<table class="body-item-1">\
+                                    <tr class="body-item">\
+                                        <td class="body-item">\
+                                            <p class="body-item-title-school">\
+                                                SIMILAR RESTAURANTS\
+                                            </p>\
+                                        </td>\
+                                    </tr>\
+                                </table>';
+                    for (var i = 0; i < recommendation_list.length; i++) {
+                        output += '<table class="body-item-2">\
                                 <tr class="body-item">\
                                     <td class="body-item">';
-                    output += '<ul>';
+                        var business_id = recommendation_list[i].split('\t')[0];
+                        var name = recommendation_list[i].split('\t')[1];
+                        var score = recommendation_list[i].split('\t')[2];
+                        output += '<br />';
+                        output += `<p class="body-item-content-first">${i+1}. <a id="${i+1}_recommendation" href="/reviews/business_id?business_id=${business_id}&name=${name}&key_words=${str_dic_key_words}" class="school-name">${name}</a></p>`;
+                        output += `<p class="body-item-content" id="${i+1}_recommendation_score">Total Score: ${score}&emsp;`;
 
-                    output += '<p class="body-item-content-first">';
-
-                    // Add stars
-                    var j = 0;
-                    for (; j < reviews[i].stars ; j++) {
-                        output += '<img src="/images/icons/star.png" class="star-icon"/>';
-                    }
-                    for (; j < 5; j++) {
-                        output += '<img src="/images/icons/star-grey.png" class="star-icon"/>';
-                    }
-
-                    output += `${reviews[i].date}</p>`;
-                    if (dic_key_words) {
-                        var words = reviews[i].text.split(" ");
-                        output += `<p class="body-item-content" id="${i+1}_review"name="reviews">`;
-                        var curr_len = 0;
-                        for (var j in words) {
-                            var word = words[j].replace(/[^A-Za-z0-9]/gi, '');
-
-                            if (curr_len + word.length + 1 > MAX_CHAR_EACH_LINE) {
-                                output += '<br />';
-                                curr_len = 0;
+                        if (recommendation_list[i].split('\t').length > 3) {
+                            var scores = recommendation_list[i].split('\t')[3].split(';');
+                            for (var j = 0; j < scores.length; j++) {
+                                output += scores[j].split(':')[0] + ' Score:&nbsp;' + scores[j].split(':')[1] + '&emsp;';
                             }
-                            curr_len += word.length + 1;
-
-                            if (word.toLowerCase() in dic_key_words) {
-                                // console.log('Found a word in dictionary');
-                                // console.log(word);
-                                output += '<span style="background-color:yellow">' + words[j] + '</span>';
-                            } else {
-                                output += words[j];
-                            }
-                            output += '&nbsp;'
                         }
                         output += '</p>';
+                        output += '<br />';
+                        output += '     </td>\
+                                    </tr>\
+                                </table>';
                     }
-                    output += '<p class="body-item-content">';
-                    output += '<img src="/images/icons/bulb.png" class="other-icon"/>&nbsp;' + reviews[i].num_useful;
-                    output += '<img src="/images/icons/funny.png" class="other-icon"/>&nbsp;' + reviews[i].num_funny;
-                    output += '<img src="/images/icons/cool.png" class="other-icon"/>&nbsp;' + reviews[i].num_cool;
+                } else {
+                    console.log(222);
+                    output += '<table class="body-item-1">\
+                                    <tr class="body-item">\
+                                        <td class="body-item">\
+                                            <p class="body-item-title-school">\
+                                                SIMILAR RESTAURANTS\
+                                            </p>\
+                                        </td>\
+                                    </tr>\
+                                </table>';
+                    for (var i = 0; i < 10; i++) {
+                        output += '<table class="body-item-2">\
+                                <tr class="body-item">\
+                                    <td class="body-item">';
+                        output += '<br />';
+                        output += `<p class="body-item-content-first">${i+1}. <a id="${i+1}_recommendation" href="" class="school-name"></a></p>`;
+                        output += `<p class="body-item-content" id="${i+1}_recommendation_score">&emsp;`;
+                        output += '</p>';
+                        output += '<br />';
+                        output += '     </td>\
+                                    </tr>\
+                                </table>';
+                    }
                     output += '</p>';
+                    output += '<br />';
                     output += '     </td>\
                                 </tr>\
                             </table>';
                 }
+
+                if (reviews) {
+                    output += '<table class="body-item-1">\
+                                    <tr class="body-item">\
+                                        <td class="body-item">\
+                                            <p class="body-item-title-school">\
+                                                ALL REVIEWS OF THE SELECTED RESTAURANT\
+                                            </p>\
+                                        </td>\
+                                    </tr>\
+                                </table>';
+                    for (var i = 0; i < reviews.length; i++) {
+                        output += '<table class="body-item-2">\
+                                    <tr class="body-item">\
+                                        <td class="body-item">';
+                        output += '<ul>';
+
+                        output += '<p class="body-item-content-first">';
+
+                        // Add stars
+                        var j = 0;
+                        for (; j < reviews[i].stars ; j++) {
+                            output += '<img src="/images/icons/star.png" class="star-icon"/>';
+                        }
+                        for (; j < 5; j++) {
+                            output += '<img src="/images/icons/star-grey.png" class="star-icon"/>';
+                        }
+
+                        output += `${reviews[i].date}</p>`;
+                        if (dic_key_words) {
+                            var words = reviews[i].text.split(" ");
+                            output += `<p class="body-item-content" id="${i+1}_review"name="reviews">`;
+                            var curr_len = 0;
+                            for (var j in words) {
+                                var word = words[j].replace(/[^A-Za-z0-9]/gi, '');
+
+                                if (curr_len + word.length + 1 > MAX_CHAR_EACH_LINE) {
+                                    output += '<br />';
+                                    curr_len = 0;
+                                }
+                                curr_len += word.length + 1;
+
+                                if (word.toLowerCase() in dic_key_words) {
+                                    // console.log('Found a word in dictionary');
+                                    // console.log(word);
+                                    output += '<span style="background-color:yellow">' + words[j] + '</span>';
+                                } else {
+                                    output += words[j];
+                                }
+                                output += '&nbsp;'
+                            }
+                            output += '</p>';
+                        }
+                        output += '<p class="body-item-content">';
+                        output += '<img src="/images/icons/bulb.png" class="other-icon"/>&nbsp;' + reviews[i].num_useful;
+                        output += '<img src="/images/icons/funny.png" class="other-icon"/>&nbsp;' + reviews[i].num_funny;
+                        output += '<img src="/images/icons/cool.png" class="other-icon"/>&nbsp;' + reviews[i].num_cool;
+                        output += '</p>';
+                        output += '     </td>\
+                                    </tr>\
+                                </table>';
+                    }
+                }
+                output += '<br /><br /><br /><br />';
             }
-            output += '<br /><br /><br /><br />';
         }
         $('#append-here').append(output);
     </script>
