@@ -130,8 +130,45 @@
         <script type="text/javascript">
             // Use dictionary to remove duplicate key words
             var dic = {};
+            var url_para = {};
             $(document).ready(function () {
-                // If the user Added Space, then create bar
+                // Get parameters in URL
+                var url = window.location.search.substring(1).replace(/\+/g, ' ');
+                var paras = url.split('&');
+                // console.log(paras);
+                for (var i = 0; i < paras.length; i++) {
+                    var para = paras[i];
+                    var name = paras[i].split('=')[0].trim();
+                    var val = paras[i].split('=')[1].trim();
+                    if (!isNaN(val)) {
+                        val = parseInt(val);
+                    }
+                    url_para[name] = val;
+                }
+                // console.log(url_para);
+
+                // Create slide bar from the url
+                for (key in url_para) {
+                    if (!key.startsWith('key_word_')) {
+                        continue;
+                    }
+                    var word = key.substring(9).trim().toLowerCase();
+                    if (word.length == 0) {
+                        continue;
+                    }
+
+                    dic[word] = 1;
+                    // Add slide bar
+                    var first_row = `<p class="body-item-content">${word}:</p>`;
+                    var second_row = `<p class="body-item-content">0<input onchange="updateRecommentaion(this.value)" name="key_word_${word}" type="range" min="0" max="10" value="${url_para[key]}"/>10</p>`;
+                    $('#append-br-here').append("<br /><br /><br />");
+                    $('#append-first-column-here').append(first_row);
+                    $('#append-second-column-here').append(second_row);
+                    $('#key-words-input').val('');
+                }
+
+
+                // If the user Added Space, then create slide bar
                 $('#key-words-input').keypress(function(e) {
                     if (e.keyCode == 0 || e.keyCode == 32) {
                          // `0` works in mozilla and `320 in other`
