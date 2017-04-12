@@ -85,5 +85,52 @@ module.exports = {
             }
             return callback({message: 'SUCCESS', data: dic});
         });
+    },
+
+    rankReviewsByScoreDesc : function(reviews, key_words) {
+        for (var i = 0; i < reviews.length; i++) {
+            var words = reviews[i].text.replace(/[^A-Za-z0-9 ]/gi, '');
+            words = words.replace(/\t/g, ' ').toLowerCase().split(' ');
+            // console.log(words);
+
+            if (words.length == 0) {
+                continue;
+            }
+            var score = 0;
+            for (var j = 0; j < words.length; j++) {
+                var word = words[j];
+                if (word in key_words) {
+                    score += key_words[word];
+                }
+            }
+            // console.log(score);
+            reviews[i]['score'] = score;
+        }
+
+        // Sort reviews by score
+        reviews = reviews.sort(function (a, b) {
+            if (b.score != a.score) {
+                return b.score - a.score;
+            }
+            if (b.num_useful != a.num_useful) {
+                return b.num_useful - a.num_useful;
+            }
+            if (b.num_funny != a.num_funny) {
+                return b.num_funny - a.num_funny;
+            }
+            if (b.num_cool != a.num_cool) {
+                return b.num_cool - a.num_cool;
+            }
+            if (b.date != a.date) {
+                return b.date - a.date;
+            }
+            return b.text.length - a.text.length;
+        });
+
+        // Debug
+        // for (var i = 0; i < reviews.length; i++) {
+        //     console.log(reviews[i].review_id + '\t' + reviews[i].score);
+        // }
+        return reviews;
     }
 }

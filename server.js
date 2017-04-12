@@ -646,9 +646,15 @@ app.get('/restaurants_recommendation_by_name', (req, res) => {
                 }
                 restaurants_list.push(temp);
             }
-        }
 
-        console.log(restaurants_list);
+            // Rank reviews by score
+            var reviews = result.reviews;
+            if (reviews.length > 0) {
+                // console.log(JSON.stringify(reviews));
+                var reviews = helper.rankReviewsByScoreDesc(reviews, key_words);
+            }
+        }
+        // console.log(restaurants_list);
 
         res.render('restaurants_recommendation_by_name.hbs', {
             pageTitle: 'Restaurants Recommendation By Name',
@@ -656,8 +662,8 @@ app.get('/restaurants_recommendation_by_name', (req, res) => {
             message: JSON.stringify(result.message),
             restaurant_name: req.query.restaurant_name,
             recommendation_list: JSON.stringify(restaurants_list),
-            key_words: req.query.key_words,
-            reviews: JSON.stringify(result.reviews),
+            key_words_input: JSON.stringify(key_words),
+            reviews: JSON.stringify(reviews),
         });
     });
 });
