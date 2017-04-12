@@ -167,7 +167,6 @@
                         $('#append-second-column-here').append(second_row);
                         $('#key-words-input').val('');
 
-                        highlightWords();
                         updateRecommentaion();
                     }
                 }
@@ -195,7 +194,6 @@
                          $('#append-second-column-here').append(second_row);
                          $('#key-words-input').val('');
 
-                         highlightWords();
                          updateRecommentaion();
                          updateCurrentPageUrl(key_word, 5);
                     }
@@ -230,7 +228,6 @@
                     $('#append-first-column-here').append(first_row);
                     $('#append-second-column-here').append(second_row);
 
-                    highlightWords();
                     updateRecommentaion();
                     updateCurrentPageUrl(key_word, 5);
                 });
@@ -251,7 +248,7 @@
             // Highlight words
             function highlightWords() {
 
-                console.log(reviews);
+                // console.log(reviews);
                 for (var i = 0; i < reviews.length; i++) {
                     var words = reviews[i].text.split(" ");
                     var output = '';
@@ -287,6 +284,7 @@
                 });
                 data['restaurant_name'] = $('#restaurants-name-input').val();
                 data['key_words_input'] = $('#key-words-input').val();
+                data['reviews'] = reviews;
 
                 // console.log(data);
                 $.get('similar_restaurants_jquery', data, function(response) {
@@ -294,6 +292,9 @@
                     if (response == null || response.message.replace(/"/g, "") !== 'SUCCESS') {
                         return;
                     }
+
+                    reviews = response.reviews;
+                    highlightWords();
 
                     var recommendation_list = JSON.parse(response.recommendation_list);
                     if (recommendation_list) {

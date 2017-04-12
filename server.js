@@ -672,7 +672,7 @@ app.get('/restaurants_recommendation_by_name', (req, res) => {
 
 
 app.get('/similar_restaurants_jquery', (req, res) => {
-    console.log(req.query);
+    // console.log(req.query);
     if (JSON.stringify(req.body) === '{}' && JSON.stringify(req.query) === '{}') {
         return res.render('restaurants_recommendation_by_name.hbs', {
             pageTitle: 'Restaurants Recommendation By Name',
@@ -758,7 +758,15 @@ app.get('/similar_restaurants_jquery', (req, res) => {
         }
     }
 
-    console.log(restaurants_list);
+    // console.log(restaurants_list);
+
+    var reviews = req.query.reviews;
+    // console.log(reviews);
+    // Rank reviews by score
+    if (reviews!= null || reviews.length > 0) {
+        // console.log(JSON.stringify(reviews));
+        var reviews = helper.rankReviewsByScoreDesc(reviews, key_words);
+    }
 
     res.send({
         pageTitle: 'Restaurants Recommendation By Name',
@@ -766,7 +774,8 @@ app.get('/similar_restaurants_jquery', (req, res) => {
         message: 'SUCCESS',
         restaurant_name: req.query.restaurant_name,
         recommendation_list: JSON.stringify(restaurants_list),
-        key_words: req.query.key_words
+        key_words: req.query.key_words,
+        reviews: reviews
     });
 });
 
