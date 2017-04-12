@@ -134,38 +134,43 @@
             $(document).ready(function () {
                 // Get parameters in URL
                 var url = window.location.search.substring(1).replace(/\+/g, ' ');
-                var paras = url.split('&');
-                // console.log(paras);
-                for (var i = 0; i < paras.length; i++) {
-                    var para = paras[i];
-                    var name = paras[i].split('=')[0].trim();
-                    var val = paras[i].split('=')[1].trim();
-                    if (!isNaN(val)) {
-                        val = parseInt(val);
+                if (url.length > 0) {
+                    var paras = url.split('&');
+                    console.log(paras);
+                    for (var i = 0; i < paras.length; i++) {
+                        var para = paras[i];
+                        var name = paras[i].split('=')[0].trim();
+                        var val = paras[i].split('=')[1].trim();
+                        if (!isNaN(val)) {
+                            val = parseInt(val);
+                        }
+                        url_para[name] = val;
                     }
-                    url_para[name] = val;
-                }
-                // console.log(url_para);
+                    // console.log(url_para);
 
-                // Create slide bar from the url
-                for (key in url_para) {
-                    if (!key.startsWith('key_word_')) {
-                        continue;
-                    }
-                    var word = key.substring(9).trim().toLowerCase();
-                    if (word.length == 0) {
-                        continue;
-                    }
+                    // Create slide bar from the url
+                    for (key in url_para) {
+                        if (!key.startsWith('key_word_')) {
+                            continue;
+                        }
+                        var word = key.substring(9).trim().toLowerCase();
+                        if (word.length == 0) {
+                            continue;
+                        }
 
-                    dic[word] = 1;
-                    // Add slide bar
-                    var first_row = `<p class="body-item-content">${word}:</p>`;
-                    var second_row = `<p class="body-item-content">0<input onchange="updateRecommentaion(this.value)" name="key_word_${word}" type="range" min="0" max="10" value="${url_para[key]}"/>10</p>`;
-                    $('#append-br-here').append("<br /><br /><br />");
-                    $('#append-first-column-here').append(first_row);
-                    $('#append-second-column-here').append(second_row);
-                    $('#key-words-input').val('');
+                        dic[word] = 1;
+                        // Add slide bar
+                        var first_row = `<p class="body-item-content">${word}:</p>`;
+                        var second_row = `<p class="body-item-content">0<input onchange="updateRecommentaion(this.value)" name="key_word_${word}" type="range" min="0" max="10" value="${url_para[key]}"/>10</p>`;
+                        $('#append-br-here').append("<br /><br /><br />");
+                        $('#append-first-column-here').append(first_row);
+                        $('#append-second-column-here').append(second_row);
+                        $('#key-words-input').val('');
+
+                        highlightWords();
+                    }
                 }
+
 
 
                 // If the user Added Space, then create slide bar
@@ -186,6 +191,8 @@
                          $('#append-first-column-here').append(first_row);
                          $('#append-second-column-here').append(second_row);
                          $('#key-words-input').val('');
+
+                         highlightWords();
                     }
                 });
             });
@@ -216,11 +223,43 @@
                     $('#append-br-here').append("<br /><br /><br />");
                     $('#append-first-column-here').append(first_row);
                     $('#append-second-column-here').append(second_row);
+
+                    highlightWords();
                 });
             });
         </script>
 
         <script type="text/javascript">
+            // Highlight words
+            function highlightWords() {
+
+                console.log(reviews);
+                for (var i = 0; i < reviews.length; i++) {
+                    var words = reviews[i].text.split(" ");
+                    var output = '';
+                    var curr_len = 0;
+                    for (var j in words) {
+                        var word = words[j].replace(/[^A-Za-z0-9]/gi, '');
+
+                        if (curr_len + word.length + 1 > MAX_CHAR_EACH_LINE) {
+                            output += '<br />';
+                            curr_len = 0;
+                        }
+                        curr_len += word.length + 1;
+
+                        if (word.toLowerCase() in dic) {
+                            // console.log('Found a word in dictionary');
+                            // console.log(word);
+                            output += '<span style="background-color:yellow">' + words[j] + '</span>';
+                        } else {
+                            output += words[j];
+                        }
+                        output += '&nbsp;'
+                    }
+                    $(`#${i+1}_review`).html(output);
+                }
+            }
+
             // Send HTTP request to update similarity
             function updateRecommentaion(value) {
                 // Add all data to dictionary
@@ -287,10 +326,10 @@
     <script type="text/javascript">
     // Show the search result
         var output = '';
+        const MAX_CHAR_EACH_LINE = 85;
         if ($('#div_message').text() === '' || JSON.parse($('#div_message').text()) !== 'SUCCESS') {
             output += '<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />';
         } else {
-            const MAX_CHAR_EACH_LINE = 85;
             var reviews = JSON.parse($('#div_reviews').text());
             var message = JSON.parse($('#div_message').text());
             var recommendation_list = JSON.parse($('#div_recommendation').text());
@@ -379,7 +418,7 @@
                     output += `${reviews[i].date}</p>`;
                     if (dic_key_words) {
                         var words = reviews[i].text.split(" ");
-                        output += '<p class="body-item-content">';
+                        output += `<p class="body-item-content" id="${i+1}_review"name="reviews">`;
                         var curr_len = 0;
                         for (var j in words) {
                             var word = words[j].replace(/[^A-Za-z0-9]/gi, '');

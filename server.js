@@ -649,7 +649,7 @@ app.get('/restaurants_recommendation_by_name', (req, res) => {
 
             // Rank reviews by score
             var reviews = result.reviews;
-            if (reviews.length > 0) {
+            if (reviews!= null || reviews.length > 0) {
                 // console.log(JSON.stringify(reviews));
                 var reviews = helper.rankReviewsByScoreDesc(reviews, key_words);
             }
