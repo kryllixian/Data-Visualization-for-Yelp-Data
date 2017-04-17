@@ -124,6 +124,14 @@
                     </td>
                 </tr>
             </table>
+            <table class="body-item-2">
+                <tr class="body-item">
+                    <td class="body-item">
+                        <input id="url-text" type="input"></input>
+                        <input type="button" class="copy-url-button" value="Copy URL To Clipboard" onclick="CopyURLToClipboard();" />
+                    </td>
+                </tr>
+            </table>
         </div>
 
 
@@ -132,6 +140,8 @@
             var dic = {};
             var url_para = {};
             $(document).ready(function () {
+                $('#url-text').val(window.location.href);
+
                 // Get parameters in URL
                 var url = window.location.search.substring(1).replace(/\+/g, ' ');
                 if (url.length > 0) {
@@ -235,6 +245,13 @@
         </script>
 
         <script type="text/javascript">
+            function CopyURLToClipboard() {
+                var Url = $("#url-text");
+                Url.val(window.location.href);
+                Url.select();
+                document.execCommand("copy");
+            }
+
             function updateCurrentPageUrl(name, value) {
                 console.log();
                 var url = window.location.href;
