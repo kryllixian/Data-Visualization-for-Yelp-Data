@@ -52,12 +52,18 @@ const port = 3000;
 hbs.registerPartials(__dirname + '/views/partials')
 app.set('view engine', 'hbs');
 app.use(express.static(__dirname + '/public'));
-
+app.enable('trust proxy');
 
 // Middleware
 app.use((req, res, next) => {
   var now = new Date().toString();
-  var log = `${now}: ${req.method} ${req.url}`;
+
+  // Get ip address
+  var ip = req.ip;
+  if (ip.substr(0, 7) == "::ffff:") {
+      ip = ip.substr(7)
+    }
+  var log = `FROM ${ip} ${now}: ${req.method} ${req.url}`;
 
   console.log(log);
   fs.appendFile('server.log', log + '\n', (err) => {
