@@ -76,6 +76,20 @@ input.copy-url-button {
     cursor: pointer;
     font-size: 15px;
 }
+input.key-word-button {
+    height: 18px;
+    font-family: Myriad Pro;
+    background-color: #525558;
+    border: none;
+    color: white;
+    /*padding: 15px 32px;*/
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
 
 /* Maps */
 div.map {

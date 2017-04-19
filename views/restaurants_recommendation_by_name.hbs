@@ -169,9 +169,10 @@
                         }
 
                         dic[word] = 1;
+                        var key_word = key.substring(9).trim();
                         // Add slide bar
-                        var first_row = `<p class="body-item-content">${word}:</p>`;
-                        var second_row = `<p class="body-item-content">0<input onchange="updateRecommentaion()" name="key_word_${word}" type="range" min="0" max="10" value="${url_para[key]}"/>10</p>`;
+                        var first_row = `<br /><input type="button" name="button_${key_word}" value="${key_word}:" class="key-word-button" onclick="delete_this_keyword(this);"</input><br />`;
+                        var second_row = `<p class="body-item-content" name="key_word_${key_word}">0<input onchange="updateRecommentaion()" class="range" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
                         $('#append-br-here').append("<br /><br /><br />");
                         $('#append-first-column-here').append(first_row);
                         $('#append-second-column-here').append(second_row);
@@ -197,8 +198,8 @@
 
                          dic[key_word] = 1;
                          // Add slide bar
-                         var first_row = `<p class="body-item-content">${key_word}:</p>`;
-                         var second_row = `<p class="body-item-content">0<input onchange="updateRecommentaion()" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
+                         var first_row = `<br /><input type="button" name="button_${key_word}" value="${key_word}:" class="key-word-button" onclick="delete_this_keyword(this);"</input><br />`;
+                         var second_row = `<p class="body-item-content" name="key_word_${key_word}">0<input onchange="updateRecommentaion()" class="range" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
                          $('#append-br-here').append("<br /><br /><br />");
                          $('#append-first-column-here').append(first_row);
                          $('#append-second-column-here').append(second_row);
@@ -232,8 +233,8 @@
                     dic[key_word] = 1;
 
                     // Add slide bar
-                    var first_row = `<p class="body-item-content">${key_word}:</p>`;
-                    var second_row = `<p class="body-item-content">0<input onchange="updateRecommentaion()" class="range" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
+                    var first_row = `<br /><input type="button" name="button_${key_word}" value="${key_word}:" class="key-word-button" onclick="delete_this_keyword(this);"</input><br />`;
+                    var second_row = `<p class="body-item-content" name="key_word_${key_word}">0<input onchange="updateRecommentaion()" class="range" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
                     $('#append-br-here').append("<br /><br /><br />");
                     $('#append-first-column-here').append(first_row);
                     $('#append-second-column-here').append(second_row);
@@ -245,6 +246,35 @@
         </script>
 
         <script type="text/javascript">
+            function delete_this_keyword(element) {
+                if (!element.name.startsWith("button_")) {
+                    return;
+                }
+                var key_word = element.name.substring(7);
+                var name = `key_word_${key_word}`;
+                var value = $(`input[name="key_word_${key_word}"`).val();
+                // console.log(key_word);
+
+                // Remove elements
+                element.remove();
+                $(`input[name="key_word_${key_word}"`).remove();
+                $(`p[name="key_word_${key_word}"`).remove();
+
+                // Update URL
+                var url = window.location.href;
+                var newStr = '&' + name + '=' + value;
+                // console.log(newStr);
+                url = url.replace(newStr, '');
+
+                newStr = newStr.substring(1);
+                // console.log(newStr);
+                url = url.replace(newStr, '')
+                history.pushState(null, null, url);
+
+                // console.log(url);
+                // console.log(window.location.href);
+            }
+
             function CopyURLToClipboard() {
                 var Url = $("#url-text");
                 Url.val(window.location.href);
@@ -258,9 +288,18 @@
                 if (url.indexOf('?') == -1) {
                     url += '?';
                 }
-                url += '&key_word_' + name + '=' + value;
+
+                var newStr = 'key_word_' + name + '=' + value;
+
+                // Prevent duplicate key_words in url
+                if (url.indexOf(newStr) != -1) {
+                    return;
+                }
+                url += '&' + newStr;
                 // Update in this way can update the url without refreshing the page
                 history.pushState(null, null, url);
+
+                CopyURLToClipboard();
             }
 
             // Highlight words
