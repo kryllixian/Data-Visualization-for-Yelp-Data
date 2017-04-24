@@ -24,12 +24,12 @@ CREATE TABLE IF NOT EXISTS attributes (
     FOREIGN KEY(business_id) REFERENCES businesses(business_id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS attributes_by_businesses (
-    business_id VARCHAR(80) NOT NULL,
-
-    PRIMARY KEY(business_id),
-    FOREIGN KEY(business_id) REFERENCES businesses(business_id) ON DELETE CASCADE
-);
+-- CREATE TABLE IF NOT EXISTS attributes_by_businesses (
+--     business_id VARCHAR(80) NOT NULL,
+--
+--     PRIMARY KEY(business_id),
+--     FOREIGN KEY(business_id) REFERENCES businesses(business_id) ON DELETE CASCADE
+-- );
 
 -- Loaded
 CREATE TABLE IF NOT EXISTS categories (
@@ -144,4 +144,13 @@ CREATE TABLE IF NOT EXISTS tips (
     PRIMARY KEY(tip_id),
     FOREIGN KEY(user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY(business_id) REFERENCES businesses(business_id) ON DELETE CASCADE
+);
+
+
+-- Filters
+CREATE TABLE IF NOT EXISTS filters (
+    filter_id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(40) NOT NULL,
+    url VARCHAR(2000) NOT NULL,
+    PRIMARY KEY(filter_id)
 );

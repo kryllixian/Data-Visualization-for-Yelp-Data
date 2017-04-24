@@ -153,7 +153,6 @@ GROUP BY b.business_id, b.name, b.address, b.city, b.state, b.latitude, b.longit
 ORDER BY COUNT(DISTINCT(u.user_id)) DESC, b.stars DESC, b.review_count DESC LIMIT 10;
 
 
-WIWTH
 SELECT review_id, (LENGTH(text) - LENGTH(replace(text ,'great','')))/LENGTH('great') AS COUNT
 FROM reviews
 GROUP BY review_id
