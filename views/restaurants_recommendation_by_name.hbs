@@ -129,6 +129,9 @@
                     <td class="body-item">
                         <input id="url-text" type="input"></input>
                         <input type="button" class="copy-url-button" value="Copy URL To Clipboard" onclick="CopyURLToClipboard();" />
+                        <br />
+                        <input id="url-name" type="input"></input>
+                        <br /><br /><br />
                     </td>
                 </tr>
             </table>
@@ -172,13 +175,13 @@
                         var key_word = key.substring(9).trim();
                         // Add slide bar
                         var first_row = `<br /><input type="button" name="button_${key_word}" value="${key_word}:" class="key-word-button" onclick="delete_this_keyword(this);"</input><br />`;
-                        var second_row = `<p class="body-item-content" name="key_word_${key_word}">0<input onchange="updateRecommentaion()" class="range" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
+                        var second_row = `<p class="body-item-content" name="key_word_${key_word}">0<input onchange="updateRecommendaion()" class="range" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
                         $('#append-br-here').append("<br /><br /><br />");
                         $('#append-first-column-here').append(first_row);
                         $('#append-second-column-here').append(second_row);
                         $('#key-words-input').val('');
 
-                        updateRecommentaion();
+                        updateRecommendaion();
                     }
                 }
 
@@ -199,13 +202,13 @@
                          dic[key_word] = 1;
                          // Add slide bar
                          var first_row = `<br /><input type="button" name="button_${key_word}" value="${key_word}:" class="key-word-button" onclick="delete_this_keyword(this);"</input><br />`;
-                         var second_row = `<p class="body-item-content" name="key_word_${key_word}">0<input onchange="updateRecommentaion()" class="range" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
+                         var second_row = `<p class="body-item-content" name="key_word_${key_word}">0<input onchange="updateRecommendaion()" class="range" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
                          $('#append-br-here').append("<br /><br /><br />");
                          $('#append-first-column-here').append(first_row);
                          $('#append-second-column-here').append(second_row);
                          $('#key-words-input').val('');
 
-                         updateRecommentaion();
+                         updateRecommendaion();
                          updateCurrentPageUrl(key_word, 5);
                     }
                 });
@@ -234,12 +237,12 @@
 
                     // Add slide bar
                     var first_row = `<br /><input type="button" name="button_${key_word}" value="${key_word}:" class="key-word-button" onclick="delete_this_keyword(this);"</input><br />`;
-                    var second_row = `<p class="body-item-content" name="key_word_${key_word}">0<input onchange="updateRecommentaion()" class="range" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
+                    var second_row = `<p class="body-item-content" name="key_word_${key_word}">0<input onchange="updateRecommendaion()" class="range" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
                     $('#append-br-here').append("<br /><br /><br />");
                     $('#append-first-column-here').append(first_row);
                     $('#append-second-column-here').append(second_row);
 
-                    updateRecommentaion();
+                    updateRecommendaion();
                     updateCurrentPageUrl(key_word, 5);
                 });
             });
@@ -280,6 +283,18 @@
                 Url.val(window.location.href);
                 Url.select();
                 document.execCommand("copy");
+
+                var url = window.location.href;
+                var name = $("#url-name").val();
+
+                var data = {
+                    url: url,
+                    name: name
+                };
+
+                $.post( "insert_url_name_jquery", data, function(res){
+
+                });
             }
 
             function updateCurrentPageUrl(name, value) {
@@ -332,7 +347,7 @@
             }
 
             // Send HTTP request to update similarity
-            function updateRecommentaion() {
+            function updateRecommendaion() {
                 // Add all data to dictionary
                 var data = {};
                 $("input[type='range']").each(function() {
@@ -354,7 +369,7 @@
 
                     var recommendation_list = JSON.parse(response.recommendation_list);
                     var recommendation_reviews = JSON.parse(response.recommendation_reviews);
-                    console.log(recommendation_reviews);
+                    console.log(recommendation_list);
                     if (recommendation_list) {
                         for (var i = 0; i < recommendation_list.length; i++) {
                             var business_id = recommendation_list[i].split('\t')[0];
@@ -395,6 +410,8 @@
                                     output += '<img src="/images/icons/cool.png" class="other-icon"/>&nbsp;' + reviews[i].num_cool;
                                 }
                             }
+                            console.log(name);
+                            console.log(output);
 
                             $(`#${i+1}_recommendation_score`).html(output);
 

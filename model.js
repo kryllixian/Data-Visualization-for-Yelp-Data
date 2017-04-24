@@ -385,5 +385,18 @@ module.exports = {
 
             return callback({message: SUCCESS, reviews: result});
         });
+    },
+
+
+    insertURLToDB : function (connection, data, callback) {
+        var queryString1 = "INSERT INTO filters SET ?";
+        connection.query(queryString1, data, function(err, rows) {
+            if (err) {
+                // Fail
+                console.log(err);
+                return callback({message: FAIL});
+            }
+            return callback({message: SUCCESS})
+        });
     }
 }
