@@ -1,5 +1,20 @@
-{{> header}}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{{pageTitle}}</title>
 
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+
+        <!-- Tab Icon -->
+        <link rel="shortcut icon" type="image/x-icon" href="public/images/logo/logo-small.png" />
+
+        <!-- Import CSS -->
+        <link rel="stylesheet" type="text/css" href="css/style.css" media="screen">
+
+    </head>
 <body>
 
 <link rel="stylesheet" href="//rawgithub.com/Caged/d3-tip/master/examples/example-styles.css">
@@ -26,116 +41,69 @@
       const borderColor = '#4772b8';
   </script>
 
-
-  <!-- Navbar -->
-    <div class="navbar">
-        <table class="navbar">
-            <tr class="navbar">
-                <td class="navbar-icon">
-                    <a href="index.html">
-                        <img class="navbar-logo" src="images/logo/logo-medium.png" alt="logo">
-                    </a>
+    <!-- Middle -->
+    <div class="grey-canvas">
+        <table>
+            <tr>
+                <td valign="top">
+                    <table class="body-item-1">
+                        <tr class="body-item">
+                            <td class="body-item">
+                                <p class="body-item-title-school">
+                                    ENTER THE NAME OF YOUR FAVORITE RESTAURANT
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="body-item-2">
+                        <tr class="body-item">
+                            <td class="body-item">
+                                <form action="restaurants_recommendation_by_name" method="GET">
+                                    <div>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <p class="body-item-content-first">Restaurant Name:</p>
+                                                    <input id="restaurants-name-input" class="body-item-content" type="text" name="restaurant_name" value="{{restaurant_name}}"/>
+                                                    <p class="body-item-content">Key Words:</p>
+                                                    <input id="key-words-input" class="body-item-content" type="text" name="key_words_input" value=""/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div id="append-first-column-here"></div>
+                                                    <div id="append-second-column-here"></div>
+                                                    <div>
+                                                        <input class="submit-button" type="submit" value="Get Similar Restaurants!" />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="body-item-2">
+                        <tr class="body-item">
+                            <td class="body-item">
+                                <input id="url-text" type="input"></input>
+                                <input type="button" class="copy-url-button" value="Copy URL To Clipboard" onclick="CopyURLToClipboard();" />
+                                <br />
+                                <input id="url-name" type="input"></input>
+                                <br /><br /><br />
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="append-reviews-of-current-business-here"></div>
                 </td>
-                <td class="navbar-word">
-                    <a href="statistics">
-                        <p class="navbar">
-                            STATISTICS
-                        </p>
-                    </a>
-                </td>
-                <td class="navbar-word">
-                    <a href="pittsburgh">
-                        <p class="navbar-current">
-                            PITTSBURGH
-                        </p>
-                    </a>
-                </td>
-                <td class="navbar-word">
-                    <a href="">
-                        <p class="navbar">
-                            ABOUT
-                        </p>
-                    </a>
-                </td>
-                <td class="navbar-word">
-                    <a href="about">
-                        <p class="navbar">
-                            ABOUT
-                        </p>
-                    </a>
+                <td valign="top">
+                    <div id="append-here"></div>
                 </td>
             </tr>
         </table>
-
-
-        <!-- I love the slim seprator line generated in this way -->
-        <div style="height:0;overflow:hiddne;border-top:1px solid #DBDBDB" class="separator"></div>
-    </div>
-
-    <!-- Middle -->
-    <div class="grey-canvas">
-
-        <div class="fixed-form-div">
-            <table class="body-item-1">
-                <tr class="body-item">
-                    <td class="body-item">
-                        <p class="body-item-title-school">
-                            ENTER THE NAME OF YOUR FAVORITE RESTAURANT
-                        </p>
-                    </td>
-                </tr>
-            </table>
-            <table class="body-item-2">
-                <tr class="body-item">
-                    <td class="body-item">
-                        <form action="restaurants_recommendation_by_name" method="GET">
-                            <div>
-                                <table>
-                                    <tr>
-                                        <td>
-                                            <p class="body-item-content-first">Restaurant Name:</p>
-                                        </td>
-                                        <td>
-                                            <input id="restaurants-name-input" class="body-item-content" type="text" name="restaurant_name" value="{{restaurant_name}}"/>
-                                        </td>
-                                        <td></td>
-                                        <td>
-                                            <p class="body-item-content">Key Words:</p>
-                                        </td>
-                                        <td>
-                                            <input id="key-words-input" class="body-item-content" type="text" name="key_words_input" value=""/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td id="append-first-column-here">
-                                        </td>
-                                        <td id="append-second-column-here">
-                                        </td>
-                                        <td></td>
-                                        <td>
-                                            <div>
-                                                <input class="submit-button" type="submit" value="Get Similar Restaurants!" />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </form>
-                    </td>
-                </tr>
-            </table>
-            <table class="body-item-2">
-                <tr class="body-item">
-                    <td class="body-item">
-                        <input id="url-text" type="input"></input>
-                        <input type="button" class="copy-url-button" value="Copy URL To Clipboard" onclick="CopyURLToClipboard();" />
-                        <br />
-                        <input id="url-name" type="input"></input>
-                        <br /><br /><br />
-                    </td>
-                </tr>
-            </table>
-        </div>
+        <!-- <div class="fixed-form-div"> -->
+        <!-- </div> -->
 
 
         <script type="text/javascript">
@@ -176,7 +144,6 @@
                         // Add slide bar
                         var first_row = `<br /><input type="button" name="button_${key_word}" value="${key_word}:" class="key-word-button" onclick="delete_this_keyword(this);"</input><br />`;
                         var second_row = `<p class="body-item-content" name="key_word_${key_word}">0<input onchange="updateRecommendaion()" class="range" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
-                        $('#append-br-here').append("<br /><br /><br />");
                         $('#append-first-column-here').append(first_row);
                         $('#append-second-column-here').append(second_row);
                         $('#key-words-input').val('');
@@ -203,7 +170,6 @@
                          // Add slide bar
                          var first_row = `<br /><input type="button" name="button_${key_word}" value="${key_word}:" class="key-word-button" onclick="delete_this_keyword(this);"</input><br />`;
                          var second_row = `<p class="body-item-content" name="key_word_${key_word}">0<input onchange="updateRecommendaion()" class="range" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
-                         $('#append-br-here').append("<br /><br /><br />");
                          $('#append-first-column-here').append(first_row);
                          $('#append-second-column-here').append(second_row);
                          $('#key-words-input').val('');
@@ -238,7 +204,6 @@
                     // Add slide bar
                     var first_row = `<br /><input type="button" name="button_${key_word}" value="${key_word}:" class="key-word-button" onclick="delete_this_keyword(this);"</input><br />`;
                     var second_row = `<p class="body-item-content" name="key_word_${key_word}">0<input onchange="updateRecommendaion()" class="range" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
-                    $('#append-br-here').append("<br /><br /><br />");
                     $('#append-first-column-here').append(first_row);
                     $('#append-second-column-here').append(second_row);
 
@@ -421,11 +386,6 @@
                 });
             }
         </script>
-
-        <div id="append-br-here"></div>
-        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-        <div id="append-here"></div>
-
     </div>
     <!-- <script>
         $("#test").dblclick(function(){
@@ -538,8 +498,10 @@
                                 </tr>\
                             </table>';
                 }
+                $('#append-here').append(output);
 
                 if (reviews) {
+                    output = '';
                     output += '<table class="body-item-1">\
                                     <tr class="body-item">\
                                         <td class="body-item">\
@@ -603,8 +565,8 @@
                 }
                 output += '<br /><br /><br /><br />';
             }
+            $('#append-reviews-of-current-business-here').append(output);
         }
-        $('#append-here').append(output);
     </script>
 
 
