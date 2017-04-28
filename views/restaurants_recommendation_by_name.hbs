@@ -367,7 +367,7 @@
                 newStr = newStr.substring(1);
                 // console.log(newStr);
                 url = url.replace(newStr, '')
-                history.pushState(null, null, url);
+                location.href = url;
 
                 // console.log(url);
                 // console.log(window.location.href);
