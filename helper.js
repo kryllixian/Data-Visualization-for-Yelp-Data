@@ -60,6 +60,23 @@ module.exports = {
     },
 
 
+    getPittsburghBusinessStars : function (callback) {
+        fs.readFile('pittsburgh_business_stars.dat', 'utf8', function (err, data) {
+            if (err) {
+                return callback({message: 'Cannot get the local Pittsburgh restaurants review data', data: null});
+            }
+            var rows = data.split('\n');
+            var dic = {};
+            for (var i = 0; i < rows.length; i++) {
+                var business_id = rows[i].split('\t')[0];
+                var stars = rows[i].split('\t')[1];
+                dic[business_id] = stars;
+            }
+            return callback({message: 'SUCCESS', data: dic});
+        });
+    },
+
+
     getPittsburghRestaurantsReviews : function (callback) {
         fs.readFile('pitt_restaurants_review_compressed.dat', 'utf8', function (err, data) {
             if (err) {

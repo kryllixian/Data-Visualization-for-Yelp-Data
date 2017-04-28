@@ -124,6 +124,7 @@
                             <td class="body-item">
                                 <br />
                                 <p class="body-item-content-first">1. <a name="load-more-reviews" id="1_recommendation" href="" class="school-name"></a></p>
+                                <div id="1_add_stars_here"></div>
                                 <p class="body-item-content" id="1_recommendation_score"></p>
                                 <p class="body-item-content" id="1_recommendation_content"></p>
                             </td>
@@ -134,6 +135,7 @@
                             <td class="body-item">
                                 <br />
                                 <p class="body-item-content-first">2. <a name="load-more-reviews" id="2_recommendation" href="" class="school-name"></a></p>
+                                <div id="2_add_stars_here"></div>
                                 <p class="body-item-content" id="2_recommendation_score"></p>
                                 <p class="body-item-content" id="2_recommendation_content"></p>
                             </td>
@@ -144,6 +146,7 @@
                             <td class="body-item">
                                 <br />
                                 <p class="body-item-content-first">3. <a name="load-more-reviews" id="3_recommendation" href="" class="school-name"></a></p>
+                                <div id="3_add_stars_here"></div>
                                 <p class="body-item-content" id="3_recommendation_score"></p>
                                 <p class="body-item-content" id="3_recommendation_content"></p>
                             </td>
@@ -154,6 +157,7 @@
                             <td class="body-item">
                                 <br />
                                 <p class="body-item-content-first">4. <a name="load-more-reviews" id="4_recommendation" href="" class="school-name"></a></p>
+                                <div id="4_add_stars_here"></div>
                                 <p class="body-item-content" id="4_recommendation_score"></p>
                                 <p class="body-item-content" id="4_recommendation_content"></p>
                             </td>
@@ -164,6 +168,7 @@
                             <td class="body-item">
                                 <br />
                                 <p class="body-item-content-first">5. <a name="load-more-reviews" id="5_recommendation" href="" class="school-name"></a></p>
+                                <div id="5_add_stars_here"></div>
                                 <p class="body-item-content" id="5_recommendation_score"></p>
                                 <p class="body-item-content" id="5_recommendation_content"></p>
                             </td>
@@ -174,6 +179,7 @@
                             <td class="body-item">
                                 <br />
                                 <p class="body-item-content-first">6. <a name="load-more-reviews" id="6_recommendation" href="" class="school-name"></a></p>
+                                <div id="6_add_stars_here"></div>
                                 <p class="body-item-content" id="6_recommendation_score"></p>
                                 <p class="body-item-content" id="6_recommendation_content"></p>
                             </td>
@@ -184,6 +190,7 @@
                             <td class="body-item">
                                 <br />
                                 <p class="body-item-content-first">7. <a name="load-more-reviews" id="7_recommendation" href="" class="school-name"></a></p>
+                                <div id="7_add_stars_here"></div>
                                 <p class="body-item-content" id="7_recommendation_score"></p>
                                 <p class="body-item-content" id="7_recommendation_content"></p>
                             </td>
@@ -194,6 +201,7 @@
                             <td class="body-item">
                                 <br />
                                 <p class="body-item-content-first">8. <a name="load-more-reviews" id="8_recommendation" href="" class="school-name"></a></p>
+                                <div id="8_add_stars_here"></div>
                                 <p class="body-item-content" id="8_recommendation_score"></p>
                                 <p class="body-item-content" id="8_recommendation_content"></p>
                             </td>
@@ -204,6 +212,7 @@
                             <td class="body-item">
                                 <br />
                                 <p class="body-item-content-first">9. <a name="load-more-reviews" id="9_recommendation" href="" class="school-name"></a></p>
+                                <div id="9_add_stars_here"></div>
                                 <p class="body-item-content" id="9_recommendation_score"></p>
                                 <p class="body-item-content" id="9_recommendation_content"></p>
                             </td>
@@ -214,6 +223,7 @@
                             <td class="body-item">
                                 <br />
                                 <p class="body-item-content-first">10. <a name="load-more-reviews" id="10_recommendation" href="" class="school-name"></a></p>
+                                <div id="10_add_stars_here"></div>
                                 <p class="body-item-content" id="10_recommendation_score"></p>
                                 <p class="body-item-content" id="10_recommendation_content"></p>
                             </td>
@@ -450,6 +460,9 @@
                         return;
                     }
 
+                    recommendation_list_stars = JSON.parse(response.recommendation_list_stars);
+                    console.log(recommendation_list_stars);
+
                     reviews = response.reviews;
                     highlightWords(reviews, 'review');
 
@@ -462,7 +475,24 @@
                             var name = recommendation_list[i].split('\t')[1];
                             var score = recommendation_list[i].split('\t')[2];
                             $(`#${i+1}_recommendation`).attr('href', '/get_top_reviews_business_id?business_id=${business_id}&begin_index=0&num_reviews=3');
-                            $(`#${i+1}_recommendation`).text(name);
+
+                            // Add stars for business
+                            var stars = recommendation_list_stars[i].split('\t')[1];
+                            console.log(stars);
+                            var output = name + '<br />';
+                            var num_stars = 0;
+                            for (; stars > 0.5; stars--) {
+                                output += '<img src="/images/icons/star.png" class="star-icon"/>';
+                                num_stars++;
+                            }
+                            if (stars == 0.5) {
+                                output += '<img src="/images/icons/star-half.png" class="star-icon"/>';
+                                num_stars++;
+                            }
+                            for (; num_stars < 5; num_stars++) {
+                                output += '<img src="/images/icons/star-grey.png" class="star-icon"/>';
+                            }
+                            $(`#${i+1}_recommendation`).html(output);
 
                             // Update the score for each key words
                             var score_str = `Total Score: ${score}\xa0\xa0\xa0`;
@@ -536,41 +566,6 @@
 
                 if ($('#div_recommendation').text().trim().length > 2) {
                     updateRecommendation();
-                    // console.log(111);
-                    // output += '<table class="body-item-1">\
-                    //                 <tr class="body-item">\
-                    //                     <td class="body-item">\
-                    //                         <p class="body-item-title-school">\
-                    //                             SIMILAR RESTAURANTS\
-                    //                         </p>\
-                    //                     </td>\
-                    //                 </tr>\
-                    //             </table>';
-                    // for (var i = 0; i < recommendation_list.length; i++) {
-                    //     output += '<table class="body-item-2">\
-                    //             <tr class="body-item">\
-                    //                 <td class="body-item">';
-                    //     var business_id = recommendation_list[i].split('\t')[0];
-                    //     var name = recommendation_list[i].split('\t')[1];
-                    //     var score = recommendation_list[i].split('\t')[2];
-                    //     output += '<br />';
-                    //     output += `<p class="body-item-content-first">${i+1}. <a name="load-more-reviews" id="${i+1}_recommendation" href="/get_top_reviews_business_id?business_id=${business_id}&begin_index=0&num_reviews=3" class="school-name">${name}</a></p>`;
-                    //     output += `<p class="body-item-content" id="${i+1}_recommendation_score">Total Score: ${score}&emsp;`;
-                    //     // output += `<input type="hidden" id="${i+1}_begin_index" value="0"></input>`;
-                    //     // output += `<input type="hidden" id="${i+1}_num_reviews" value="3"></input>`;
-                    //
-                    //     if (recommendation_list[i].split('\t').length > 3) {
-                    //         var scores = recommendation_list[i].split('\t')[3].split(';');
-                    //         for (var j = 0; j < scores.length; j++) {
-                    //             output += scores[j].split(':')[0] + ' Score:&nbsp;' + scores[j].split(':')[1] + '&emsp;';
-                    //         }
-                    //     }
-                    //     output += '</p>';
-                    //     output += '<br />';
-                    //     output += '     </td>\
-                    //                 </tr>\
-                    //             </table>';
-                    // }
                 }
 
                 if (reviews) {

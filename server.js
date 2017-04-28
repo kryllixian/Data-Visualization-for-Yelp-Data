@@ -32,6 +32,16 @@ helper.getPittsburghRestaurantsReviews(function (result) {
     }
 });
 
+var pittsburgh_business_stars = {};
+helper.getPittsburghBusinessStars(function (result) {
+    if (result.message != 'SUCCESS') {
+        console.log(result.message);
+    } else {
+        pittsburgh_business_stars = result.data;
+        // console.log(result.data);
+        console.log("Finished Reading pittsburgh business stars");
+    }
+});
 
 
 // Configurate the connection to MySQL
@@ -642,6 +652,14 @@ app.get('/restaurants_recommendation_by_name', (req, res) => {
                 }
             }).slice(0, 10);
 
+            // Get stars for each recommended businesses
+            recommendation_list_stars = [];
+            for (var i = 0; i < temp_list.length; i++) {
+                var business_id = temp_list[i].split('\t')[0];
+                var stars = pittsburgh_business_stars[business_id];
+                recommendation_list_stars.push(business_id + '\t' + stars);
+            }
+
             // Get score of each part
             for (var i = 0; i < temp_list.length; i++) {
                 key = temp_list[i].split('\t')[0] + '\t' + temp_list[i].split('\t')[1];
@@ -673,6 +691,7 @@ app.get('/restaurants_recommendation_by_name', (req, res) => {
             recommendation_list: JSON.stringify(restaurants_list),
             key_words_input: JSON.stringify(key_words),
             reviews: JSON.stringify(reviews),
+            recommendation_list_stars: JSON.stringify(recommendation_list_stars)
         });
     });
 });
@@ -752,6 +771,14 @@ app.get('/similar_restaurants_jquery', (req, res) => {
             }
         }).slice(0, 10);
 
+        // Get stars for each recommended businesses
+        recommendation_list_stars = [];
+        for (var i = 0; i < temp_list.length; i++) {
+            var business_id = temp_list[i].split('\t')[0];
+            var stars = pittsburgh_business_stars[business_id];
+            recommendation_list_stars.push(business_id + '\t' + stars);
+        }
+
         // Get score of each part
         for (var i = 0; i < temp_list.length; i++) {
             var key = temp_list[i].split('\t')[0] + '\t' + temp_list[i].split('\t')[1];
@@ -813,7 +840,8 @@ app.get('/similar_restaurants_jquery', (req, res) => {
                                                         recommendation_list: JSON.stringify(restaurants_list),
                                                         key_words: req.query.key_words,
                                                         reviews: reviews,
-                                                        recommendation_reviews: JSON.stringify(recommendation_reviews)
+                                                        recommendation_reviews: JSON.stringify(recommendation_reviews),
+                                                        recommendation_list_stars: JSON.stringify(recommendation_list_stars)
                                                     });
                                             });
                                         });
