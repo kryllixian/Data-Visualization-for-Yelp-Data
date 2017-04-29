@@ -126,6 +126,7 @@
                                 <p class="body-item-content-first">1. <a name="load-more-reviews" id="1_recommendation" href="" class="school-name"></a></p>
                                 <div id="1_add_stars_here"></div>
                                 <p class="body-item-content" id="1_recommendation_score"></p>
+                                <input id="1_load_more_reviews" class="key-word-button" type="submit" value="See More Reviews" onclick="loadMoreReviews(this);"/>
                                 <p class="body-item-content" id="1_recommendation_content"></p>
                             </td>
                         </tr>
@@ -137,6 +138,7 @@
                                 <p class="body-item-content-first">2. <a name="load-more-reviews" id="2_recommendation" href="" class="school-name"></a></p>
                                 <div id="2_add_stars_here"></div>
                                 <p class="body-item-content" id="2_recommendation_score"></p>
+                                <input id="2_load_more_reviews" class="key-word-button" type="submit" value="See More Reviews" onclick="loadMoreReviews(this);"/>
                                 <p class="body-item-content" id="2_recommendation_content"></p>
                             </td>
                         </tr>
@@ -148,6 +150,7 @@
                                 <p class="body-item-content-first">3. <a name="load-more-reviews" id="3_recommendation" href="" class="school-name"></a></p>
                                 <div id="3_add_stars_here"></div>
                                 <p class="body-item-content" id="3_recommendation_score"></p>
+                                <input id="3_load_more_reviews" class="key-word-button" type="submit" value="See More Reviews" onclick="loadMoreReviews(this);"/>
                                 <p class="body-item-content" id="3_recommendation_content"></p>
                             </td>
                         </tr>
@@ -159,6 +162,7 @@
                                 <p class="body-item-content-first">4. <a name="load-more-reviews" id="4_recommendation" href="" class="school-name"></a></p>
                                 <div id="4_add_stars_here"></div>
                                 <p class="body-item-content" id="4_recommendation_score"></p>
+                                <input id="4_load_more_reviews" class="key-word-button" type="submit" value="See More Reviews" onclick="loadMoreReviews(this);"/>
                                 <p class="body-item-content" id="4_recommendation_content"></p>
                             </td>
                         </tr>
@@ -170,6 +174,7 @@
                                 <p class="body-item-content-first">5. <a name="load-more-reviews" id="5_recommendation" href="" class="school-name"></a></p>
                                 <div id="5_add_stars_here"></div>
                                 <p class="body-item-content" id="5_recommendation_score"></p>
+                                <input id="5_load_more_reviews" class="key-word-button" type="submit" value="See More Reviews" onclick="loadMoreReviews(this);"/>
                                 <p class="body-item-content" id="5_recommendation_content"></p>
                             </td>
                         </tr>
@@ -181,6 +186,7 @@
                                 <p class="body-item-content-first">6. <a name="load-more-reviews" id="6_recommendation" href="" class="school-name"></a></p>
                                 <div id="6_add_stars_here"></div>
                                 <p class="body-item-content" id="6_recommendation_score"></p>
+                                <input id="6_load_more_reviews" class="key-word-button" type="submit" value="See More Reviews" onclick="loadMoreReviews(this);"/>
                                 <p class="body-item-content" id="6_recommendation_content"></p>
                             </td>
                         </tr>
@@ -192,6 +198,7 @@
                                 <p class="body-item-content-first">7. <a name="load-more-reviews" id="7_recommendation" href="" class="school-name"></a></p>
                                 <div id="7_add_stars_here"></div>
                                 <p class="body-item-content" id="7_recommendation_score"></p>
+                                <input id="7_load_more_reviews" class="key-word-button" type="submit" value="See More Reviews" onclick="loadMoreReviews(this);"/>
                                 <p class="body-item-content" id="7_recommendation_content"></p>
                             </td>
                         </tr>
@@ -203,6 +210,7 @@
                                 <p class="body-item-content-first">8. <a name="load-more-reviews" id="8_recommendation" href="" class="school-name"></a></p>
                                 <div id="8_add_stars_here"></div>
                                 <p class="body-item-content" id="8_recommendation_score"></p>
+                                <input id="8_load_more_reviews" class="key-word-button" type="submit" value="See More Reviews" onclick="loadMoreReviews(this);"/>
                                 <p class="body-item-content" id="8_recommendation_content"></p>
                             </td>
                         </tr>
@@ -214,6 +222,7 @@
                                 <p class="body-item-content-first">9. <a name="load-more-reviews" id="9_recommendation" href="" class="school-name"></a></p>
                                 <div id="9_add_stars_here"></div>
                                 <p class="body-item-content" id="9_recommendation_score"></p>
+                                <input id="9_load_more_reviews" class="key-word-button" type="submit" value="See More Reviews" onclick="loadMoreReviews(this);"/>
                                 <p class="body-item-content" id="9_recommendation_content"></p>
                             </td>
                         </tr>
@@ -225,6 +234,7 @@
                                 <p class="body-item-content-first">10. <a name="load-more-reviews" id="10_recommendation" href="" class="school-name"></a></p>
                                 <div id="10_add_stars_here"></div>
                                 <p class="body-item-content" id="10_recommendation_score"></p>
+                                <input id="10_load_more_reviews" class="key-word-button" type="submit" value="See More Reviews" onclick="loadMoreReviews(this);"/>
                                 <p class="body-item-content" id="10_recommendation_content"></p>
                             </td>
                         </tr>
@@ -344,6 +354,81 @@
         </script>
 
         <script type="text/javascript">
+            function loadMoreReviews(element) {
+                if (!element.id.endsWith('_load_more_reviews')) {
+                    return;
+                }
+                var business_id = element.name;
+                if (business_id == null || business_id.length < 5) {
+                    return;
+                }
+                var id = element.id.split('_')[0];
+                // console.log(business_id);
+
+                data = {};
+                $("input[type='range']").each(function() {
+                    data[$(this).attr("name")] = $(this).val();
+                });
+                data['business_id'] = business_id;
+                $.post("get_top_reviews_business_id_jquery", data, function(res) {
+                    if (res == null || res.message.replace(/"/g, "") !== 'SUCCESS') {
+                        return;
+                    }
+                    // console.log(res.reviews);
+
+                    // highlightWords(JSON.parse(res.reviews), `${id}_recommendation_content`);
+
+                    // Add reviews
+                    var output = '';
+                    var reviews = JSON.parse(res.reviews);
+                    console.log(dic_key_words);
+                    for (var i = 0; i < reviews.length; i++) {
+                        // Add stars
+                        var j = 0;
+                        for (; j < reviews[i].stars ; j++) {
+                            output += '<img src="/images/icons/star.png" class="star-icon"/>';
+                        }
+                        for (; j < 5; j++) {
+                            output += '<img src="/images/icons/star-grey.png" class="star-icon"/>';
+                        }
+
+                        output += `${reviews[i].date}</p>`;
+                        if (dic_key_words) {
+                            var words = reviews[i].text.split(" ");
+                            var curr_len = 0;
+                            for (var j in words) {
+                                var word = words[j].replace(/[^A-Za-z0-9]/gi, '');
+
+                                if (curr_len + word.length + 1 > MAX_CHAR_EACH_LINE) {
+                                    output += '<br />';
+                                    curr_len = 0;
+                                }
+                                curr_len += word.length + 1;
+
+                                if (word.toLowerCase() in dic_key_words) {
+                                    // console.log('Found a word in dictionary');
+                                    // console.log(word);
+                                    output += '<span style="background-color:yellow">' + words[j] + '</span>';
+                                } else {
+                                    output += words[j];
+                                }
+                                output += '&nbsp;'
+                            }
+                        }
+                        output += '<p class="body-item-content">';
+                        output += '<img src="/images/icons/bulb.png" class="other-icon"/>&nbsp;' + reviews[i].num_useful;
+                        output += '<img src="/images/icons/funny.png" class="other-icon"/>&nbsp;' + reviews[i].num_funny;
+                        output += '<img src="/images/icons/cool.png" class="other-icon"/>&nbsp;' + reviews[i].num_cool;
+                        output += '</p>';
+                        output += '     </td>\
+                                    </tr>\
+                                </table>';
+                    }
+                    // console.log(output);
+                    $(`#${id}_recommendation_content`).html(output);
+                });
+            }
+
             function delete_this_keyword(element) {
                 if (!element.name.startsWith("button_")) {
                     return;
@@ -387,8 +472,7 @@
                     name: name
                 };
 
-                $.post( "insert_url_name_jquery", data, function(res){
-
+                $.post("insert_url_name_jquery", data, function(res) {
                 });
             }
 
@@ -414,10 +498,11 @@
 
             // Highlight words
             function highlightWords(reviews, path) {
-                // console.log(reviews);
+                console.log(reviews);
+                console.log(path);
+                var output = '';
                 for (var i = 0; i < reviews.length; i++) {
                     var words = reviews[i].text.split(" ");
-                    var output = '';
                     var curr_len = 0;
                     for (var j in words) {
                         var word = words[j].replace(/[^A-Za-z0-9]/gi, '');
@@ -437,7 +522,13 @@
                         }
                         output += '&nbsp;'
                     }
-                    $(`#${i+1}_${path}`).html(output);
+                    if (path === 'review') {
+                        $(`#${i+1}_${path}`).html(output);
+                        output = '';
+                    }
+                }
+                if (path !== 'review') {
+                    $(`#${path}`).html(output);
                 }
             }
 
@@ -461,24 +552,25 @@
                     }
 
                     recommendation_list_stars = JSON.parse(response.recommendation_list_stars);
-                    console.log(recommendation_list_stars);
+                    // console.log(recommendation_list_stars);
 
                     reviews = response.reviews;
                     highlightWords(reviews, 'review');
 
                     var recommendation_list = JSON.parse(response.recommendation_list);
                     var recommendation_reviews = JSON.parse(response.recommendation_reviews);
-                    console.log(recommendation_list);
+                    // console.log(recommendation_list);
                     if (recommendation_list) {
                         for (var i = 0; i < recommendation_list.length; i++) {
                             var business_id = recommendation_list[i].split('\t')[0];
                             var name = recommendation_list[i].split('\t')[1];
                             var score = recommendation_list[i].split('\t')[2];
                             $(`#${i+1}_recommendation`).attr('href', '/get_top_reviews_business_id?business_id=${business_id}&begin_index=0&num_reviews=3');
+                            $(`#${i+1}_recommendation_content`).html('');
 
                             // Add stars for business
                             var stars = recommendation_list_stars[i].split('\t')[1];
-                            console.log(stars);
+                            // console.log(stars);
                             var output = name + '<br />';
                             var num_stars = 0;
                             for (; stars > 0.5; stars--) {
@@ -493,6 +585,7 @@
                                 output += '<img src="/images/icons/star-grey.png" class="star-icon"/>';
                             }
                             $(`#${i+1}_recommendation`).html(output);
+                            $(`#${i+1}_load_more_reviews`).attr('name', business_id);
 
                             // Update the score for each key words
                             var score_str = `Total Score: ${score}\xa0\xa0\xa0`;

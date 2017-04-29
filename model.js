@@ -368,7 +368,7 @@ module.exports = {
             }
 
             var result = [];
-            for (var i = 0; i < rows.length && result.length <= 20; i++) {
+            for (var i = 0; i < rows.length; i++) {
                 var row = {
                     review_id: rows[i].review_id,
                     user_id: rows[i].user_id,

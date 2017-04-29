@@ -875,6 +875,52 @@ app.post('/insert_url_name_jquery', (req, res) => {
 });
 
 
+app.post('/get_top_reviews_business_id_jquery', (req, res) => {
+    if (JSON.stringify(req.body) === '{}' && JSON.stringify(req.query) === '{}') {
+        return res.send({
+            message: "NULL DATA"
+        });
+    }
+
+    // console.log(req.body);
+    if (!'business_id' in req.body) {
+        return res.send({
+            message: "MISSING REQUIRED DATA"
+        });
+    }
+    var business_id = req.body.business_id;
+    var key_words = {};
+    for (key in req.query) {
+        if (!key.startsWith('key_word_')) {
+            continue;
+        }
+
+        var word = key.substring(9).trim().toLowerCase();
+        if (key.length == 0) {
+            continue;
+        }
+        key_words[word] = parseInt(req.query[key]);
+    }
+
+    model.getTopReviewByRestaurantId(connection, business_id, 0, 5, function(result) {
+        // console.log(restaurants_list);
+        var reviews = result.reviews;
+
+        // Rank reviews by score
+        if (reviews!= null || reviews.length > 0) {
+            // console.log(JSON.stringify(reviews));
+            var reviews = helper.rankReviewsByScoreDesc(reviews, key_words);
+            reviews = reviews.slice(0, 5);
+        }
+
+        res.send({
+            message: result.message,
+            reviews: JSON.stringify(reviews)
+        });
+    });
+});
+
+
 // app.get('/get_top_reviews_business_id', (req, res) => {
 //     // console.log(req.query);
 //     if (JSON.stringify(req.body) === '{}' && JSON.stringify(req.query) === '{}') {
