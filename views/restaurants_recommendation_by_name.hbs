@@ -356,13 +356,22 @@
         <script type="text/javascript">
             function loadMoreReviews(element) {
                 if (!element.id.endsWith('_load_more_reviews')) {
+                    // If it has been clicked
+                    element.setAttribute('id', element.id.split('_clicked')[0]);
+                    element.setAttribute('value', 'See More Reviews');
+                    var id = element.id.split('_')[0];
+                    $(`#${id}_recommendation_content`).html('');
                     return;
                 }
+
+                // If it hasn't been clicked
                 var business_id = element.name;
                 if (business_id == null || business_id.length < 5) {
                     return;
                 }
                 var id = element.id.split('_')[0];
+                element.setAttribute('id', element.id + '_clicked');
+                element.setAttribute('value', 'See Less Reviews');
                 // console.log(business_id);
 
                 data = {};
@@ -394,7 +403,7 @@
 
                         output += `${reviews[i].date}</p>`;
                         if (dic_key_words) {
-                            var words = reviews[i].text.split(" ");
+                            var words = reviews[i].text.split(' ');
                             var curr_len = 0;
                             for (var j in words) {
                                 var word = words[j].replace(/[^A-Za-z0-9]/gi, '');
