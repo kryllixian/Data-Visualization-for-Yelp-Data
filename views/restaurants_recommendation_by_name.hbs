@@ -87,9 +87,6 @@
                                                 <td>
                                                     <div id="append-first-column-here"></div>
                                                     <div id="append-second-column-here"></div>
-                                                    <div>
-                                                        <input class="submit-button" type="submit" value="Get Similar Restaurants!" />
-                                                    </div>
                                                 </td>
                                             </tr>
                                         </table>
@@ -292,14 +289,44 @@
                     }
                 }
 
+                $('#restaurants-name-input').on('keyup', function(e) {
+                    var text = $('#restaurants-name-input').val();
+                    if (e.keyCode == 13) {
+                        console.log('space or enter pressed');
 
+                        var url = window.location.href;
+                        console.log(url);
+                        if (url.indexOf('?') == -1) {
+                            url += '?restaurant_name=' + encodeURI(text);
+                        } else {
+                            if (url.indexOf('restaurant_name=') == -1) {
+                                url += '&restaurant_name=' + encodeURI(text);
+                            } else {
+                                var newUrl = url.split('?')[0] + '?';
+                                var items = url.split('?')[1].split('&');
+                                for (var i = 0; i < items.length; i++) {
+                                    if (items[i].indexOf('restaurant_name=') == -1) {
+                                        newUrl += items[i];
+                                    } else {
+                                        newUrl += 'restaurant_name=' + encodeURI(text);
+                                    }
+                                    if (i < items.length - 1) {
+                                        newUrl += '&';
+                                    }
+                                }
+                                url = newUrl;
+                            }
+                        }
+                        window.location.href = url;
+                    }
+                });
 
-                // If the user Added Space, then create slide bar
-                $('#key-words-input').on('input', function(e) {
+                // If the user Entered Space or enter, then create slide bar
+                $('#key-words-input').on('keyup', function(e) {
                     var text = $('#key-words-input').val();
-                    if (text.charAt(text.length - 1) == ' ') {
+                    if (e.keyCode == 13 || e.keyCode === 0 || e.keyCode === 32) {
                          // `0` works in mozilla and `320 in other`
-                         console.log('space pressed');
+                         console.log('space or enter pressed');
                          var key_word = String(text).trim().toLowerCase().replace(/[^A-Za-z0-9]/gi, '');
                          if (key_word.length == 0 || key_word in dic) {
                              $('#key-words-input').val('');
@@ -461,7 +488,7 @@
                 newStr = newStr.substring(1);
                 // console.log(newStr);
                 url = url.replace(newStr, '')
-                location.href = url;
+                window.location.href = url;
 
                 // console.log(url);
                 // console.log(window.location.href);
