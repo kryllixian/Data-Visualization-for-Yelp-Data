@@ -85,8 +85,16 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <div id="append-first-column-here"></div>
-                                                    <div id="append-second-column-here"></div>
+                                                    <table>
+                                                        <tr>
+                                                            <td class="key_words">
+                                                                <div id="append-first-column-here"></div>
+                                                            </td>
+                                                            <td class="slide_bar">
+                                                                <div id="append-second-column-here"></div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
                                                 </td>
                                             </tr>
                                         </table>
@@ -293,7 +301,7 @@
                         dic[word] = 1;
                         var key_word = key.substring(9).trim();
                         // Add slide bar
-                        var first_row = `<br /><input type="button" name="button_${key_word}" value="${key_word}:" class="key-word-button" onclick="delete_this_keyword(this);"</input><br />`;
+                        var first_row = `<p><input type="button" name="button_${key_word}" value="${key_word}:" class="key-word-button" onclick="delete_this_keyword(this);"></input></p>`;
                         var second_row = `<p class="body-item-content" name="key_word_${key_word}">0<input onchange="updateRecommendation()" class="range" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
                         $('#append-first-column-here').append(first_row);
                         $('#append-second-column-here').append(second_row);
@@ -349,7 +357,7 @@
 
                          dic[key_word] = 1;
                          // Add slide bar
-                         var first_row = `<br /><input type="button" name="button_${key_word}" value="${key_word}:" class="key-word-button" onclick="delete_this_keyword(this);"</input><br />`;
+                         var first_row = `<p><input type="button" name="button_${key_word}" value="${key_word}:" class="key-word-button" onclick="delete_this_keyword(this);"></input></p>`;
                          var second_row = `<p class="body-item-content" name="key_word_${key_word}">0<input onchange="updateRecommendation()" class="range" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
                          $('#append-first-column-here').append(first_row);
                          $('#append-second-column-here').append(second_row);
@@ -383,7 +391,7 @@
                     dic[key_word] = 1;
 
                     // Add slide bar
-                    var first_row = `<br /><input type="button" name="button_${key_word}" value="${key_word}:" class="key-word-button" onclick="delete_this_keyword(this);"</input><br />`;
+                    var first_row = `<p><input type="button" name="button_${key_word}" value="${key_word}:" class="key-word-button" onclick="delete_this_keyword(this);"></input></p>`;
                     var second_row = `<p class="body-item-content" name="key_word_${key_word}">0<input onchange="updateRecommendation()" class="range" name="key_word_${key_word}" type="range" min="0" max="10"/>10</p>`;
                     $('#append-first-column-here').append(first_row);
                     $('#append-second-column-here').append(second_row);
