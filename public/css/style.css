@@ -1,8 +1,14 @@
 /* Style the tab */
 div.tab {
     overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: #f1f1f1;
+    border: solid #EDEDED 1px;
+    background-color: white;
+    height: 48px;
+    margin-top: -4px;
+    margin-left: 20px;
+    margin-bottom: 30px;
+    width: 481px;
+    padding-right: 0px;
 }
 
 /* Style the buttons inside the tab */
@@ -12,26 +18,33 @@ div.tab button {
     border: none;
     outline: none;
     cursor: pointer;
-    padding: 14px 16px;
+    padding: 18px 16px;
     transition: 0.3s;
+    font-family: Myriad Pro;
+    color: #525558;
+    vertical-align: center;
+    font-size: 17px;
 }
 
 /* Change background color of buttons on hover */
 div.tab button:hover {
-    background-color: #ddd;
+    background-color: #EDEDED;
 }
 
 /* Create an active/current tablink class */
 div.tab button.active {
-    background-color: #ccc;
+    background-color: #EDEDED;
 }
 
 /* Style the tab content */
 .tabcontent {
     display: none;
-    padding: 6px 12px;
-    border: 1px solid #ccc;
-    border-top: none;
+    margin-left: 18px;
+    margin-top: -33px;
+    width: inherit;
+    /*padding: 6px 12px;*/
+    /*border: 1px solid #EDEDED;*/
+    /*border-top: none;*/
 }
 
 
@@ -91,6 +104,7 @@ div.fixed-form-div {
 #url-text {
     margin-left: 26px;
     margin-right: 23px;
+    margin-top: 26px;
     width: 500px;
     font-family: Myriad Pro;
     font-size: 15px;
@@ -107,9 +121,8 @@ input.copy-url-button {
     padding-top: 5px;
     text-decoration: none;
     display: inline-block;
-    margin-left: -14px;
+    margin-left: 26px;
     margin-bottom: 23px;
-    margin-top:23px;
     cursor: pointer;
     font-size: 15px;
 }
@@ -138,7 +151,7 @@ input.range {
 td.key_words {
     padding-left: 5px;
     padding-right: 5px;
-    text-align: center;
+    text-align: left;
     vertical-align: middle;
 }
 
@@ -263,6 +276,7 @@ div.grey-canvas {
     margin-bottom: 0px;
     padding-top: 0px;
     padding-bottom: 0px;
+    padding-left: 90px;
 }
 p.body-item-title-school {
     font-family: Myriad Pro;

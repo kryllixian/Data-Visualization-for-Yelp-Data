@@ -107,10 +107,19 @@
                         <tr class="body-item">
                             <td class="body-item">
                                 <input id="url-text" type="input"></input>
-                                <input type="button" class="copy-url-button" value="Copy URL To Clipboard" onclick="CopyURLToClipboard();" />
                                 <br />
-                                <input id="url-name" type="input"></input>
-                                <br /><br /><br />
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <p class="body-item-content">Name of the Bookmark: </p>
+                                        </td>
+                                        <td>
+                                            <input id="url-name" type="input"></input>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <input type="button" class="copy-url-button" value="Copy URL To Clipboard" onclick="CopyURLToClipboard();" />
+                                <br /><br />
                             </td>
                         </tr>
                     </table>
@@ -121,21 +130,21 @@
 
                     <!-- Navbar -->
                     <div class="tab">
-                      <button class="tablinks" onclick="openTab(event, 'recommendation')">Similar Restaurants</button>
-                      <button class="tablinks" onclick="openTab(event, 'append-reviews-of-current-business-here')">Reviews of the Selected Restaurant</button>
+                      <button class="tablinks" onclick="openTab(event, 'recommendation')">SIMILAR RESTAURANTS</button>
+                      <button class="tablinks" onclick="openTab(event, 'append-reviews-of-current-business-here')">REVIEWS OF CURRENT RESTAURANT</button>
                     </div>
 
                     <div id="append-reviews-of-current-business-here" class="tabcontent"></div>
 
                     <!-- Recommendation -->
                     <div id="recommendation" class="tabcontent">
-                        <table class="body-item-1">
+                        <!-- <table class="body-item-1">
                             <tr class="body-item">
                                 <td class="body-item">
                                     <p class="body-item-title-school">SIMILAR RESTAURANTS</p>
                                 </td>
                             </tr>
-                        </table>
+                        </table> -->
                         <table class="body-item-2">
                             <tr class="body-item">
                                 <td class="body-item">
@@ -261,6 +270,8 @@
                 </td>
             </tr>
         </table>
+
+        <br /><br /><br /><br /><br /><br />
         <!-- <div class="fixed-form-div"> -->
         <!-- </div> -->
 
@@ -735,15 +746,15 @@
 
                 if (reviews) {
                     output = '';
-                    output += '<table class="body-item-1">\
-                                    <tr class="body-item">\
-                                        <td class="body-item">\
-                                            <p class="body-item-title-school">\
-                                                ALL REVIEWS OF THE SELECTED RESTAURANT\
-                                            </p>\
-                                        </td>\
-                                    </tr>\
-                                </table>';
+                    // output += '<table class="body-item-1">\
+                    //                 <tr class="body-item">\
+                    //                     <td class="body-item">\
+                    //                         <p class="body-item-title-school">\
+                    //                             REVIEWS OF CURRENT RESTAURANT\
+                    //                         </p>\
+                    //                     </td>\
+                    //                 </tr>\
+                    //             </table>';
                     for (var i = 0; i < reviews.length; i++) {
                         output += '<table class="body-item-2">\
                                     <tr class="body-item">\
