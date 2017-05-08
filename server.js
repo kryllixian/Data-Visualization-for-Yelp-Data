@@ -620,6 +620,7 @@ app.get('/restaurants_recommendation_by_name', (req, res) => {
         // }
         // console.log(words);
         // console.log(key_words);
+        recommendation_list_stars = [];
 
         if (Object.keys(key_words).length > 0) {
 
@@ -653,7 +654,6 @@ app.get('/restaurants_recommendation_by_name', (req, res) => {
             }).slice(0, 10);
 
             // Get stars for each recommended businesses
-            recommendation_list_stars = [];
             for (var i = 0; i < temp_list.length; i++) {
                 var business_id = temp_list[i].split('\t')[0];
                 var stars = pittsburgh_business_stars[business_id];
