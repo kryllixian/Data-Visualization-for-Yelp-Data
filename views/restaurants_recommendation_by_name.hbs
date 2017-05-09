@@ -581,9 +581,14 @@
 
             // Highlight words
             function highlightWords(reviews, path) {
+                if (!reviews) {
+                    return;
+                }
+
                 console.log(reviews);
                 console.log(path);
                 var output = '';
+
                 for (var i = 0; i < reviews.length; i++) {
                     var words = reviews[i].text.split(" ");
                     var curr_len = 0;

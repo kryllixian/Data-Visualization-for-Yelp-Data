@@ -674,8 +674,7 @@ app.get('/restaurants_recommendation_by_name', (req, res) => {
             }
 
             // Rank reviews by score
-            console.log(reviews);
-            if (reviews!= null || JSON.stringify(reviews) !== 'null' || JSON.stringify(reviews).length > 2) {
+            if (!!reviews && reviews.length > 0) {
                 // console.log(JSON.stringify(reviews));
                 var reviews = helper.rankReviewsByScoreDesc(reviews, key_words);
             }
@@ -825,11 +824,12 @@ app.get('/similar_restaurants_jquery', (req, res) => {
                                                     var reviews = req.query.reviews;
                                                     // console.log(reviews);
                                                     // Rank reviews by score
-                                                    if (reviews!= null || reviews.length > 0) {
+                                                    if (!!reviews && reviews.length > 0) {
                                                         // console.log(JSON.stringify(reviews));
                                                         var reviews = helper.rankReviewsByScoreDesc(reviews, key_words);
                                                     }
 
+                                                    // console.log(restaurants_list);
                                                     // console.log(restaurants_list);
 
                                                     res.send({
@@ -907,7 +907,7 @@ app.post('/get_top_reviews_business_id_jquery', (req, res) => {
         var reviews = result.reviews;
 
         // Rank reviews by score
-        if (reviews!= null || reviews.length > 0) {
+        if (!!reviews && reviews.length > 0) {
             // console.log(JSON.stringify(reviews));
             var reviews = helper.rankReviewsByScoreDesc(reviews, key_words);
             reviews = reviews.slice(0, 5);
