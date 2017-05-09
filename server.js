@@ -512,9 +512,9 @@ app.get('/reviews/business_id?', (req, res) => {
 
             recommendation_list = temp_list.sort(function (a, b) {
                 var id_a = a.split('\t')[0];
-                var score_a = parseInt(a.split('\t')[1]);
+                var score_a = parseFloat(a.split('\t')[1]);
                 var id_b = b.split('\t')[0];
-                var score_b = parseInt(b.split('\t')[1]);
+                var score_b = parseFloat(b.split('\t')[1]);
 
                 if (score_a != score_b) {
                     return score_a - score_b;
@@ -624,27 +624,45 @@ app.get('/restaurants_recommendation_by_name', (req, res) => {
 
         if (Object.keys(key_words).length > 0) {
 
+            // Toal score of each key words in reviews
+            var key_words_total_score = {};
+            for (key in key_words) {
+                key_words_total_score[key] = 0;
+            }
+
+            // Get the total score of each key word in all reviwes
+            for (key in pittsburgh_restaurants_reviews) {
+                for (var word in key_words_total_score) {
+                    if (word in pittsburgh_restaurants_reviews[key]) {
+                        key_words_total_score[word] += pittsburgh_restaurants_reviews[key][word];
+                    }
+                }
+            }
+
             // Compute the score for each restaurants in Pittsburgh
             for (key in pittsburgh_restaurants_reviews) {
                 restaurants_score[key] = {};
-                var score = 0.0;
+                var score = 0;
                 for (var word in key_words) {
                     if (word in pittsburgh_restaurants_reviews[key]) {
-                        restaurants_score[key][word] = pittsburgh_restaurants_reviews[key][word] * key_words[word];
-                        score += pittsburgh_restaurants_reviews[key][word] * key_words[word];
+                        restaurants_score[key][word] = Math.round(pittsburgh_restaurants_reviews[key][word] * key_words[word] / key_words_total_score[word] * 1000);
+                        score += Math.round(pittsburgh_restaurants_reviews[key][word] * key_words[word] / key_words_total_score[word] * 1000);
                     } else {
-                        restaurants_score[key][word] = 0.0;
+                        restaurants_score[key][word] = 0;
                     }
                 }
                 temp_list.push(key + '\t' + score);
             }
 
+            // console.log(temp_list);
+            // console.log(key_words_total_score);
+
             // Sort the dictionary by score
             temp_list = temp_list.sort(function (a, b) {
                 var key_a = a.split('\t')[0] + '\t' + a.split('\t')[1];
-                var score_a = parseInt(a.split('\t')[2]);
+                var score_a = parseFloat(a.split('\t')[2]);
                 var key_b = b.split('\t')[0] + '\t' + b.split('\t')[1];
-                var score_b = parseInt(b.split('\t')[2]);
+                var score_b = parseFloat(b.split('\t')[2]);
 
                 if (score_a != score_b) {
                     return score_b - score_a;
@@ -741,16 +759,31 @@ app.get('/similar_restaurants_jquery', (req, res) => {
 
     if (Object.keys(key_words).length > 0) {
 
+        // Toal score of each key words in reviews
+        var key_words_total_score = {};
+        for (key in key_words) {
+            key_words_total_score[key] = 0;
+        }
+
+        // Get the total score of each key word in all reviwes
+        for (key in pittsburgh_restaurants_reviews) {
+            for (var word in key_words_total_score) {
+                if (word in pittsburgh_restaurants_reviews[key]) {
+                    key_words_total_score[word] += pittsburgh_restaurants_reviews[key][word];
+                }
+            }
+        }
+
         // Compute the score for each restaurants in Pittsburgh
         for (key in pittsburgh_restaurants_reviews) {
             restaurants_score[key] = {};
-            var score = 0.0;
+            var score = 0;
             for (var word in key_words) {
                 if (word in pittsburgh_restaurants_reviews[key]) {
-                    restaurants_score[key][word] = pittsburgh_restaurants_reviews[key][word] * key_words[word];
-                    score += pittsburgh_restaurants_reviews[key][word] * key_words[word];
+                    restaurants_score[key][word] = Math.round(pittsburgh_restaurants_reviews[key][word] * key_words[word] / key_words_total_score[word] * 1000);
+                    score += Math.round(pittsburgh_restaurants_reviews[key][word] * key_words[word] / key_words_total_score[word] * 1000);
                 } else {
-                    restaurants_score[key][word] = 0.0;
+                    restaurants_score[key][word] = 0;
                 }
             }
             temp_list.push(key + '\t' + score);
@@ -759,9 +792,9 @@ app.get('/similar_restaurants_jquery', (req, res) => {
         // Sort the dictionary by score
         temp_list = temp_list.sort(function (a, b) {
             var key_a = a.split('\t')[0] + '\t' + a.split('\t')[1];
-            var score_a = parseInt(a.split('\t')[2]);
+            var score_a = parseFloat(a.split('\t')[2]);
             var key_b = b.split('\t')[0] + '\t' + b.split('\t')[1];
-            var score_b = parseInt(b.split('\t')[2]);
+            var score_b = parseFloat(b.split('\t')[2]);
 
             if (score_a != score_b) {
                 return score_b - score_a;
@@ -769,6 +802,8 @@ app.get('/similar_restaurants_jquery', (req, res) => {
                 return key_a - key_b;
             }
         }).slice(0, 10);
+
+        // console.log(temp_list);
 
         // Get stars for each recommended businesses
         recommendation_list_stars = [];
