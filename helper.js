@@ -104,6 +104,42 @@ module.exports = {
         });
     },
 
+
+    getPittsburghRestaurantsReviewsSeparate : function (callback) {
+        fs.readFile('pitt_restaurants_review_text_with_separate_rows_compressed.dat', 'utf8', function (err, data) {
+            if (err) {
+                return callback({message: 'Cannot get the local Pittsburgh restaurants review data separate', data: null});
+            }
+            var rows = data.split('\n');
+            var dic = {};
+            for (var i = 0; i < rows.length; i++) {
+                var items = rows[i].split('\t');
+                var key = items[0] + '\t' + items[1];
+                if (items[0].length == 0 || items[1].length == 0) {
+                    continue;
+                }
+
+                if (!(key in dic)) {
+                    dic[key] = [];
+                }
+
+                list = dic[key];
+                temp_dic = {};
+
+                for (var j = 2; j < items.length; j++) {
+                    var word = items[j].split(':')[0];
+                    var freq = parseInt(items[j].split(':')[1]);
+                    temp_dic[word] = freq;
+                }
+                list.push(temp_dic);
+            }
+
+            // console.log(dic);
+            return callback({message: 'SUCCESS', data: dic});
+        });
+    },
+
+
     rankReviewsByScoreDesc : function(reviews, key_words) {
         for (var i = 0; i < reviews.length; i++) {
             var words = reviews[i].text.replace(/[^A-Za-z0-9 ]/gi, '');

@@ -88,9 +88,11 @@
                                                     <table>
                                                         <tr>
                                                             <td class="key_words">
+                                                                <p><input type="button" name="button_mentioned_in_reviews" value="Mentioned In Reviews:" class="key-word-button" onclick="delete_this_keyword(this);"></input></p>
                                                                 <div id="append-first-column-here"></div>
                                                             </td>
                                                             <td class="slide_bar">
+                                                                <p class="body-item-content" name="key_word_mentioned_in_reviews">0<input onchange="updateRecommendation()" class="range" name="key_word_mentioned_in_reviews" type="range" min="0" max="10"/>10</p>
                                                                 <div id="append-second-column-here"></div>
                                                             </td>
                                                         </tr>
@@ -676,6 +678,7 @@
                             $(`#${i+1}_load_more_reviews`).attr('name', business_id);
 
                             // Update the score for each key words
+                            // console.log(recommendation_list);
                             var score_str = `Total Score: ${score}\xa0\xa0\xa0`;
                             if (recommendation_list[i].split('\t').length > 3) {
                                 var items = recommendation_list[i].split('\t')[3].split(';');

@@ -43,6 +43,17 @@ helper.getPittsburghBusinessStars(function (result) {
     }
 });
 
+var pittsburgh_restaurants_reviews_separate = {};
+helper.getPittsburghRestaurantsReviewsSeparate(function (result) {
+    if (result.message != 'SUCCESS') {
+        console.log(result.message);
+    } else {
+        pittsburgh_restaurants_reviews_separate = result.data;
+        // console.log(result.data);
+        console.log("Finished Reading pittsburgh restaurants reviews separate");
+    }
+});
+
 
 // Configurate the connection to MySQL
 var connection = mysql.createConnection({
@@ -597,7 +608,7 @@ app.get('/restaurants_recommendation_by_name', (req, res) => {
         // Process input key words
         var key_words = {};
         var restaurants_score = {};
-        
+
         recommendation_list_stars = [];
 
         res.render('restaurants_recommendation_by_name.hbs', {
@@ -646,6 +657,8 @@ app.get('/similar_restaurants_jquery', (req, res) => {
         key_words[word] = parseInt(req.query[key]);
     }
 
+    // console.log(key_words)
+
     // var words = [];
     // for (var i = 0; i < key_words.length; i++) {
     //     var word = key_words[i].trim().toLowerCase();
@@ -665,9 +678,36 @@ app.get('/similar_restaurants_jquery', (req, res) => {
             key_words_total_score[key] = 0;
         }
 
+        for (key in pittsburgh_restaurants_reviews_separate) {
+            if (!(key in restaurants_score)) {
+                restaurants_score[key] = {};
+            }
+            if (!('mentioned_in_reviews' in restaurants_score[key])) {
+                restaurants_score[key]['mentioned_in_reviews'] = 0;
+            }
+            var hits = 0;
+            // Traverse all reviews of each restaurant
+            for (var i = 0; i < pittsburgh_restaurants_reviews_separate[key].length; i++) {
+                for (word in key_words) {
+                    if (word in pittsburgh_restaurants_reviews_separate[key][i]) {
+                        hits++;
+                        break;
+                    }
+                }
+            }
+            restaurants_score[key]['mentioned_in_reviews'] = hits;
+        }
+
+        // console.log(restaurants_score);
+        // console.log(Object.keys(restaurants_score).length);
+        // console.log(Object.keys(pittsburgh_restaurants_reviews_separate).length);
+
         // Get the total score of each key word in all reviwes
         for (key in pittsburgh_restaurants_reviews) {
             for (var word in key_words_total_score) {
+                if (word === 'mentioned_in_reviews') {
+                    key_words_total_score['mentioned_in_reviews'] += restaurants_score[key]['mentioned_in_reviews'];
+                }
                 if (word in pittsburgh_restaurants_reviews[key]) {
                     key_words_total_score[word] += pittsburgh_restaurants_reviews[key][word];
                 }
@@ -676,16 +716,21 @@ app.get('/similar_restaurants_jquery', (req, res) => {
 
         // Compute the score for each restaurants in Pittsburgh
         for (key in pittsburgh_restaurants_reviews) {
-            restaurants_score[key] = {};
-            var score = 0;
+            var score = 0.0;
             for (var word in key_words) {
+                if (word === 'mentioned_in_reviews') {
+                    continue;
+                }
                 if (word in pittsburgh_restaurants_reviews[key]) {
                     restaurants_score[key][word] = Math.round(pittsburgh_restaurants_reviews[key][word] * key_words[word] / key_words_total_score[word] * 1000);
-                    score += Math.round(pittsburgh_restaurants_reviews[key][word] * key_words[word] / key_words_total_score[word] * 1000);
+                    score += pittsburgh_restaurants_reviews[key][word] * key_words[word] / key_words_total_score[word] * 1000;
                 } else {
                     restaurants_score[key][word] = 0;
                 }
             }
+            score += restaurants_score[key]['mentioned_in_reviews'] * key_words['mentioned_in_reviews'] / key_words_total_score['mentioned_in_reviews'] * 1000;
+            restaurants_score[key]['mentioned_in_reviews'] = Math.round(restaurants_score[key]['mentioned_in_reviews'] * key_words['mentioned_in_reviews'] / key_words_total_score['mentioned_in_reviews'] * 1000);
+            score = Math.round(score);
             temp_list.push(key + '\t' + score);
         }
 
@@ -818,7 +863,7 @@ app.post('/get_top_reviews_business_id_jquery', (req, res) => {
     }
 
     // console.log(req.body);
-    if (!'business_id' in req.body) {
+    if (!('business_id' in req.body)) {
         return res.send({
             message: "MISSING REQUIRED DATA"
         });

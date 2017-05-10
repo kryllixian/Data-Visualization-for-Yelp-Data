@@ -32,13 +32,7 @@ def group_review_text_by_business_id(conn, output_file):
             key = row[1] + '\t' + row[2].replace('\t', ' ').encode('ascii', errors='ignore')
             data = re.sub('[^A-Za-z0-9 ]+','' , row[3].encode('ascii', errors='ignore').lower().replace('\t', ' '))
             data = re.sub(' +', ' ', data)
-            if dic.has_key(key):
-                dic[key] += data
-            else:
-                dic[key] = data
-
-        for key in dic.keys():
-            file.write(key + '\t' + dic[key] + '\n')
+            file.write(key + '\t' + data + '\n')
 
     except mysql.connector.Error as e:
         print "Error code:", e.errno  # error number
@@ -71,6 +65,9 @@ def get_word_count_each_item(stopword_filename, input_filename, output_filename)
         if not line:
             break
 
+        if len(line.split('\t')) < 3:
+            continue
+
         key = line.split('\t')[0] + '\t' + line.split('\t')[1]
         words = line.split('\t')[2]
         word_freq = {}
@@ -99,7 +96,7 @@ def get_word_count_each_item(stopword_filename, input_filename, output_filename)
 def main():
     conn = connect_to_mysql("localhost", 3306, "", "", "yelp_data_new")
     group_review_text_by_business_id(conn, 'pitt_restaurants_review_text_with_separate_rows.dat')
-    # get_word_count_each_item('stop_words', 'pitt_restaurants_review_text.dat', 'pitt_restaurants_review_compressed.dat')
+    get_word_count_each_item('stop_words', 'pitt_restaurants_review_text_with_separate_rows.dat', 'pitt_restaurants_review_text_with_separate_rows_compressed.dat')
 
 
 if __name__ == "__main__":
