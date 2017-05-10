@@ -34,7 +34,7 @@ module.exports = {
             console.log(222);
             var condition = "";
             if (data['Alcohol']) {
-                console.log(!data['Alcohol'] instanceof Array);
+                console.log(!(data['Alcohol'] instanceof Array));
                 if ((data['Alcohol'] instanceof Array) == false) {
                     queryString += ` AND (a.attribute = 'Alcohol' AND a.value = '${data['Alcohol']}') `;
                 } else if (data['Alcohol'].length == 2) {
@@ -66,7 +66,7 @@ module.exports = {
                 }
             }
             if (data['RestaurantsPriceRange2']) {
-                console.log(!data['RestaurantsPriceRange2'] instanceof Array);
+                console.log(!(data['RestaurantsPriceRange2'] instanceof Array));
                 if ((data['RestaurantsPriceRange2'] instanceof Array) == false) {
                     queryString += ` AND (a.attribute = 'RestaurantsPriceRange2' AND a.value = '${data['RestaurantsPriceRange2']}') `;
                 } else if (data['Alcohol'].length == 2) {
@@ -132,7 +132,7 @@ module.exports = {
     getReviewByBusinessId : function (connection, req, res, callback) {
         // Get all queries from request
         data = req.query;
-        if (!'business_id' in data) {
+        if (!('business_id' in data)) {
             return callback({message: MISSING_BUSINESS_ID, reviews:  null});
         }
         console.log(data);
@@ -173,7 +173,7 @@ module.exports = {
     getReviewByUserId : function (connection, req, res, callback) {
         // Get all queries from request
         data = req.query;
-        if (!'user_id' in data) {
+        if (!('user_id' in data)) {
             return callback({message: MISSING_BUSINESS_ID, reviews:  null});
         }
         console.log(data);
@@ -304,7 +304,7 @@ module.exports = {
 
 
     getReviewByRestaurantName : function (connection, req, res, callback) {
-        if (!'restaurant_name' in req.query) {
+        if (!('restaurant_name' in req.query)) {
             return callback({message: MISSING_RESTAURANT_NAME, reviews:  null});
         }
         var restaurant_name = req.query.restaurant_name;

@@ -466,7 +466,18 @@
                     // Add reviews
                     var output = '';
                     var reviews = JSON.parse(res.reviews);
-                    console.log(dic_key_words);
+
+                    var key_words = $('#div_key_words').text().split(' ');
+                    var dic_key_words = {}
+                    for (var i = 0; i < key_words.length; i++) {
+                        var word = key_words[i].trim().toLowerCase();
+                        if (word.length == 0) {
+                            continue;
+                        }
+                        dic_key_words[word] = 1;
+                    }
+                    // console.log(dic_key_words);
+                    // console.log(dic);
                     for (var i = 0; i < reviews.length; i++) {
                         // Add stars
                         var j = 0;
@@ -478,6 +489,7 @@
                         }
 
                         output += `${reviews[i].date}</p>`;
+
                         if (dic_key_words) {
                             var words = reviews[i].text.split(' ');
                             var curr_len = 0;
@@ -490,7 +502,7 @@
                                 }
                                 curr_len += word.length + 1;
 
-                                if (word.toLowerCase() in dic_key_words) {
+                                if (word.toLowerCase() in dic) {
                                     // console.log('Found a word in dictionary');
                                     // console.log(word);
                                     output += '<span style="background-color:yellow">' + words[j] + '</span>';
@@ -732,7 +744,7 @@
                 var dic_key_words = {}
                 for (var i = 0; i < key_words.length; i++) {
                     var word = key_words[i].trim().toLowerCase();
-                    if (word.lenght == 0) {
+                    if (word.length == 0) {
                         continue;
                     }
                     dic_key_words[word] = 1;
