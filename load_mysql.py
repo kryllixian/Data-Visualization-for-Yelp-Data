@@ -78,27 +78,27 @@ def readfile_business(conn, filename):
                     conn.rollback()
 
         # # Insert into attributes
-        # attributes = data['attributes']
-        # if attributes:
-        #     for item in attributes:
-        #         name = item.split(': ')[0]
-        #         value = item.split(': ')[1]
-        #         try:
-        #             cur = conn.cursor()
-        #             cur.execute("""
-        #                         INSERT INTO attributes
-        #                         (business_id, name, value)
-        #                         VALUES (%s, %s, %s);
-        #                         """, (business_id, name, value))
-        #             conn.commit()
-        #         except mysql.connector.Error as e:
-        #             print "Error code:", e.errno        # error number
-        #             print "SQLSTATE value:", e.sqlstate # SQLSTATE value
-        #             print "Error message:", e.msg       # error message
-        #             print "Error:", e                   # errno, sqlstate, msg values
-        #             s = str(e)
-        #             print "Error:", s                   # errno, sqlstate, msg values
-        #             conn.rollback()
+        attributes = data['attributes']
+        if attributes:
+            for item in attributes:
+                name = item.split(': ')[0]
+                value = item.split(': ')[1]
+                try:
+                    cur = conn.cursor()
+                    cur.execute("""
+                                INSERT INTO attributes
+                                (business_id, name, value)
+                                VALUES (%s, %s, %s);
+                                """, (business_id, name, value))
+                    conn.commit()
+                except mysql.connector.Error as e:
+                    print "Error code:", e.errno        # error number
+                    print "SQLSTATE value:", e.sqlstate # SQLSTATE value
+                    print "Error message:", e.msg       # error message
+                    print "Error:", e                   # errno, sqlstate, msg values
+                    s = str(e)
+                    print "Error:", s                   # errno, sqlstate, msg values
+                    conn.rollback()
 
 
 def readfile_user(conn, filename):
@@ -159,61 +159,61 @@ def readfile_user(conn, filename):
             num_votes_cool    = 0
 
         # Insert into users
-        # try:
-        #     cur = conn.cursor()
-        #     cur.execute("""
-        #                 INSERT INTO users
-        #                 (user_id, name, review_count, yelping_since, num_fans, average_stars, type,
-        #                  num_compliment_hot, num_compliment_more, num_compliment_profile, num_compliment_cute,
-        #                  num_compliment_list, num_compliment_note, num_compliment_plain, num_compliment_cool,
-        #                  num_compliment_funny, num_compliment_writer, num_compliment_photos, num_votes_useful,
-        #                  num_votes_funny, num_votes_cool)
-        #                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
-        #                 """,
-        #                 (user_id, name, review_count, yelping_since, num_fans, average_stars, type,
-        #                  num_compliment_hot, num_compliment_more, num_compliment_profile, num_compliment_cute,
-        #                  num_compliment_list, num_compliment_note, num_compliment_plain, num_compliment_cool,
-        #                  num_compliment_funny, num_compliment_writer, num_compliment_photos, num_votes_useful,
-        #                  num_votes_funny, num_votes_cool))
-        #     conn.commit()
-        # except mysql.connector.Error as e:
-        #     print "Error code:", e.errno  # error number
-        #     print "SQLSTATE value:", e.sqlstate  # SQLSTATE value
-        #     print "Error message:", e.msg  # error message
-        #     print "Error:", e  # errno, sqlstate, msg values
-        #     s = str(e)
-        #     print "Error:", s  # errno, sqlstate, msg values
-        #     conn.rollback()
+        try:
+            cur = conn.cursor()
+            cur.execute("""
+                        INSERT INTO users
+                        (user_id, name, review_count, yelping_since, num_fans, average_stars, type,
+                         num_compliment_hot, num_compliment_more, num_compliment_profile, num_compliment_cute,
+                         num_compliment_list, num_compliment_note, num_compliment_plain, num_compliment_cool,
+                         num_compliment_funny, num_compliment_writer, num_compliment_photos, num_votes_useful,
+                         num_votes_funny, num_votes_cool)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+                        """,
+                        (user_id, name, review_count, yelping_since, num_fans, average_stars, type,
+                         num_compliment_hot, num_compliment_more, num_compliment_profile, num_compliment_cute,
+                         num_compliment_list, num_compliment_note, num_compliment_plain, num_compliment_cool,
+                         num_compliment_funny, num_compliment_writer, num_compliment_photos, num_votes_useful,
+                         num_votes_funny, num_votes_cool))
+            conn.commit()
+        except mysql.connector.Error as e:
+            print "Error code:", e.errno  # error number
+            print "SQLSTATE value:", e.sqlstate  # SQLSTATE value
+            print "Error message:", e.msg  # error message
+            print "Error:", e  # errno, sqlstate, msg values
+            s = str(e)
+            print "Error:", s  # errno, sqlstate, msg values
+            conn.rollback()
 
         # # Insert into friends
-        # if 'friends' in data:
-        #     friends = data['friends']
-        #     for friend_id in friends:
-        #         # Ensure user_id1 < user_id2
-        #         if friend_id > user_id:
-        #             user_id1 = user_id
-        #             user_id2 = friend_id
-        #         else:
-        #             user_id1 = friend_id
-        #             user_id2 = user_id
-        #         try:
-        #             cur = conn.cursor()
-        #             cur.execute("""
-        #                         INSERT INTO friends
-        #                         (user_id1, user_id2)
-        #                          VALUES (%s, %s);
-        #                         """,
-        #                         (user_id1, user_id2))
-        #             conn.commit()
-        #         except mysql.connector.Error as e:
-        #             # print "Error code:", e.errno  # error number
-        #             # print "SQLSTATE value:", e.sqlstate  # SQLSTATE value
-        #             # print "Error message:", e.msg  # error message
-        #             # print "Error:", e  # errno, sqlstate, msg values
-        #             # s = str(e)
-        #             # print "Error:", s  # errno, sqlstate, msg values
-        #             # conn.rollback()
-        #             a = 1
+        if 'friends' in data:
+            friends = data['friends']
+            for friend_id in friends:
+                # Ensure user_id1 < user_id2
+                if friend_id > user_id:
+                    user_id1 = user_id
+                    user_id2 = friend_id
+                else:
+                    user_id1 = friend_id
+                    user_id2 = user_id
+                try:
+                    cur = conn.cursor()
+                    cur.execute("""
+                                INSERT INTO friends
+                                (user_id1, user_id2)
+                                 VALUES (%s, %s);
+                                """,
+                                (user_id1, user_id2))
+                    conn.commit()
+                except mysql.connector.Error as e:
+                    # print "Error code:", e.errno  # error number
+                    # print "SQLSTATE value:", e.sqlstate  # SQLSTATE value
+                    # print "Error message:", e.msg  # error message
+                    # print "Error:", e  # errno, sqlstate, msg values
+                    # s = str(e)
+                    # print "Error:", s  # errno, sqlstate, msg values
+                    # conn.rollback()
+                    a = 1
 
         # Insert into elites
         if 'elite' in data:
@@ -363,39 +363,39 @@ def readfile_tip(conn, filename):
             conn.rollback()
 
 
-# def add_count_review(conn, filename):
-#     f = open(filename, 'r')
-#
-#     # Traverse the file
-#     while 1:
-#         line = str(f.readline())
-#         # If line is null
-#         if not line:
-#             break
-#
-#         data = json.loads(line)
-#         num_useful  = data.get('useful', 0)
-#         num_funny   = data.get('funny', 0)
-#         num_cool    = data.get('cool', 0)
-#
-#         # Update counts
-#         try:
-#             cur = conn.cursor()
-#             cur.execute("""
-#                         INSERT INTO reviews
-#                         (review_id, user_id, business_id, stars, date, text, num_useful, num_funny, num_cool, type)
-#                         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
-#                         """,
-#                         (review_id, user_id, business_id, stars, date, text, num_useful, num_funny, num_cool, type))
-#             conn.commit()
-#         except mysql.connector.Error as e:
-#             print "Error code:", e.errno  # error number
-#             print "SQLSTATE value:", e.sqlstate  # SQLSTATE value
-#             print "Error message:", e.msg  # error message
-#             print "Error:", e  # errno, sqlstate, msg values
-#             s = str(e)
-#             print "Error:", s  # errno, sqlstate, msg values
-#             conn.rollback()
+def add_count_review(conn, filename):
+    f = open(filename, 'r')
+
+    # Traverse the file
+    while 1:
+        line = str(f.readline())
+        # If line is null
+        if not line:
+            break
+
+        data = json.loads(line)
+        num_useful  = data.get('useful', 0)
+        num_funny   = data.get('funny', 0)
+        num_cool    = data.get('cool', 0)
+
+        # Update counts
+        try:
+            cur = conn.cursor()
+            cur.execute("""
+                        INSERT INTO reviews
+                        (review_id, user_id, business_id, stars, date, text, num_useful, num_funny, num_cool, type)
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+                        """,
+                        (review_id, user_id, business_id, stars, date, text, num_useful, num_funny, num_cool, type))
+            conn.commit()
+        except mysql.connector.Error as e:
+            print "Error code:", e.errno  # error number
+            print "SQLSTATE value:", e.sqlstate  # SQLSTATE value
+            print "Error message:", e.msg  # error message
+            print "Error:", e  # errno, sqlstate, msg values
+            s = str(e)
+            print "Error:", s  # errno, sqlstate, msg values
+            conn.rollback()
 
 
 
